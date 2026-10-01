@@ -36,7 +36,7 @@
 
 <h2 id="matchups">Matchups</h2>
 <p class="small">Tap a matchup for the box score · <a href="box/{{ S.year }}/index.html">All {{ S.year }} games →</a></p>
-<div class="weeks">{% for wk, gs in weeks(S) %}<details open><summary>Week {{ wk }}</summary><div class="games">
+<div class="weeks">{% for wk, gs in weeks(S) %}{% set tops = [] %}{% for g in gs if g.away %}{% set _ = tops.append((g.home.score, g.home)) %}{% set _ = tops.append((g.away.score, g.away)) %}{% endfor %}{% set top = (tops|sort(attribute='0', reverse=true)|first) if tops else none %}<details class="lx wk" id="week-{{ wk }}"><summary class="lx-sum"><div><b>Week {{ wk }}</b>{% if top %} <span class="muted small">· Top score {{ f(top[0]) }}, {{ team_name_id(S, top[1].teamId) }} ({{ mname(top[1].manager).split(' ')[0] }})</span>{% endif %}</div><span class="lx-chev" aria-hidden="true"></span></summary><div class="games">
 {% for g in gs %}<a class="mu" href="{{ bx(S.year, g.week, g.home.manager, g.away.manager) }}"><div class="{{ 'w' if g.winner=='home' else 'l' }}"><span>{{ team_name_id(S, g.home.teamId) }} <span class="muted small">{{ mname(g.home.manager).split(' ')[0] }}</span></span><span>{{ f(g.home.score) }}</span></div><div class="{{ 'w' if g.winner=='away' else 'l' }}"><span>{{ team_name_id(S, g.away.teamId) }} <span class="muted small">{{ mname(g.away.manager).split(' ')[0] }}</span></span><span>{{ f(g.away.score) }}</span></div></a>{% endfor %}
 </div></details>{% endfor %}</div>
 
