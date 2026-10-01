@@ -8,6 +8,46 @@ import boxscores
 SRC = os.path.join(ROOT, "src"); DIST = os.path.join(ROOT, "dist")
 
 
+PR_COLORS = ["#e8b84a", "#6aa8ff", "#4cc38a", "#ef6b6b", "#c58cff", "#ff9f43", "#3fd0d4", "#f368e0", "#a3cb38", "#b0b8cc"]
+
+
+def pr_chart(hist):
+    """Phone-friendly SVG bump chart: rank 1 on top, one line per team, labels at the right end, current week highlighted."""
+    weeks = [d["meta"]["week"] for d in hist]
+    retro = {d["meta"]["week"] for d in hist if d["meta"].get("retro")}
+    cur = hist[-1]
+    n = len(cur["teams"])
+    W, H, L0, R0, T0, B0 = 360, 300, 26, 92, 14, 34
+    xs = {w: L0 + (W - L0 - R0) * (i / max(1, len(weeks) - 1)) for i, w in enumerate(weeks)}
+    y = lambda r: T0 + (H - T0 - B0) * ((r - 1) / max(1, n - 1))
+    firsts = collections.Counter(t["owner"].split()[0] for t in cur["teams"])
+    def short(o):
+        f = o.split()
+        return f"{f[0]} {f[-1][0]}." if firsts[f[0]] > 1 or len(f[0]) > 8 else f[0]
+    color = {t["roster_id"]: PR_COLORS[i % len(PR_COLORS)] for i, t in enumerate(sorted(cur["teams"], key=lambda t: t["roster_id"]))}
+    out = [f'<svg class="pr-chart" viewBox="0 0 {W} {H}" role="img" aria-label="Power ranking by week, rank 1 at top">']
+    cx = xs[weeks[-1]]
+    out.append(f'<rect x="{cx-13:.1f}" y="{T0-10}" width="26" height="{H-T0-B0+20}" rx="8" class="pr-cur"/>')
+    for r in range(1, n + 1):
+        out.append(f'<line x1="{L0}" x2="{W-R0+6}" y1="{y(r):.1f}" y2="{y(r):.1f}" class="pr-grid"/><text x="{L0-8}" y="{y(r)+3.5:.1f}" class="pr-ax" text-anchor="end">{r}</text>')
+    for w in weeks:
+        out.append(f'<text x="{xs[w]:.1f}" y="{H-B0+18}" class="pr-ax{" pr-axcur" if w == weeks[-1] else ""}" text-anchor="middle">W{w}{"*" if w in retro else ""}</text>')
+    for t in sorted(cur["teams"], key=lambda t: -t["rank"]):
+        rid = t["roster_id"]; c = color[rid]
+        pts = [(w, next((x["rank"] for x in d["teams"] if x["roster_id"] == rid), None)) for w, d in zip(weeks, hist)]
+        pts = [(w, r) for w, r in pts if r]
+        g = [f'<g class="pr-line" style="--c:{c}"><title>{escape(t["owner"])}: ' + " → ".join(f"W{w} #{r}" for w, r in pts) + '</title>']
+        for (w1, r1), (w2, r2) in zip(pts, pts[1:]):
+            dash = ' stroke-dasharray="4 4"' if (w1 in retro or w2 in retro) and w2 != weeks[-1] else ""
+            g.append(f'<line x1="{xs[w1]:.1f}" y1="{y(r1):.1f}" x2="{xs[w2]:.1f}" y2="{y(r2):.1f}"{dash}/>')
+        for w, r in pts:
+            g.append(f'<circle cx="{xs[w]:.1f}" cy="{y(r):.1f}" r="{5 if w == weeks[-1] else 3.2}"/>')
+        g.append(f'<text x="{cx+12:.1f}" y="{y(t["rank"])+4:.1f}" class="pr-lab">{t["rank"]} {escape(short(t["owner"]))}</text></g>')
+        out.append("".join(g))
+    out.append("</svg>")
+    return Markup("".join(out))
+
+
 def main():
     L = load(os.path.join(GEN, "league.json"))
     seasons = {int(y): load(os.path.join(GEN, "seasons", f"{y}.json")) for y in L["years"]}
@@ -185,11 +225,15 @@ def main():
              awards_by_key=awards_by_key, rec=rec, rp=rp, F=F, TR=TR, race_svg=race_svg, grade_cls=grade_cls, pair_id=pair_id, bx=bx, box_of=box_of, box_for=box_for, game_log=game_log, riv=riv, sgn=sgn, award_counts=award_counts, rk=rk, tied=tied, initials=initials, ts=ts, md=md, cat_icon=cat_icon, built=built)
     G["SITE"] = SITE
     env.globals.update(G)
-    # Power rankings: latest JSON saved by scripts/power_rankings.py (never recomputed here)
-    PR = load(os.path.join(GEN, "power_rankings", "latest.json"))
-    if PR and str(PR["meta"].get("season")) != str(max(L["years"])):
-        PR = None
+    # Power rankings: weekly JSONs saved by scripts/power_rankings.py in data/power_rankings_history (never recomputed here)
+    import glob as _g, json as _pj
+    PRH = [_pj.load(open(x)) for x in sorted(_g.glob(os.path.join(DATA, "power_rankings_history", f"{max(L['years'])}_w*.json")))]
+    PRH.sort(key=lambda d: d["meta"]["week"])
+    PR = PRH[-1] if PRH else None
     env.globals["PR"] = PR
+    env.globals["PR_CHART"] = pr_chart(PRH) if len(PRH) > 1 else None
+    env.globals["PR_RETRO"] = [d["meta"]["week"] for d in PRH if d["meta"].get("retro")]
+    env.filters["camelwbr"] = lambda t: Markup(re.sub(r"(?<=[a-z0-9])(?=[A-Z])", "<wbr>", str(escape(t))))
 
     def ml_factory(root):
         def ml(mid):

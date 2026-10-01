@@ -17,7 +17,11 @@ Inputs (all public, no auth):
 Blurbs: auto-generated from the data (last week's result + top scorer, trades/waivers, injuries, rank movement).
   Hand-written overrides (tracked in git): data/power_rankings_blurbs/{season}_w{NN}.json  {"<manager-id>": "text", ...}
   (or --blurbs PATH). Any team missing from the override file gets the auto blurb.
-Outputs: data/generated/power_rankings/{season}_w{NN}.json + latest.json (read by scripts/build_site.py)
+Outputs: data/power_rankings_history/{season}_w{NN}.json (tracked in git; build_site.py renders the highest week
+  of the current season plus the week-over-week movement chart from all weeks)
+Retro (--retro --week N, N < current week): a back-dated ranking. Uses results through week N-1, the roster each team
+  actually carried in week N (Sleeper matchup rosters), Sleeper's weekly projections for weeks N..end, and picks as
+  owned then. Dynasty values are TODAY's (historic values aren't available). No blurbs; flagged meta.retro.
   With --drafts: drafts/power_rankings_w{week}.md / .html / .json and screenshots/power_rankings_w{week}.png
 """
 import argparse, datetime as dt, html, json, os, re, statistics, sys, time, urllib.request
@@ -25,7 +29,7 @@ import argparse, datetime as dt, html, json, os, re, statistics, sys, time, urll
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CACHE = os.path.join(ROOT, "raw", "sleeper", "power_rankings")
 PLAYERS = os.path.join(ROOT, "raw", "sleeper", "players_nfl.json")
-OUT = os.path.join(ROOT, "data", "generated", "power_rankings")
+OUT = os.path.join(ROOT, "data", "power_rankings_history")
 BLURBS = os.path.join(ROOT, "data", "power_rankings_blurbs")
 BAD_INJ = {"Out", "IR", "Doubtful", "PUP", "Sus", "NFI"}
 API = "https://api.sleeper.app/v1"
@@ -127,6 +131,7 @@ def main():
     ap.add_argument("--week", type=int, default=None, help="week being previewed; results use weeks < this")
     ap.add_argument("--offline", action="store_true", help="use cached files only")
     ap.add_argument("--no-screenshot", action="store_true", help="with --drafts: skip the PNG")
+    ap.add_argument("--retro", action="store_true", help="back-dated ranking for a past --week (see docstring)")
     ap.add_argument("--drafts", action="store_true", help="also write drafts/ md + html mock (+ screenshot)")
     ap.add_argument("--blurbs", default=None, help="hand-written blurb override JSON (default data/power_rankings_blurbs/{season}_w{NN}.json)")
     a = ap.parse_args()
@@ -143,8 +148,14 @@ def main():
     rosters = fetch(f"{API}/league/{L}/rosters", C("rosters.json"), 0, a.offline)
     traded = fetch(f"{API}/league/{L}/traded_picks", C("traded_picks.json"), 0, a.offline)
     matchups = {w: fetch(f"{API}/league/{L}/matchups/{w}", C(f"matchups_{w}.json"), 0, a.offline) for w in done}
+    if a.retro:
+        if week >= int(state["display_week"]):
+            sys.exit("--retro needs a --week before the current Sleeper week")
+        retro_m = {m["roster_id"]: m for m in fetch(f"{API}/league/{L}/matchups/{week}", C(f"matchups_{week}.json"), 0, a.offline)}
     txs = []
-    for w in range(1, week + 1):
+    # transactions processed after week N-1's games (incl. Wednesday waivers) are filed under leg N-1, so a retro
+    # ranking for week N includes legs < N; a live ranking includes everything through the current leg.
+    for w in range(1, week if a.retro else week + 1):
         for t in fetch(f"{API}/league/{L}/transactions/{w}", C(f"transactions_{w}.json"), 0, a.offline):
             t["_week"] = w; txs.append(t)
     players = fetch(f"{API}/players/nfl", PLAYERS, 7 * 86400, a.offline)
@@ -175,6 +186,20 @@ def main():
             "taxi": list(r.get("taxi") or []), "reserve": list(r.get("reserve") or []),
             "sleeper_record": f"{r['settings'].get('wins',0)}-{r['settings'].get('losses',0)}" + (f"-{r['settings']['ties']}" if r['settings'].get('ties') else ""),
         }
+    if a.retro:
+        # roster as actually carried in week N; undo pick trades from later legs
+        for rid, T in teams.items():
+            T["players"] = list(retro_m[rid].get("players") or [])
+            T["taxi"] = [p for p in T["taxi"] if p in T["players"]]
+        later = []
+        for w in range(week, int(state["display_week"]) + 1):
+            later += [t for t in fetch(f"{API}/league/{L}/transactions/{w}", C(f"transactions_{w}.json"), 0, a.offline)
+                      if t.get("type") == "trade" and t.get("status") == "complete" and t.get("draft_picks")]
+        for t in sorted(later, key=lambda t: -t.get("status_updated", 0)):
+            for dp in t["draft_picks"]:
+                for tp in traded:
+                    if str(tp["season"]) == str(dp["season"]) and tp["round"] == dp["round"] and tp["roster_id"] == dp["roster_id"]:
+                        tp["owner_id"] = dp["previous_owner_id"]
     rids = sorted(teams)
     pname = lambda p: (players.get(p, {}).get("full_name") or (p if not p.isdigit() else f"#{p}"))
     ppos = lambda p: players.get(p, {}).get("position") or ("DEF" if not p.isdigit() else None)
@@ -218,7 +243,9 @@ def main():
         T = teams[r["roster_id"]]; s = r["settings"]
         T["max_pf"] = s.get("ppts", 0) + s.get("ppts_decimal", 0) / 100
         T["record"] = f"{T['w']}-{T['l']}" + (f"-{T['ti']}" if T["ti"] else "")
-        if T["record"] != T["sleeper_record"]:
+        if a.retro:
+            T["max_pf"] = None
+        elif T["record"] != T["sleeper_record"]:
             gap(f"{T['owner']}: computed record {T['record']} != Sleeper standings {T['sleeper_record']}")
         g = T["w"] + T["l"] + T["ti"]
         T["win_pct"] = (T["w"] + 0.5 * T["ti"]) / g if g else 0
@@ -307,8 +334,8 @@ def main():
         pv = sorted(((val.get(p, 0), p) for p in T["players"]), reverse=True)
         T["player_value"] = sum(v for v, _ in pv)
         T["top_assets"] = [(pname(p), ppos(p), v, age_on(players.get(p, {}).get("birth_date") or "", today)) for v, p in pv[:5]]
-        T["injuries"] = [(pname(p), players.get(p, {}).get("injury_status")) for v, p in pv[:12]
-                         if players.get(p, {}).get("injury_status") in BAD_INJ]
+        T["injuries"] = [] if a.retro else [(pname(p), players.get(p, {}).get("injury_status")) for v, p in pv[:12]
+                                            if players.get(p, {}).get("injury_status") in BAD_INJ]
         T["dynasty_value"] = T["player_value"] + T["pick_value"]
         ages = [(val.get(p, 0), age_on(players.get(p, {}).get("birth_date") or "", today)) for p in T["players"]]
         ages = [(v, g) for v, g in ages if v and g]
@@ -385,8 +412,8 @@ def main():
     blurbs = json.load(open(bpath)) if os.path.exists(bpath) else {}
     for t in TT:
         b = blurbs.get(t["manager_id"] or "") or blurbs.get(str(t["roster_id"]))
-        t["blurb_source"] = "hand-written" if b else "auto"
-        t["blurb"] = b or auto_blurb(t, teams, week, median_game)
+        t["blurb_source"] = None if a.retro else "hand-written" if b else "auto"
+        t["blurb"] = None if a.retro else (b or auto_blurb(t, teams, week, median_game))
 
     TT.sort(key=lambda t: t["rank"])
 
@@ -402,6 +429,9 @@ def main():
                     "projections": f"Sleeper weekly projections weeks {min(proj_pts) if proj_pts else '-'}-{max(proj_pts) if proj_pts else '-'}, re-scored with league scoring_settings",
                     "pick_values": "FantasyCalc generic '<year> <round>' pick values" if pick_val and src and src.startswith("FantasyCalc") else "KeepTradeCut 'Mid' pick values"},
         "gaps": GAP,
+        "retro": bool(a.retro),
+        "retro_note": (f"Retro ranking computed {today.isoformat()}: results through Week {week-1}, rosters as carried in Week {week}, "
+                       f"Sleeper weekly projections for Weeks {week}-{reg_end}, but TODAY's dynasty values.") if a.retro else None,
     }
     keep = ["rank", "prev_rank", "roster_id", "owner", "team", "display_name", "record", "w", "l", "ti", "pf", "pa", "max_pf", "weekly", "ap_w", "ap_l",
             "win_pct", "allplay_pct", "proj_next", "proj_ros", "proj_ros_ppg", "proj_lineup", "player_value", "pick_value", "dynasty_value",
@@ -410,10 +440,9 @@ def main():
     doc = {"meta": meta, "teams": [{k: t.get(k) for k in keep} for t in TT]}
     os.makedirs(OUT, exist_ok=True)
     out = os.path.join(OUT, f"{a.season}_w{week:02d}.json")
-    for path in (out, os.path.join(OUT, "latest.json")):
-        with open(path, "w") as f:
-            json.dump(doc, f, indent=1, ensure_ascii=False)
-    print("wrote", out, "(+ latest.json)")
+    with open(out, "w") as f:
+        json.dump(doc, f, indent=1, ensure_ascii=False)
+    print("wrote", out)
     if not a.drafts:
         return
     out_dir = os.path.join(ROOT, "drafts"); os.makedirs(out_dir, exist_ok=True)
