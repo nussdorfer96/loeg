@@ -97,6 +97,73 @@ def _pg(s, p, inner=False):
     return f", {txt}" if inner else f" ({txt})"
 
 
+# Commissioner-approved asterisks on score records (Ryan, Oct 2026). Key: (year, week, manager).
+RECORD_ASTERISKS = {(2025, 14, "jacob-maddox"): {"note": "The Betrayal — benched on purpose", "lore": "the-betrayal"}}
+
+# ESPN stat ids -> labels for real box-score stat lines (kona weekly actuals, statSourceId 0).
+_ESPN_STAT = {"passCmp": "1", "passAtt": "0", "passYds": "3", "passTD": "4", "int": "20", "rushAtt": "23", "rushYds": "24", "rushTD": "25",
+              "rec": "53", "tgt": "58", "recYds": "42", "recTD": "43", "fumLost": "72"}
+_KONA = {}
+
+
+def espn_stat_line(year, week, pid):
+    """Real stat line from the ESPN public player archive, or None if not available."""
+    if year not in _KONA:
+        fp = os.path.join(ROOT, "raw", "espn_players", f"kona_{year}.json")
+        _KONA[year] = {str(p.get("id")): p for p in (json.load(open(fp)) if os.path.exists(fp) else [])}
+    p = _KONA[year].get(str(pid))
+    if not p: return None
+    st = next((x["stats"] for x in p.get("stats") or [] if x.get("statSourceId") == 0 and x.get("statSplitTypeId") == 1
+               and x.get("seasonId") == year and x.get("scoringPeriodId") == week and x.get("stats")), None)
+    if not st: return None
+    v = lambda k: int(round(st.get(_ESPN_STAT[k], 0) or 0))
+    parts = []
+    if v("passAtt"):
+        parts.append(f"{v('passCmp')}/{v('passAtt')}, {v('passYds')} pass yds, {v('passTD')} TD" + (f", {v('int')} INT" if v("int") else ""))
+    if v("rushAtt") or v("rushYds"):
+        parts.append(f"{v('rushAtt')} rush, {v('rushYds')} yds" + (f", {v('rushTD')} TD" if v("rushTD") else ""))
+    if v("rec") or v("recYds"):
+        parts.append(f"{v('rec')} rec, {v('recYds')} yds" + (f", {v('recTD')} TD" if v("recTD") else ""))
+    if v("fumLost"): parts.append(f"{v('fumLost')} fum lost")
+    return " · ".join(parts) or None
+
+
+def top_starter(s, week, manager):
+    T = next((t for t in s["teams"] if t["manager"] == manager), None)
+    ent = ((s.get("lineupsByWeek") or {}).get(str(week)) or {}).get(str(T["teamId"])) if T else None
+    st = [(pts, pid) for pid, slot, pts in (ent or []) if is_starter(slot)]
+    if not st: return None
+    pts, pid = max(st, key=lambda t: t[0])
+    return {"name": pname(s, pid), "pos": ppos(s, pid), "pts": pts}
+
+
+def records_that_matter(records, seasons, profiles, team_mvps, years):
+    """Headline cards for the top of the Record Book (Ryan's list, Oct 2026). All values from data; ties keep every holder."""
+    R = records; H = {}
+    hi = R["highScores"][0]
+    H["high"] = dict(hi, mvp=top_starter(seasons[hi["year"]], hi["week"], hi["manager"]))
+    H["closest"] = R["closest"][0]
+    pg = R["playerGames"]
+    top = pg[0]["pts"] if pg else None
+    H["playerGames"] = [dict(x, statLine=espn_stat_line(x["year"], x["week"], x["playerId"]) if seasons[x["year"]]["platform"] == "ESPN" else None)
+                        for x in pg if x["pts"] == top]
+    for key, src in (("winStreak", "winStreaks"), ("lossStreak", "lossStreaks")):
+        L0 = R[src][0]["length"] if R[src] else 0
+        H[key] = [x for x in R[src] if x["length"] == L0]
+    most = max(len(p["titles"]) for p in profiles.values())
+    H["titles"] = {"count": most, "holders": [{"manager": m, "years": profiles[m]["titles"]} for m in profiles if len(profiles[m]["titles"]) == most and most]}
+    b = R["seasonPF"][0]
+    H["bestSeason"] = dict(b, mvp=team_mvps.get(b["year"], {}).get(b["manager"]))
+    lows = R["lowScores"]
+    out = []
+    for r in lows:
+        a = RECORD_ASTERISKS.get((r["year"], r["week"], r["manager"]))
+        out.append(dict(r, asterisk=a))
+        if not a: break
+    H["lowScores"] = out
+    return H
+
+
 def season_awards(s):
     """Superlatives for a season. Lineup-based awards use weekly box scores when available.
     Ties: every award carries 'holders' (all managers tied at exactly the same value); 'manager' is the first holder."""
@@ -328,15 +395,18 @@ def build():
     for g in sorted(real, key=lambda g: (g["year"], g["week"])):
         for side, x in (("home", g["home"]), ("away", g["away"])):
             res = "W" if g["winner"] == side else "T" if g["winner"] == "tie" else "L"
-            per[x["manager"]].append((res, g["year"], g["week"]))
+            o = g["away"] if side == "home" else g["home"]
+            per[x["manager"]].append((res, g["year"], g["week"], {"year": g["year"], "week": g["week"], "kind": g["kind"], "result": res,
+                                     "score": x["score"], "opp": o["manager"], "oppScore": o["score"]}))
     for m, lst in per.items():
         cur = None; n = 0; start = None
-        for i, (r, y, w) in enumerate(lst + [("END", 0, 0)]):
+        for i, (r, y, w, info) in enumerate(lst + [("END", 0, 0, None)]):
             if r == cur:
                 n += 1
             else:
                 if cur in ("W", "L") and n >= 2:
-                    streaks.append({"manager": m, "type": cur, "length": n, "from": start, "to": lst[i - 1][1:]})
+                    streaks.append({"manager": m, "type": cur, "length": n, "from": start, "to": list(lst[i - 1][1:3]),
+                                    "endedBy": info if r != "END" else None})
                 cur, n, start = r, 1, (y, w)
     win_streaks = sorted([s for s in streaks if s["type"] == "W"], key=lambda s: -s["length"])[:10]
     loss_streaks = sorted([s for s in streaks if s["type"] == "L"], key=lambda s: -s["length"])[:10]
@@ -512,7 +582,8 @@ def build():
             if T:
                 bx["team"] = T["teamName"]; bx["lineup"] = lineup_of(s_, bx["week"], T["teamId"])
     allt = alltime(profiles)
-    out = {"belt": BELT, "beltLineage": lineage, "years": years, "espnYears": espn_years, "champions": champions, "profiles": profiles,
+    headline = records_that_matter(records, seasons, profiles, team_mvps, years)
+    out = {"headline": headline, "belt": BELT, "beltLineage": lineage, "years": years, "espnYears": espn_years, "champions": champions, "profiles": profiles,
            "h2h": h2h_out, "records": records, "seasonMeta": season_meta, "lore": lore, "allTime": allt,
            "loyalists": [m for m in profiles if profiles[m]["loyalist"]],
            "fallen": memorial(profiles, records, seasons, years), "championships": championships(seasons, years), "resurrected": [m for m in profiles if profiles[m].get("resurrected")], "leagueStory": league_story(seasons, champions, profiles, records, years),
