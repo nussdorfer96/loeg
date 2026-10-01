@@ -3,7 +3,6 @@
 <h1>The League of Extraordinary Gentlemen</h1>
 <p class="lead">The official history book and record keeper: every season, every champion, every 0.08-point heartbreak. From the ESPN redraft years to the Sleeper dynasty era.</p></section>
 
-<a class="card memorial-cta" href="memoriam.html"><span class="big">🪦</span><span><b>In Memoriam</b><br><span class="small muted">{{ L.fallen|length }} fallen owners, honored (and roasted) forever. Tap to pay your respects.</span></span><span class="arrow">›</span></a>
 <h2>🥇 The Belt Lineage</h2>
 <p class="muted small">The official title history of {{ L.belt.name }}, introduced in {{ L.belt.introduced }}. Every champion, every reign, WWE-style.</p>
 <div class="banner">
@@ -47,4 +46,5 @@
 <div class="tbl-wrap"><table class="sortable"><thead><tr><th>Manager</th><th class="num">🏆 Titles</th><th class="num">MVPs</th><th class="num">Steals</th><th class="num">Busts</th><th class="num">🍀 Lucky</th><th class="num">🌧️ Unlucky</th><th class="num">👑 High-score king</th><th class="num">🧱 Basement</th></tr></thead><tbody>
 {% for mid in L.managerOrder %}{% set c = award_counts(mid) %}<tr><td>{{ ml(mid) }}</td><td class="num">{{ L.profiles[mid].titles|length }}</td>{% for k in ['mvp','steal','bust','lucky','unlucky','tophigh','toplow'] %}<td class="num">{{ c[k] or '' }}</td>{% endfor %}</tr>{% endfor %}
 </tbody></table></div>
+<div style="margin-top:22px"><a class="card memorial-cta" href="memoriam.html"><span class="big">🪦</span><span><b>In Memoriam</b><br><span class="small muted">{{ L.fallen|length }} fallen owners, honored (and roasted) forever. Tap to pay your respects.</span></span><span class="arrow">›</span></a></div>
 {% endblock %}
