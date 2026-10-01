@@ -386,3 +386,7 @@ html.qs-on{overflow:hidden}
   .tabbar a.on{color:var(--gold2);background:var(--panel2)}
   .tabbar a.on::before{content:"";position:absolute;top:-4px;left:28%;right:28%;height:3px;border-radius:0 0 3px 3px;background:var(--gold)}
 }
+
+.sleeper-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:48px;padding:12px 20px;margin:4px 0 14px;border-radius:12px;background:var(--gold);color:#1a1405;font-weight:800;font-size:1rem;text-decoration:none;box-shadow:0 3px 12px rgba(0,0,0,.3)}
+.sleeper-btn:hover{text-decoration:none;filter:brightness(1.06)}
+@media (max-width:767px){.sleeper-btn{display:flex;width:100%}}
