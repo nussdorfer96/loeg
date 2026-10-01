@@ -5,22 +5,7 @@
 <details class="bench"><summary>Bench ({{ f(lu.benchTotal) }} pts)</summary><table class="lineup"><tbody>{% for r in lu.bench %}<tr><td class="slot">{{ r.slot }}</td><td>{{ r.name }} <span class="muted small">{{ r.pos }}</span></td><td class="num">{{ f(r.pts) }}</td></tr>{% endfor %}</tbody></table></details>
 {% else %}<p class="muted small">Box score not in the archive.</p>{% endif %}
 {%- endmacro -%}
-<section class="hero"><div class="kicker">Tales told at the draft</div><h1>Lore</h1>
-<p class="lead">The league's official lore, curated by the Commissioner: title fights, traditions, and the stories we'll be telling at the draft for decades. Record nights and photo finishes live in the <a href="records.html">Record Book</a>.</p>
-<div class="toc"><a href="#featured">Featured</a><a href="#press-conferences">Press Conferences</a><a href="#championships">Championships</a><a href="#moments">More lore</a></div>
-<div class="lx-tools"><span class="muted small">Tap a headline to read.</span><button type="button" data-lx="open">Expand all</button><button type="button" data-lx="close">Collapse all</button></div></section>
-
-<h2 id="featured">📌 Featured</h2>
-{% for e in lore if e.featured and e.style == 'saga' %}
-<details class="lx saga" id="{{ e.id }}"><summary class="lx-sum">
-<div class="saga-head"><div class="kicker">{{ e.season }} · Week {{ e.week }} · A league legend</div><h2>{{ e.title }}</h2>{% if e.subtitle %}<div class="sub">{{ e.subtitle }}</div>{% endif %}{% if e.teaser %}<p class="lx-teaser">{{ e.teaser }}</p>{% endif %}</div><span class="lx-chev" aria-hidden="true"></span></summary>
-<p class="logline saga-logline">{{ e.body }}</p>
-{% for c in e.chapters %}<section class="saga-ch"><div class="num">{{ loop.index }}</div><h3>{{ c.h }}</h3>{{ md(c.body) }}</section>
-{% if c.h == (e.exhibits_after or 'The Deception') and e.boxscores %}<div class="exhibits">{% for bx in e.boxscores %}<div class="exhibit"><div class="label">{{ bx.label }}</div>{{ lineup_tbl(bx.lineup) }}{% set u = box_for(bx.season, bx.week, bx.manager) %}{% if u %}<div class="small"><a href="{{ u }}">Full box score →</a></div>{% endif %}</div>{% endfor %}</div>{% endif %}
-{% endfor %}
-<div class="small" style="margin-top:10px">Starring {% for m in e.managers %}{{ ml(m) }}{% if not loop.last %} · {% endif %}{% endfor %} · <a href="seasons/{{ e.season }}.html">{{ e.season }} season page</a>{% set u = box_for(e.season, e.week, e.managers[0]) %}{% if u %} · <a href="{{ u }}">Full box score</a>{% endif %}{% if (L.championships|selectattr('year','equalto',e.season)|selectattr('week','equalto',e.week)|list) %} · <a href="#final-{{ e.season }}">{{ e.season }} final card</a>{% endif %}</div>
-</details>{% endfor %}
-{% for e in lore if e.style == 'presser' %}
+{%- macro presser_block(e) -%}
 <details class="lx presser" id="{{ e.id }}"><summary class="lx-sum">
 <div class="presser-head"><div class="kicker">🎙️ {{ cat_icon(e.category) }} Tradition · Introduced {{ e.introduced }}</div><h2>{{ e.title }}</h2>{% if e.subtitle %}<div class="sub">{{ e.subtitle }}</div>{% endif %}{% if e.teaser %}<p class="lx-teaser">{{ e.teaser }}</p>{% endif %}</div><span class="lx-chev" aria-hidden="true"></span></summary>
 <div class="presser-body">{{ md(e.body) }}
@@ -35,8 +20,24 @@
 <h3>🗂️ Press Conference Archive</h3>
 {% if L.pressArchive %}<ul class="archive">{% for a in L.pressArchive|reverse %}<li><b>{{ a.season }} week {{ a.week }}</b>: {{ ml(a.manager) }}{% set pp = (L.podium|selectattr('year','equalto',a.season)|selectattr('week','equalto',a.week)|list) %}{% if pp and pp[0].manager == a.manager %} <span class="muted small">(lost by {{ f(pp[0].margin) }})</span>{% endif %}{% if a.note %}: {{ a.note }}{% endif %}{% if a.video %} · <a href="{{ a.video }}">video</a>{% endif %}</li>{% endfor %}</ul>
 {% else %}<p class="muted small">Empty for now. The Commissioner adds each presser to <code>data/lore.json</code> → <code>press_conferences.archive</code> (week, manager, optional video link).</p>{% endif %}
+</details>{%- endmacro -%}
+<section class="hero"><div class="kicker">Tales told at the draft</div><h1>Lore</h1>
+<p class="lead">The league's official lore, curated by the Commissioner: title fights, traditions, and the stories we'll be telling at the draft for decades. Record nights and photo finishes live in the <a href="records.html">Record Book</a>.</p>
+<div class="toc"><a href="#featured">Featured</a><a href="#championships">Championships</a><a href="#moments">More lore</a><a href="#press-conferences">Press Conferences</a></div>
+<div class="lx-tools"><span class="muted small">Tap a headline to read.</span><button type="button" data-lx="open">Expand all</button><button type="button" data-lx="close">Collapse all</button></div></section>
+
+<h2 id="featured">📌 Featured</h2>
+{% for e in lore if e.featured and e.style == 'saga' %}
+<details class="lx saga" id="{{ e.id }}"><summary class="lx-sum">
+<div class="saga-head"><div class="kicker">{{ e.season }} · Week {{ e.week }} · A league legend</div><h2>{{ e.title }}</h2>{% if e.subtitle %}<div class="sub">{{ e.subtitle }}</div>{% endif %}{% if e.teaser %}<p class="lx-teaser">{{ e.teaser }}</p>{% endif %}</div><span class="lx-chev" aria-hidden="true"></span></summary>
+<p class="logline saga-logline">{{ e.body }}</p>
+{% for c in e.chapters %}<section class="saga-ch"><div class="num">{{ loop.index }}</div><h3>{{ c.h }}</h3>{{ md(c.body) }}</section>
+{% if c.h == (e.exhibits_after or 'The Deception') and e.boxscores %}<div class="exhibits">{% for bx in e.boxscores %}<div class="exhibit"><div class="label">{{ bx.label }}</div>{{ lineup_tbl(bx.lineup) }}{% set u = box_for(bx.season, bx.week, bx.manager) %}{% if u %}<div class="small"><a href="{{ u }}">Full box score →</a></div>{% endif %}</div>{% endfor %}</div>{% endif %}
+{% endfor %}
+<div class="small" style="margin-top:10px">Starring {% for m in e.managers %}{{ ml(m) }}{% if not loop.last %} · {% endif %}{% endfor %} · <a href="seasons/{{ e.season }}.html">{{ e.season }} season page</a>{% set u = box_for(e.season, e.week, e.managers[0]) %}{% if u %} · <a href="{{ u }}">Full box score</a>{% endif %}{% if (L.championships|selectattr('year','equalto',e.season)|selectattr('week','equalto',e.week)|list) %} · <a href="#final-{{ e.season }}">{{ e.season }} final card</a>{% endif %}</div>
 </details>{% endfor %}
-{% for e in lore if e.featured and e.style not in ['saga', 'presser'] and e.id != 'hamlin-final-2022' %}<details id="{{ e.id }}" class="lx card callout"><summary class="lx-sum"><div><div class="label">{{ cat_icon(e.category) }} {{ e.category|capitalize }} · {{ e.season }}</div><h3 style="margin:.3em 0">{{ e.title }}</h3>{% if e.teaser %}<p class="lx-teaser">{{ e.teaser }}</p>{% endif %}</div><span class="lx-chev" aria-hidden="true"></span></summary>{% if e.image %}<img class="lore-img" src="{{ e.image.src }}" alt="{{ e.image.alt }}" width="{{ e.image.width }}" height="{{ e.image.height }}" loading="lazy" decoding="async">{% endif %}{{ md(e.body) }}</details>{% endfor %}
+{% for e in lore if e.style == 'presser' and e.featured %}{{ presser_block(e) }}{% endfor %}
+{% for e in lore if e.featured and e.style not in ['saga', 'presser'] and e.id != 'hamlin-final-2022' %}<details id="{{ e.id }}" class="lx card callout"><summary class="lx-sum"><div><div class="label">{{ cat_icon(e.category) }} {{ e.category|capitalize }} · {{ e.season }}</div><h3 style="margin:.3em 0">{{ e.title }}{% if e.subtitle %}: <span class="lx-subt">{{ e.subtitle }}</span>{% endif %}</h3>{% if e.teaser %}<p class="lx-teaser">{{ e.teaser }}</p>{% endif %}</div><span class="lx-chev" aria-hidden="true"></span></summary>{% if e.image %}<img class="lore-img" src="{{ e.image.src }}" alt="{{ e.image.alt }}" width="{{ e.image.width }}" height="{{ e.image.height }}" loading="lazy" decoding="async">{% endif %}{{ md(e.body) }}</details>{% endfor %}
 
 <h2 id="championships">🥇 Championships</h2>
 <p class="muted small">Every title match, with both starting lineups from the box score. The Super Bowl MVP is the top-scoring starter on the winning side.</p>
@@ -59,7 +60,8 @@
 </details>{% endfor %}
 
 <h2 id="moments">More lore</h2>
-<div class="lx-list">{% for e in lore if not e.featured %}<details id="{{ e.id }}" class="lx card lore-item"><summary class="lx-sum"><div>
+{% for e in lore if e.style == 'presser' and not e.featured %}{{ presser_block(e) }}{% endfor %}
+<div class="lx-list">{% for e in lore if not e.featured and e.style != 'presser' %}<details id="{{ e.id }}" class="lx card lore-item"><summary class="lx-sum"><div>
 <div class="meta">{{ cat_icon(e.category) }} {{ e.category|capitalize }}{% if e.season %} · {{ e.season }}{% endif %}{% if e.week %} · week {{ e.week }}{% endif %}</div>
 <h3 style="margin:.3em 0">{{ e.title }}{% if e.subtitle %}: <span class="lx-subt">{{ e.subtitle }}</span>{% endif %}</h3>{% if e.teaser %}<p class="lx-teaser">{{ e.teaser }}</p>{% endif %}</div><span class="lx-chev" aria-hidden="true"></span></summary><div class="lore-entry">{% if e.image %}<img class="lore-img" src="{{ e.image.src }}" alt="{{ e.image.alt }}" width="{{ e.image.width }}" height="{{ e.image.height }}" loading="lazy" decoding="async">{% endif %}<div>{{ md(e.body) }}</div>
 {% if e.managers %}<div class="small" style="margin-top:6px">{% for m in e.managers %}{{ ml(m) }}{% if not loop.last %} · {% endif %}{% endfor %}{% if e.season %} · <a href="seasons/{{ e.season }}.html">{{ e.season }} season</a>{% endif %}</div>{% endif %}
