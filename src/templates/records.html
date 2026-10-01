@@ -45,8 +45,9 @@
 <p class="small muted">Actual wins minus wins expected from the all-play record. <a href="luck.html">Full luck page →</a></p>
 {{ luck_help() }}<div class="grid g2"><div><h3>Luckiest careers</h3>{{ luck_table(F.luckAll[:5]) }}</div><div><h3>Unluckiest careers</h3>{{ luck_table((F.luckAll|reverse|list)[:5]) }}</div></div>
 <h2 id="matrix">Head-to-Head Rivalry Matrix</h2>
-<p class="muted small">Row manager's record vs. column manager, all regular-season and playoff games. Green = winning record.</p>
-{% set ids = L.managerOrder %}
+{% set CUR = seasons.values()|selectattr('platform','equalto','Sleeper')|sort(attribute='year')|list|last %}{% set active = CUR.teams|map(attribute='manager')|list %}{% set ids = L.managerOrder|select('in', active)|list %}
+<p class="muted small">Row manager's record vs. column manager, all regular-season and playoff games across both eras (ESPN and Sleeper). Green = winning record.</p>
+<p class="muted small">Active managers only ({{ CUR.year }}). Former managers' rivalries are on their profiles.</p>
 <div class="tbl-wrap"><table class="matrix"><thead><tr><th class="rowh">vs →</th>{% for c in ids %}<th title="{{ mname(c) }}">{{ initials(c) }}</th>{% endfor %}</tr></thead><tbody>
 {% for r in ids %}<tr><th class="rowh"><a href="managers/{{ r }}.html">{{ mname(r) }}</a></th>{% for c in ids %}{% if r==c %}<td class="self"></td>{% else %}{% set h = L.h2h.get(r~'|'~c) %}{% if h %}{% set w = h.w+h.pw %}{% set l = h.l+h.pl %}<td class="{{ 'pos' if w>l else 'neg' if l>w }}" title="{{ mname(r) }} vs {{ mname(c) }}: {{ w }}-{{ l }}{% if h.t %}-{{ h.t }}{% endif %}"><a href="rivalries/{{ pair_id(r, c) }}.html">{{ w }}-{{ l }}</a></td>{% else %}<td class="muted">·</td>{% endif %}{% endif %}{% endfor %}</tr>{% endfor %}
 </tbody></table></div>
