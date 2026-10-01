@@ -3,13 +3,28 @@
 <section class="hero"><div class="kicker">Sleeper · Dynasty · Superflex</div><h1>The Dynasty Era ({{ S.year }}–)</h1>
 <p class="lead">The league moved to Sleeper in {{ S.year }} and went dynasty: keep your roster forever, trade future picks, and live with your startup draft. {{ S.completedWeeks }} weeks in the books.</p>
 <a class="sleeper-btn" href="https://sleeper.com/leagues/{{ S.leagueId or '1387967526775824384' }}" target="_blank" rel="noopener">Open league in Sleeper ↗</a>
-<div class="toc"><a href="#standings">Standings</a><a href="#matchups">Matchups</a><a href="#trades">Trades &amp; picks</a><a href="#draft">Startup draft</a><a href="#rosters">Rosters</a><a href="#moves">Waiver wire</a><a href="#awards">Awards so far</a></div></section>
+<div class="toc">{% if PR %}<a href="#power-rankings">Power Rankings</a>{% endif %}<a href="#standings">Standings</a><a href="#matchups">Matchups</a><a href="#trades">Trades &amp; picks</a><a href="#draft">Startup draft</a><a href="#rosters">Rosters</a><a href="#moves">Waiver wire</a><a href="#awards">Awards so far</a></div></section>
 <div class="grid g4">
 <div class="card"><div class="label">Format</div><div class="h"><b>{{ S.teams|length }} teams · PPR · superflex</b></div><div class="small muted">{{ S.rosterPositions|reject('equalto','BN')|join(', ') }} + {{ S.rosterPositions|select('equalto','BN')|list|length }} bench</div></div>
 <div class="card"><div class="label">Extras</div><div class="small">{{ S.settings.taxi_slots }} taxi · {{ S.settings.reserve_slots }} IR · {{ {0: 'rolling waivers', 1: 'reverse-standings waivers'}.get(S.settings.waiver_type, 'traditional waivers') }} (claims clear after {{ S.settings.waiver_clear_days or 2 }} days)<br>Weekly game vs. league median: {{ 'yes' if S.medianGame else 'no' }}</div></div>
 <div class="card"><div class="label">Playoffs</div><div class="small">{{ S.playoffTeams }} teams, starting week {{ S.settings.playoff_week_start }} · trade deadline week {{ S.settings.trade_deadline }}</div></div>
 <div class="card"><div class="label">Leader</div><div class="h"><b>{{ S.teams[0].teamName }}</b></div><div class="small">{{ ml(S.teams[0].manager) }} · {{ S.teams[0].officialW }}-{{ S.teams[0].officialL }}</div></div>
 </div>
+{% if PR %}{% set PM = PR.meta %}{% set W = PM.weights %}
+<details class="lx card pr-box" id="power-rankings"><summary class="lx-sum"><div><div class="label">📊 Dynasty · Week {{ PM.week }}</div><h3 style="margin:.25em 0 0">Power Rankings <span class="pill gold">Week {{ PM.week }}</span></h3><p class="lx-teaser">#1 {{ PR.teams[0].team }} ({{ PR.teams[0].owner }}) · through Week {{ PM.completed_weeks|max }} · Win-Now + Dynasty blend</p></div><span class="lx-chev" aria-hidden="true"></span></summary>
+<div class="pr-tbl"><table><colgroup><col class="c-rk"><col><col class="c-rec"><col class="c-n"><col class="c-n"><col class="c-st"></colgroup><thead><tr><th class="num">#</th><th>Owner · Team</th><th>Rec</th><th class="num" title="Win-Now rank">Now</th><th class="num" title="Dynasty rank">Dyn</th><th>Status</th></tr></thead><tbody>
+{% for t in PR.teams %}<tr><td class="num pr-rk">{{ t.rank }}</td><td class="pr-who"><b>{{ ml(t.manager_id) if t.manager_id else t.owner }}</b><span>{{ t.team }}</span></td><td>{{ t.record }}</td><td class="num">{{ t.winnow_rank }}</td><td class="num">{{ t.dynasty_rank }}</td><td><span class="pill {{ {'Contender':'green','Middle':'warn','Rebuild':'red'}[t.status] }}">{{ t.status }}</span></td></tr>{% endfor %}
+</tbody></table></div>
+<p class="muted small" style="margin:6px 0 0">Now = Win-Now rank · Dyn = Dynasty rank</p>
+<ol class="pr-blurbs">{% for t in PR.teams %}<li><div class="pr-bh"><span class="pr-n">{{ t.rank }}</span><b>{{ t.team }}</b> <span class="muted small">{{ t.owner }} · {{ t.record }}{% if t.prev_rank %} · {% if t.prev_rank > t.rank %}▲{{ t.prev_rank - t.rank }}{% elif t.prev_rank < t.rank %}▼{{ t.rank - t.prev_rank }}{% else %}–{% endif %}{% endif %}</span></div><p>{{ t.blurb }}</p></li>{% endfor %}</ol>
+<div class="pr-how"><b>How it's calculated</b>
+<ul><li><b>Overall</b> = {{ (W.overall.win_now*100)|round|int }}% Win-Now + {{ (W.overall.dynasty*100)|round|int }}% Dynasty, scored against the other teams.</li>
+<li><b>Win-Now</b> = {{ (W.win_now.actual*100)|round|int }}% results (record incl. the median game, points for, all-play) + {{ (W.win_now.projected*100)|round|int }}% best possible lineup from Sleeper projections (rest of the regular season and this week), in our scoring.</li>
+<li><b>Dynasty</b> = total trade value of every rostered player plus {{ PM.season|int + 1 }}–{{ PM.season|int + 2 }} rookie picks, from {{ (PM.sources['values'] or 'n/a').split(' https')[0] }}.</li>
+<li><b>Status</b>: Contender = top 4 in Win-Now; Rebuild = bottom 3 in Win-Now and outside the playoff line; everyone else Middle.</li></ul>
+<span class="muted small">Updated {{ PM.generated }} ET{% if PR.teams|selectattr('blurb_source','equalto','auto')|list %} · blurbs auto-written from league data{% endif %}.</span></div>
+</details>
+{% endif %}
 <h2>Where things stand</h2><div class="chapters">{% for c in M.chapters %}<section class="chapter"><h3>{{ c.h }}</h3>{% for l in c.lines %}{{ md(l) }}{% endfor %}</section>{% endfor %}</div>
 
 <h2 id="standings">Standings</h2>

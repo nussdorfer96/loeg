@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Weekly update: refresh Sleeper data, rebuild everything, check links, push dist/ to the gh-pages branch.
 # Usage: bash scripts/publish.sh            (add --no-fetch to skip the Sleeper refresh)
+# Power rankings are NOT recomputed here: the build renders the latest saved data/generated/power_rankings/latest.json.
+# To compute a new week and publish, run scripts/publish_power_rankings.sh (Wednesdays, after waivers).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 ROOT="$(pwd)"

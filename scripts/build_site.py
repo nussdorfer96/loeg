@@ -185,6 +185,11 @@ def main():
              awards_by_key=awards_by_key, rec=rec, rp=rp, F=F, TR=TR, race_svg=race_svg, grade_cls=grade_cls, pair_id=pair_id, bx=bx, box_of=box_of, box_for=box_for, game_log=game_log, riv=riv, sgn=sgn, award_counts=award_counts, rk=rk, tied=tied, initials=initials, ts=ts, md=md, cat_icon=cat_icon, built=built)
     G["SITE"] = SITE
     env.globals.update(G)
+    # Power rankings: latest JSON saved by scripts/power_rankings.py (never recomputed here)
+    PR = load(os.path.join(GEN, "power_rankings", "latest.json"))
+    if PR and str(PR["meta"].get("season")) != str(max(L["years"])):
+        PR = None
+    env.globals["PR"] = PR
 
     def ml_factory(root):
         def ml(mid):
@@ -212,7 +217,7 @@ def main():
     render("records.html", "records.html", "", title="Record Book", nav="records", sub="records.html")
     dyn = [s for s in seasons.values() if s["platform"] == "Sleeper"]
     if dyn:
-        render("dynasty.html", "dynasty.html", "", title="Dynasty Era", nav="dynasty", sub="dynasty.html", S=max(dyn, key=lambda s: s["year"]))
+        render("dynasty.html", "dynasty.html", "", title="Dynasty Era", nav="dynasty", sub="dynasty.html", S=max(dyn, key=lambda s: s["year"]), PR=PR)
     lore = sorted(L["lore"], key=lambda e: (not e.get("featured"), -(e.get("season") or 0), e.get("week") or 0))
     cats = sorted(set(e["category"] for e in lore))
     render("lore.html", "lore.html", "", title="Lore", nav="lore", lore=lore, lore_cats=cats)

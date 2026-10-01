@@ -390,3 +390,23 @@ html.qs-on{overflow:hidden}
 .sleeper-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:48px;padding:12px 20px;margin:4px 0 14px;border-radius:12px;background:var(--gold);color:#1a1405;font-weight:800;font-size:1rem;text-decoration:none;box-shadow:0 3px 12px rgba(0,0,0,.3)}
 .sleeper-btn:hover{text-decoration:none;filter:brightness(1.06)}
 @media (max-width:767px){.sleeper-btn{display:flex;width:100%}}
+
+/* Dynasty: power rankings dropdown */
+.lx.pr-box{padding:10px 14px;margin:16px 0 6px;border-color:#7a6020;background:linear-gradient(180deg,#2a2412,#171a24)}
+.pr-tbl{margin-top:10px;border:1px solid var(--line);border-radius:12px;background:var(--panel);overflow:hidden}
+.pr-tbl table{font-size:.84rem;table-layout:fixed}
+.pr-tbl th,.pr-tbl td{padding:7px 5px}
+.pr-tbl col.c-rk{width:28px}.pr-tbl col.c-rec{width:38px}.pr-tbl col.c-n{width:36px}.pr-tbl col.c-st{width:82px}
+.pr-tbl th{cursor:default;font-size:.7rem}
+.pr-tbl td.pr-who{white-space:normal;line-height:1.25;overflow-wrap:anywhere}
+.pr-tbl td.pr-who span{display:block;color:var(--muted);font-size:.78rem}
+.pr-tbl td.pr-rk{font:700 1rem Georgia,serif;color:var(--gold)}
+.pr-tbl .pill{font-size:.68rem;padding:1px 6px}
+.pr-blurbs{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:10px}
+.pr-blurbs li{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.pr-blurbs p{margin:.35em 0 0;font-size:.94rem;line-height:1.5}
+.pr-bh{line-height:1.35}
+.pr-n{display:inline-grid;place-items:center;width:24px;height:24px;margin-right:6px;border-radius:7px;background:#2b2412;border:1px solid #6b5520;color:var(--gold);font:700 .85rem Georgia,serif}
+.pr-how{margin:14px 0 4px;font-size:.88rem}
+.pr-how ul{padding-left:1.1em;margin:.3em 0 .5em}.pr-how li{margin:.3em 0}
+@media (min-width:768px){.pr-tbl col.c-st{width:100px}.pr-tbl col.c-rec,.pr-tbl col.c-n{width:56px}.pr-tbl table{font-size:.92rem}.pr-tbl th,.pr-tbl td{padding:8px 10px}}
