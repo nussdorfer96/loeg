@@ -27,6 +27,18 @@
 {% set R = rk(L.records.playerGames, 'pts') %}{% for r in L.records.playerGames %}<tr><td>{{ R[loop.index0] }}</td><td>{{ r.name }} <span class="muted">{{ r.pos }}</span></td><td class="num"><b>{{ f(r.pts) }}</b></td><td>{{ ml(r.manager) }}</td><td>{% set u = box_for(r.year, r.week, r.manager) %}{% if u %}<a class="boxlink" href="{{ u }}">{{ r.year }} wk {{ r.week }} ›</a>{% else %}{{ r.year }} wk {{ r.week }}{% endif %}</td></tr>{% endfor %}</tbody></table></div>
 <p class="muted small">Coverage: {% for y in L.years %}{{ y }}: {{ L.seasonMeta[y|string].coverage.lineupWeeks }}/{{ L.seasonMeta[y|string].coverage.neededWeeks }} weeks{% if not loop.last %} · {% endif %}{% endfor %}. Mixes ESPN and Sleeper scoring; grows as the weekly archive fills in.</p>{% endif %}
 <h2 id="career">Career Leaderboards</h2>
+{% for A in L.era.awards %}<div class="card era-card" id="era-awards"><div class="label">🏛️ Era Awards · {{ A.label }} {{ A.span }}</div>
+<h3>{{ A.icon }} {{ A.title }}</h3>
+<p class="era-emcee"><em>The lights come down. The emcee steps to the mic.</em> "Ladies and gentlemen, for six seasons of ESPN redraft, one manager stood above the rest. Please welcome to the stage…"</p>
+<div class="era-win">{{ ml(A.winner) }}</div>
+<p class="era-emcee"><em>As he makes the walk, the emcee reads the résumé:</em></p>
+<ol class="era-roll">{% for r in A.roll %}<li>{{ r }}</li>{% endfor %}</ol>
+<p class="era-shine"><b>This is his moment to shine.</b></p>
+<ul class="era-list"><li><span class="era-tag">Runner-up</span> {{ ml(A.runnerUp) }} <span class="muted">({{ A.runnerUpText }})</span></li>
+<li><span class="era-tag">Honorable mention</span> {{ ml(A.honorable) }} <span class="muted">({{ A.honorableText }})</span></li></ul>
+{% if A.unluckiestChamp %}<p class="era-nod">One more thing: the worst luck of any champion in the league. Two titles anyway. So much for <a href="lore.html#the-mulvihill-conspiracy">The Mulvihill Conspiracy</a>. 🧵</p>{% endif %}
+<details class="era-cite"><summary>Full citation</summary><p>{{ A.winnerText }}</p>
+<p class="muted small">Stats are per person across the ESPN redraft seasons ({{ A.span }}). Playoff record counts winners-bracket games (byes excluded). Merit awards = season Points Machine, Weekly High-Score King, Season MVP, Best Waiver Pickup, Draft Steal and Highest Single-Game Player Performance (ties count for each holder). Schedule luck = actual minus all-play expected wins.</p></details></div>{% endfor %}
 <div class="tbl-wrap"><table class="sortable"><thead><tr><th>Manager</th><th class="num">Titles</th><th class="num">Finals</th><th class="num">Playoff apps</th><th class="num">Win %</th><th class="num">PPG</th><th class="num">Last-place finishes</th><th class="num">Career luck</th></tr></thead><tbody>
 {% for mid in L.managerOrder %}{% set p = L.profiles[mid] %}<tr><td>{{ ml(mid) }}</td><td class="num">{{ p.titles|length }}</td><td class="num">{{ p.titles|length + p.runnerUps|length }}</td><td class="num">{{ p.playoffApps|length }}</td><td class="num" data-v="{{ p.pctX }}">{{ "%.3f"|format(p.pct) }}</td><td class="num">{{ f(p.ppg) }}</td><td class="num">{{ p.lastPlace|length }}</td><td class="num">{{ "%+.2f"|format(p.seasons|map(attribute='luck')|map('float')|sum) }}</td></tr>{% endfor %}
 </tbody></table></div>

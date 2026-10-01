@@ -37,7 +37,7 @@
 <h2>Team-Name History</h2>
 <div class="timeline">{% for t in P.teamNames %}<div class="yr" style="min-width:140px"><span class="small muted">{{ t.year }} · {{ t.platform }}</span><b style="font-size:.95rem">{{ t.name }}</b></div>{% endfor %}</div>
 
-{% if P.awards %}<h2>Trophy Case</h2><div class="grid g3">{% for a in P.awards if a.key in ['mvp','waiver','steal','bust','lucky','unlucky','pf','tophigh','game','bench','moves','trader','heartbreak','toplow','pa'] %}{{ award_card(a, true) }}{% endfor %}</div>{% endif %}
+{% set ERA = L.era.awards|selectattr('winner','equalto',P.id)|list %}{% if P.awards or ERA %}<h2>Trophy Case</h2><div class="grid g3">{% for A in ERA %}<div class="era-trophy">{{ award_card(A.trophy, true) }}<a class="small" href="../records.html#era-awards">Era Awards ›</a></div>{% endfor %}{% for a in P.awards if a.key in ['mvp','waiver','steal','bust','lucky','unlucky','pf','tophigh','game','bench','moves','trader','heartbreak','toplow','pa'] %}{{ award_card(a, true) }}{% endfor %}</div>{% endif %}
 
 {% set GL = game_log(P.id) %}{% if GL %}<h2 id="gamelog">📒 Game Log</h2>
 <p class="small muted">Every game {{ P.name.split(' ')[0] }} played. Tap a score for the box score.</p>

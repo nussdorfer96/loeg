@@ -509,10 +509,86 @@ def build():
            "loyalists": [m for m in profiles if profiles[m]["loyalist"]],
            "fallen": memorial(profiles, records, seasons, years), "championships": championships(seasons, years), "resurrected": [m for m in profiles if profiles[m].get("resurrected")], "leagueStory": league_story(seasons, champions, profiles, records, years),
            "podium": podium(seasons, years), "pressArchive": (LORE.get("press_conferences") or {}).get("archive", []),
-           "draftOrder": draft_order(seasons, years),
+           "draftOrder": draft_order(seasons, years), "era": era_awards(seasons, years, awards),
            "managerOrder": sorted(profiles, key=lambda m: (-len(profiles[m]["titles"]), -profiles[m]["pctX"]))}
     save(os.path.join(GEN, "league.json"), out)
     print("league.json written:", len(profiles), "managers,", len(lore), "lore entries")
+
+
+ERA_AWARDS = [  # Commissioner-approved picks; every number on the card is computed from season data.
+    {"key": "redraftMVP", "title": "Redraft Era MVP", "icon": "🏆", "label": "ESPN",
+     "winner": "brian-mulvihill", "runnerUp": "ryan-nussdorfer", "honorable": "bradley-kochheiser"},
+]
+_MERIT = {"pf", "tophigh", "waiver", "steal", "mvp", "game"}
+
+
+def era_awards(seasons, years, awards):
+    """Per-person career stats over the ESPN redraft era, plus the era award cards built from them."""
+    ys = [y for y in years if seasons[y]["platform"] == "ESPN"]
+    st = collections.defaultdict(lambda: {"seasons": 0, "titles": [], "finals": 0, "playoffs": 0, "pw": 0, "pl": 0, "w": 0, "l": 0, "t": 0,
+                                          "apw": 0, "apl": 0, "pf": 0.0, "pfRanks": [], "pfCrowns": 0, "luck": 0.0, "merit": 0, "awards": 0})
+    for y in ys:
+        s = seasons[y]
+        for i, t in enumerate(sorted(s["teams"], key=lambda t: -t["pf"])):
+            d = st[t["manager"]]; d["seasons"] += 1
+            if t["finalRank"] == 1: d["titles"].append(y)
+            d["finals"] += t["finalRank"] <= 2
+            for k in ("w", "l", "t"): d[k] += t[k]
+            d["apw"] += t["allPlayW"]; d["apl"] += t["allPlayL"]; d["pf"] += t["pf"]; d["luck"] += t.get("luckX", t.get("luck", 0))
+            d["pfRanks"].append(i + 1)
+        app = set()
+        for g in s["games"]:
+            if g["kind"] != "playoff" or g.get("tier") != "WINNERS_BRACKET": continue
+            app.add(g["home"]["manager"])
+            if g.get("away") and not g.get("bye"):
+                app.add(g["away"]["manager"]); h, a = g["home"], g["away"]
+                if h["score"] != a["score"]:
+                    w_, l_ = (h, a) if h["score"] > a["score"] else (a, h); st[w_["manager"]]["pw"] += 1; st[l_["manager"]]["pl"] += 1
+        for m in app: st[m]["playoffs"] += 1
+        for a in awards[y]:
+            for m in a.get("holderIds", [a["manager"]]):
+                st[m]["awards"] += 1; st[m]["merit"] += a["key"] in _MERIT; st[m]["pfCrowns"] += a["key"] == "pf"
+                st[m].setdefault("awardYears", {}).setdefault(a["key"], []).append({"year": y, "shared": len(a.get("holderIds", [a["manager"]]))})
+    for d in st.values():
+        g = d["w"] + d["l"] + d["t"]
+        d.update(games=g, pct=round((d["w"] + .5 * d["t"]) / g, 3), apPct=round(d["apw"] / (d["apw"] + d["apl"]), 3),
+                 pf=r2(d["pf"]), ppg=r2(d["pf"] / g), avgPfRank=r2(sum(d["pfRanks"]) / len(d["pfRanks"])), luck=r2(d["luck"]))
+    pct = lambda v: f"{v:.3f}".lstrip("0")
+    span = f"{ys[0]}-{ys[-1]}"
+    cards = []
+    for E in ERA_AWARDS:
+        W, R, H = st[E["winner"]], st[E["runnerUp"]], st[E["honorable"]]
+        num = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten"}
+        topm = max(d["merit"] for d in st.values())
+        wtxt = (f"{num.get(len(W['titles']), len(W['titles'])).capitalize()} title{'s' if len(W['titles']) != 1 else ''} ({', '.join(map(str, W['titles']))}), "
+                f"{num.get(W['finals'], W['finals'])} finals, {num.get(W['pfCrowns'], W['pfCrowns'])} points crown{'s' if W['pfCrowns'] != 1 else ''} and "
+                f"{'a league-high ' if W['merit'] == topm else ''}{num.get(W['merit'], W['merit'])} merit awards")
+        if W["luck"] < 0:
+            champ_min = min(d["luck"] for d in st.values() if d["titles"])
+            wtxt += f", all through {'the worst schedule luck of any champion' if W['luck'] == champ_min else 'negative schedule luck'} ({W['luck']:+.2f} wins)"
+        wtxt += "."
+        rtxt = f"{R['w']}-{R['l']}{'-' + str(R['t']) if R['t'] else ''}, a {R['avgPfRank']:.2f} average points-for finish, {R['pw']}-{R['pl']} in the playoffs"
+        htxt = f"{pct(H['pct'])}, " + (f"playoffs in all {num.get(H['seasons'], H['seasons'])} of his seasons" if H["playoffs"] == H["seasons"] else f"{H['playoffs']} playoff trips in {H['seasons']} seasons")
+        AY = W.get("awardYears", {})
+        yrs = lambda k, solo=None: [x["year"] for x in AY.get(k, []) if solo is None or (x["shared"] == 1) == solo]
+        def ylist(v): return " and ".join(map(str, v)) if len(v) < 3 else ", ".join(map(str, v[:-1])) + " and " + str(v[-1])
+        roll = [f"{num.get(len(W['titles']), len(W['titles'])).capitalize()} championships: {ylist(W['titles'])}",
+                f"{num.get(W['finals'], W['finals']).capitalize()} trips to the final",
+                f"A {W['pw']}-{W['pl']} playoff record"]
+        if yrs("pf"): roll.append(f"Points leader in {ylist(yrs('pf'))}")
+        if yrs("mvp"): roll.append(f"Season MVP in {ylist(yrs('mvp'))}")
+        if yrs("tophigh", True) or yrs("tophigh", False):
+            t_ = f"The {ylist(yrs('tophigh', True))} weekly high-score title" if yrs("tophigh", True) else "A share of the weekly high-score title"
+            if yrs("tophigh", True) and yrs("tophigh", False): t_ += f" (plus a share in {ylist(yrs('tophigh', False))})"
+            roll.append(t_)
+        roll.append(f"{'A league-high ' if W['merit'] == topm else ''}{num.get(W['merit'], W['merit'])} merit awards")
+        champ_min = min(d["luck"] for d in st.values() if d["titles"])
+        if W["luck"] < 0:
+            roll.append(f"And he did it all with {'the worst schedule luck of any champion' if W['luck'] == champ_min else 'negative schedule luck'}: {W['luck']:+.2f} wins".replace("-", "−"))
+        cards.append({**E, "roll": roll, "unluckiestChamp": W["luck"] < 0 and W["luck"] == champ_min, "luck": W["luck"], "span": span, "years": ys, "winnerText": wtxt, "runnerUpText": rtxt, "honorableText": htxt,
+                      "trophy": {"key": E["key"], "icon": E["icon"], "title": E["title"], "season": f"{E['label']} {span}", "manager": E["winner"],
+                                 "headline": f"{len(W['titles'])} titles, {W['finals']} finals", "detail": wtxt}})
+    return {"years": ys, "span": span, "stats": dict(st), "awards": cards}
 
 
 _CHAMPS = {}

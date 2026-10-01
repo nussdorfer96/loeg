@@ -36,6 +36,7 @@
 
 <h2>🏛️ Hall of Superlatives</h2>
 <p class="muted small">Season awards at a glance. Click a year for the full ceremony on its season page.</p>
+{% for A in L.era.awards %}<p class="era-link">{{ A.icon }} <b>{{ A.title }} ({{ A.span }}):</b> {{ ml(A.winner) }} · <a href="records.html#era-awards">see the Era Awards ›</a></p>{% endfor %}
 <div class="tbl-wrap"><table>
 <thead><tr><th>Season</th><th>Champion / Belt</th><th>MVP</th><th>Best pickup</th><th>Draft steal</th><th>Draft bust</th><th>Unluckiest</th><th>Luckiest</th></tr></thead><tbody>
 {% for y in L.years|reverse %}{% set A = awards_by_key(y) %}
