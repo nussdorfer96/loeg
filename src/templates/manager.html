@@ -37,7 +37,21 @@
 <h2>Team-Name History</h2>
 <div class="timeline">{% for t in P.teamNames %}<div class="yr" style="min-width:140px"><span class="small muted">{{ t.year }} · {{ t.platform }}</span><b style="font-size:.95rem">{{ t.name }}</b></div>{% endfor %}</div>
 
-{% set ERA = L.era.awards|selectattr('winner','equalto',P.id)|list %}{% if P.awards or ERA %}<h2>Trophy Case</h2><div class="grid g3">{% for A in ERA %}<div class="era-trophy">{{ award_card(A.trophy, true) }}<a class="small" href="../records.html#era-awards">Era Awards ›</a></div>{% endfor %}{% for a in P.awards if a.key in ['mvp','waiver','steal','bust','lucky','unlucky','pf','tophigh','game','bench','moves','trader','heartbreak','toplow','pa'] %}{{ award_card(a, true) }}{% endfor %}</div>{% endif %}
+{% set ERA = L.era.awards|selectattr('winner','equalto',P.id)|list %}{% set AW = P.awards|selectattr('key','in',['mvp','waiver','steal','bust','lucky','unlucky','pf','tophigh','game','bench','moves','trader','heartbreak','toplow','pa'])|list %}
+{% if AW or ERA or P.titles %}<h2 id="trophies">Trophy Case</h2>
+{% set STAR = AW|selectattr('key','in',['mvp','pf'])|list %}
+{% if P.titles or ERA or STAR %}<div class="grid g3 trophy-top">
+{% if P.titles %}<div class="card award champ-trophy"><div class="ic">🏆</div><div><div class="t">League Champion{% if P.titles|length > 1 %} ×{{ P.titles|length }}{% endif %}</div><div class="h">{% for y in P.titles %}<a href="../seasons/{{ y }}.html">{{ y }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</div><div class="d">{% if P.runnerUps %}Also runner-up in {{ P.runnerUps|join(', ') }}.{% endif %}</div></div></div>{% endif %}
+{% for A in ERA %}<div class="era-trophy">{{ award_card(A.trophy, true) }}<a class="small" href="../records.html#era-awards">Era Awards ›</a></div>{% endfor %}
+{% for k in ['mvp','pf'] %}{% set xs = STAR|selectattr('key','equalto',k)|list %}{% if xs %}<div class="card award"><div class="ic">{{ xs[0].icon }}</div><div><div class="t">{{ xs[0].title }}{% if xs|length > 1 %} ×{{ xs|length }}{% endif %}</div><div class="h">{% for a in xs %}<a href="../seasons/{{ a.season }}.html">{{ a.season }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</div><div class="d">{% for a in xs %}{{ a.season }}: {{ a.headline }}{% if a.provisional %} (in progress){% endif %}{% if not loop.last %}<br>{% endif %}{% endfor %}</div></div></div>{% endif %}{% endfor %}</div>{% endif %}
+{% set GOOD = ['tophigh','waiver','steal','game','lucky','moves','trader'] %}{% set BAD = ['bust','bench','unlucky','toplow','pa','heartbreak'] %}
+{%- macro chips(keys) -%}{% for k in keys %}{% set xs = AW|selectattr('key','equalto',k)|list %}{% if xs %}<span class="tchip" title="{{ xs|map(attribute='season')|join(', ') }}">{{ xs[0].icon }} {{ xs[0].title }}{% if xs|length > 1 %} <b>×{{ xs|length }}</b>{% endif %} <span class="muted">{{ xs|map(attribute='season')|join(', ') }}</span></span>{% endif %}{% endfor %}{%- endmacro -%}
+{% set g_ = chips(GOOD) %}{% set b_ = chips(BAD) %}
+{% if g_|trim %}<div class="label" style="margin-top:12px">Honors</div><div class="tchips">{{ g_ }}</div>{% endif %}
+{% if b_|trim %}<div class="label" style="margin-top:10px">Dubious honors</div><div class="tchips">{{ b_ }}</div>{% endif %}
+{% if AW %}<details class="lx card" id="trophies-all"><summary class="lx-sum"><div><b>All {{ AW|length }} season awards, with details</b></div><span class="lx-chev" aria-hidden="true"></span></summary><div class="grid g3">{% for a in AW %}{{ award_card(a, true) }}{% endfor %}</div></details>{% endif %}
+{% endif %}
+<!--collapse-start-->
 
 {% set GL = game_log(P.id) %}{% if GL %}<h2 id="gamelog">📒 Game Log</h2>
 <p class="small muted">Every game {{ P.name.split(' ')[0] }} played. Tap a score for the box score.</p>
@@ -94,4 +108,4 @@
 <div><h3>💀 Worst draft picks (rounds 1-5)</h3><div class="tbl-wrap"><table><thead><tr><th>Year</th><th>Pick</th><th>Player</th><th class="num">Pts</th><th>Finish</th></tr></thead><tbody>
 {% for p in P.worstPicks %}<tr><td>{{ p.year }}</td><td>{{ rp(p) }} <span class="muted small">#{{ p.overall }}</span></td><td>{{ p.name }} <span class="muted">{{ p.pos }}</span></td><td class="num">{{ f(p.points) }}</td><td>{{ p.pos }}{{ p.posRank or '-' }}</td></tr>{% endfor %}</tbody></table></div></div>
 </div><p class="muted small">Pick value = where the player was drafted among QB/RB/WR/TE vs. where he finished in points above positional replacement.</p>{% endif %}
-{% endblock %}
+<!--collapse-end-->{% endblock %}

@@ -46,3 +46,10 @@
 <p class="small"><b>Real example:</b> in {{ ex.year }}, {{ mname(ex.manager) }} went <b>{{ ex.w }}-{{ ex.l }}</b>, but his all-play record was {{ ex.apW }}-{{ ex.apL }} ({{ "%.3f"|format(ex.apPct) }}). That's worth {{ f(ex.expW) }} wins over {{ ex.gp }} games, so he was <span class="pos">{{ sgn(ex.luck) }}</span> lucky. The flip side: {{ mname(ux.manager) }} in {{ ux.year }} went {{ ux.w }}-{{ ux.l }} with a {{ "%.3f"|format(ux.apPct) }} all-play, <span class="neg">{{ sgn(ux.luck) }}</span>.</p>
 </details>
 {%- endmacro -%}
+
+{%- macro award_block(awards, id_prefix='awards') -%}
+{% set HEAD = ['mvp','pf','tophigh','waiver','steal','bust'] %}{% set top = awards|selectattr('key','in',HEAD)|list %}{% set rest = awards|rejectattr('key','in',HEAD)|list %}
+<div class="grid g3">{% for a in top %}{{ award_card(a) }}{% endfor %}</div>
+{% if rest %}<details class="lx card more-awards" id="{{ id_prefix }}-more"><summary class="lx-sum"><div><b>More awards ({{ rest|length }})</b><p class="lx-teaser">{{ rest|map(attribute='title')|join(' · ') }}</p></div><span class="lx-chev" aria-hidden="true"></span></summary>
+<div class="grid g3">{% for a in rest %}{{ award_card(a) }}{% endfor %}</div></details>{% endif %}
+{%- endmacro -%}

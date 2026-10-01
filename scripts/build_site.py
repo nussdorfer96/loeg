@@ -244,9 +244,29 @@ def main():
     if os.path.exists(DIST): shutil.rmtree(DIST)
     shutil.copytree(os.path.join(SRC, "static"), os.path.join(DIST, "static"))
 
+    def collapse_sections(h):
+        """Wrap each top-level <h2 id> section between the collapse markers in a closed <details class="lx psec">."""
+        a = h.index("<!--collapse-start-->"); b = h.index("<!--collapse-end-->")
+        mid = h[a + len("<!--collapse-start-->"):b]
+        fav = '<div class="grid g2">\n<div><h2>Favorite Players'
+        starts = [m.start() for m in re.finditer(r'<h2 id="[^"]+">', mid)] + ([mid.index(fav)] if fav in mid else [])
+        starts = sorted(set(starts))
+        if not starts: return h.replace("<!--collapse-start-->", "").replace("<!--collapse-end-->", "")
+        out = [mid[:starts[0]]]
+        for i, st in enumerate(starts):
+            seg = mid[st:starts[i + 1] if i + 1 < len(starts) else len(mid)]
+            m = re.match(r'<h2 id="([^"]+)">(.*?)</h2>', seg, re.S)
+            if m:
+                sid, title, body = m.group(1), m.group(2), seg[m.end():]
+                out.append(f'<details class="lx psec" id="sec-{sid}"><summary class="lx-sum"><div><h2 id="{sid}">{title}</h2></div><span class="lx-chev" aria-hidden="true"></span></summary>{body}</details>\n')
+            else:
+                out.append(f'<details class="lx psec" id="sec-favorites"><summary class="lx-sum"><div><h2 id="favorites">❤️ Favorite players &amp; draft picks</h2></div><span class="lx-chev" aria-hidden="true"></span></summary>{seg}</details>\n')
+        return h[:a] + "".join(out) + h[b + len("<!--collapse-end-->"):]
+
     def render(tpl, out, root, **ctx):
         env.globals["ml"] = ml_factory(root)
         h = env.get_template(tpl).render(root=root, page_path=out, **ctx)
+        if "<!--collapse-start-->" in h: h = collapse_sections(h)
         p = os.path.join(DIST, out); os.makedirs(os.path.dirname(p), exist_ok=True)
         open(p, "w").write(h)
 

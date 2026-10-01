@@ -1,4 +1,4 @@
-{% extends "base.html" %}{% from "macros.html" import award_card, mcard with context %}{% block body %}{% from "macros.html" import subnav with context %}{{ subnav('seasons', sub) }}
+{% extends "base.html" %}{% from "macros.html" import award_card, award_block, mcard with context %}{% block body %}{% from "macros.html" import subnav with context %}{{ subnav('seasons', sub) }}
 {% set M = L.seasonMeta[S.year|string] %}
 <section class="hero"><div class="kicker">Sleeper · Dynasty · Superflex</div><h1>The Dynasty Era ({{ S.year }}–)</h1>
 <p class="lead">The league moved to Sleeper in {{ S.year }} and went dynasty: keep your roster forever, trade future picks, and live with your startup draft. {{ S.completedWeeks }} weeks in the books.</p>
@@ -58,14 +58,22 @@
 <div class="note">Rookie drafts will appear here automatically once Sleeper creates them (rerun <code>scripts/fetch_sleeper.sh</code> then <code>scripts/build_all.py</code>).</div>
 
 <h2 id="rosters">Rosters</h2>
-<div class="grid g3">{% for T in S.teams %}<div class="card"><div class="h"><b>{{ T.teamName }}</b></div><div class="small">{{ ml(T.manager) }}</div>
-<table style="margin-top:8px"><tbody>{% for p in S.rosters[T.teamId|string] %}<tr><td class="small">{{ p.name }}{% if p.status!='active' %} <span class="pill">{{ p.status }}</span>{% endif %}</td><td class="small muted">{{ p.pos }}</td><td class="num small">{{ f(p.seasonPts) }}</td></tr>{% endfor %}</tbody></table></div>{% endfor %}</div>
+<p class="small muted">Tap a team to see its full roster. Points = scored for this league in {{ S.year }} so far.</p>
+<div class="lx-list">{% for T in S.teams %}{% set R = S.rosters[T.teamId|string] %}{% set best = (R|sort(attribute='seasonPts', reverse=true))[:3] %}<details class="lx card roster-box" id="roster-{{ T.manager }}"><summary class="lx-sum"><div><b>{{ T.teamName }}</b> <span class="small muted">· {{ mname(T.manager) }}</span><div class="small muted">Top: {% for p in best %}{{ p.name }} {{ f(p.seasonPts) }}{% if not loop.last %} · {% endif %}{% endfor %}</div></div><span class="lx-chev" aria-hidden="true"></span></summary><div class="small">{{ ml(T.manager) }} · {{ R|length }} players</div>
+<table style="margin-top:8px"><tbody>{% for p in R %}<tr><td class="small">{{ p.name }}{% if p.status!='active' %} <span class="pill">{{ p.status }}</span>{% endif %}</td><td class="small muted">{{ p.pos }}</td><td class="num small">{{ f(p.seasonPts) }}</td></tr>{% endfor %}</tbody></table></details>{% endfor %}</div>
 
 <h2 id="moves">Waiver Wire</h2>
-<div class="tbl-wrap"><table class="sortable"><thead><tr><th class="num">Wk</th><th>Manager</th><th>Type</th><th>Added</th><th>Dropped</th></tr></thead><tbody>
-{% for t in S.transactions if t.type!='TRADE' %}{% set ad = t["items"]|selectattr('type','equalto','ADD')|list %}{% set dr = t["items"]|selectattr('type','equalto','DROP')|list %}<tr><td class="num">{{ t.week }}</td><td>{% if ad %}{{ ml(ad[0].toManager) }}{% elif dr %}{{ ml(dr[0].fromManager) }}{% endif %}</td><td>{{ t.type|lower|replace('freeagent','free agent') }}</td><td>{{ ad|map(attribute='name')|join(', ') }}</td><td class="muted">{{ dr|map(attribute='name')|join(', ') }}</td></tr>{% endfor %}
+{% set WV = S.transactions|rejectattr('type','equalto','TRADE')|sort(attribute='date', reverse=true)|list %}
+{%- macro wrows(rows) -%}{% for t in rows %}{% set ad = t["items"]|selectattr('type','equalto','ADD')|list %}{% set dr = t["items"]|selectattr('type','equalto','DROP')|list %}<tr><td class="num">{{ t.week }}</td><td>{% if ad %}{{ ml(ad[0].toManager) }}{% elif dr %}{{ ml(dr[0].fromManager) }}{% endif %}</td><td>{{ t.type|lower|replace('freeagent','free agent') }}</td><td>{{ ad|map(attribute='name')|join(', ') }}</td><td class="muted">{{ dr|map(attribute='name')|join(', ') }}</td></tr>{% endfor %}{%- endmacro -%}
+<p class="small muted">The {{ [10, WV|length]|min }} most recent moves, newest first.</p>
+<div class="tbl-wrap"><table><thead><tr><th class="num">Wk</th><th>Manager</th><th>Type</th><th>Added</th><th>Dropped</th></tr></thead><tbody>
+{{ wrows(WV[:10]) }}
 </tbody></table></div>
+{% if WV|length > 10 %}<details class="lx card" id="moves-all"><summary class="lx-sum"><div><b>Show all {{ WV|length }} moves</b></div><span class="lx-chev" aria-hidden="true"></span></summary>
+<div class="tbl-wrap"><table class="sortable"><thead><tr><th class="num">Wk</th><th>Manager</th><th>Type</th><th>Added</th><th>Dropped</th></tr></thead><tbody>
+{{ wrows(WV) }}
+</tbody></table></div></details>{% endif %}
 
 <h2 id="awards">Awards So Far</h2>
-<div class="grid g3">{% for a in M.awards %}{{ award_card(a) }}{% endfor %}</div>
+{{ award_block(M.awards) }}
 {% endblock %}

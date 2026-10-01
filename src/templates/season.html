@@ -1,4 +1,4 @@
-{% extends "base.html" %}{% from "macros.html" import award_card, mcard, luck_table, trade_card, luck_help with context %}{% block body %}
+{% extends "base.html" %}{% from "macros.html" import award_card, award_block, mcard, luck_table, trade_card, luck_help with context %}{% block body %}
 {% set M = L.seasonMeta[S.year|string] %}{% set FS = F.seasons[S.year|string] %}
 <section class="hero"><div class="kicker">{{ S.platform }} · {{ S.format }} · Season {{ S.year }}</div>
 <h1>The {{ S.year }} Season</h1>
@@ -15,13 +15,13 @@
 {% if not M.coverage.full and S.platform == 'ESPN' %}<div class="note">Weekly box scores for {{ S.year }}: {{ M.coverage.lineupWeeks }} of {{ M.coverage.neededWeeks }} weeks archived so far. MVP and pickup awards use season-ending rosters until the full weekly archive is processed; bench-points and single-game player awards appear once it is.</div>{% endif %}
 
 <h2 id="awards">🏅 Season Awards &amp; Superlatives</h2>
-<div class="grid g3">{% for a in M.awards %}{{ award_card(a) }}{% endfor %}</div>
+{{ award_block(M.awards) }}
 {% if M.teamMVPs %}<h3>Team MVPs</h3>
 <div class="tbl-wrap"><table><thead><tr><th>Manager</th><th>Team</th><th>MVP</th><th class="num">Points</th></tr></thead><tbody>
 {% for T in S.teams %}{% set m = M.teamMVPs.get(T.manager) %}{% if m %}<tr><td>{{ ml(T.manager) }}</td><td>{{ T.teamName }}</td><td>{{ m.name }} <span class="muted">{{ m.pos }}</span></td><td class="num">{{ f(m.points) }}</td></tr>{% endif %}{% endfor %}
 </tbody></table></div><p class="muted small">{% if S.platform == 'ESPN' and not M.coverage.full %}Points scored while on the team's season-ending roster (weeks 1-{{ S.lastWeek }}).{% else %}Points scored in the starting lineup.{% endif %}</p>{% endif %}
 
-<h2 id="standings">Final Standings</h2>
+<h2 id="standings">{{ 'Final Standings' if (S.champion or S.status == 'complete' or S.platform != 'Sleeper') else 'Mid-Season Standings' }}</h2>
 <div class="tbl-wrap"><table class="sortable"><thead><tr><th class="num">{{ 'Finish' if S.champion else '#' }}</th><th>Team</th><th>Manager</th>{% if S.platform=='ESPN' %}<th class="num">Seed</th>{% endif %}<th>Record</th>{% if S.platform=='Sleeper' %}<th>Official (w/ median)</th>{% endif %}<th class="num">PF</th><th class="num">PA</th><th class="num">All-play</th><th class="num">Luck</th><th class="num">Adds</th><th class="num">Trades</th></tr></thead><tbody>
 {% for T in S.teams %}<tr class="{{ 'champ' if T.manager==S.champion }}"><td class="num">{{ T.finalRank or T.standing }}</td><td>{{ T.teamName }}{% if T.tookOverFrom %} <span class="pill" title="Took over this team slot from {{ mname(T.tookOverFrom) }}">new owner</span>{% endif %}</td><td>{{ ml(T.manager) }}</td>{% if S.platform=='ESPN' %}<td class="num">{{ T.seed }}</td>{% endif %}<td>{{ rec(T) }}</td>{% if S.platform=='Sleeper' %}<td>{{ T.officialW }}-{{ T.officialL }}</td>{% endif %}<td class="num">{{ f(T.pf) }}</td><td class="num">{{ f(T.pa) }}</td><td class="num">{{ T.allPlayW }}-{{ T.allPlayL }}</td><td class="num {{ 'win' if T.luck > 0.5 else 'loss' if T.luck < -0.5 }}">{{ "%+.2f"|format(T.luck) }}</td><td class="num">{{ T.transactions.acquisitions }}</td><td class="num">{{ T.transactions.trades }}</td></tr>{% endfor %}
 </tbody></table></div>
