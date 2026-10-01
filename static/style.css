@@ -442,3 +442,5 @@ html.qs-on{overflow:hidden}
 .rtm-entry+.rtm-entry{border-top:1px solid var(--line);margin-top:8px;padding-top:6px}
 .rtm .boxlink{font-size:.9rem}.rtm-links .boxlink{margin-right:10px}.rtm-foot{margin-top:8px}
 .rsec{padding:8px 14px;margin:10px 0}.rsec h3{font-size:1.05rem}
+.dr-list{list-style:none;margin:8px 0;padding:0}.dr-list>li{border-top:1px solid var(--line);padding:8px 0}.dr-list>li:first-child{border-top:0}
+.dr-lab{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted,#9aa0b4)}.dr-ent{margin-top:2px}.dr-v{color:var(--gold2);font-size:1.1rem;margin-right:4px}.dr-ent .boxlink{font-size:.85rem;white-space:nowrap}
