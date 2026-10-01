@@ -2,6 +2,7 @@
 {% set M = L.seasonMeta[S.year|string] %}
 <section class="hero"><div class="kicker">Sleeper · Dynasty · Superflex</div><h1>The Dynasty Era ({{ S.year }}–)</h1>
 <p class="lead">The league moved to Sleeper in {{ S.year }} and went dynasty: keep your roster forever, trade future picks, and live with your startup draft. {{ S.completedWeeks }} weeks in the books.</p>
+<a class="sleeper-btn" href="https://sleeper.com/leagues/{{ S.leagueId or '1387967526775824384' }}" target="_blank" rel="noopener">Open league in Sleeper ↗</a>
 <div class="toc"><a href="#standings">Standings</a><a href="#matchups">Matchups</a><a href="#trades">Trades &amp; picks</a><a href="#draft">Startup draft</a><a href="#rosters">Rosters</a><a href="#moves">Waiver wire</a><a href="#awards">Awards so far</a></div></section>
 <div class="grid g4">
 <div class="card"><div class="label">Format</div><div class="h"><b>{{ S.teams|length }} teams · PPR · superflex</b></div><div class="small muted">{{ S.rosterPositions|reject('equalto','BN')|join(', ') }} + {{ S.rosterPositions|select('equalto','BN')|list|length }} bench</div></div>
