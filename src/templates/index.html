@@ -7,12 +7,12 @@
 <h2>🥇 The Belt Lineage</h2>
 <p class="muted small">The official title history of {{ L.belt.name }}, introduced in {{ L.belt.introduced }}. Every champion, every reign, WWE-style.</p>
 <div class="banner">
-{% for e in L.beltLineage %}<a class="pennant {{ 'beltless' if e.beltless }}" href="seasons/{{ e.year }}.html"><div class="yr">{{ e.year }}{% if e.beltless %}<sup>*</sup>{% endif %}</div><div class="who">{{ mname(e.manager) }}</div><div class="tm">{{ e.team }}</div>
-<div class="reign">{% if e.beltless %}Belt-less Champion*{% elif e.defense %}Successful defense{% else %}Reign #{{ e.reignNumber }}{% if e.reign > 1 %} · {{ ordinal(e.reign) }} reign{% endif %}{% endif %}</div>
+{% for e in L.beltLineage %}<a class="pennant {{ 'beltless' if e.beltless }}" href="seasons/{{ e.year }}.html"><div class="yr">{{ e.year }}</div><div class="who">{{ mname(e.manager) }}</div><div class="tm">{{ e.team }}</div>
+<div class="reign">{% if e.beltless %}Champion · Belt-less*{% elif e.defense %}Successful defense{% else %}Reign #{{ e.reignNumber }}{% if e.reign > 1 %} · {{ ordinal(e.reign) }} reign{% endif %}{% endif %}</div>
 <div class="tm">{% if e.runnerUp %}def. {{ mname(e.runnerUp) }}{% endif %}</div></a>{% endfor %}
 {% for y in L.years if not seasons[y].champion %}<a class="pennant tbd" href="dynasty.html"><div class="yr">{{ y }}</div><div class="who">On the line</div><div class="tm">Season in progress</div><div class="reign">Current holder: {{ mname(L.beltLineage[-1].manager) }}</div></a>{% endfor %}
 </div>
-<p class="muted small">* {{ mname(L.beltLineage[0].manager) }} won the {{ L.beltLineage[0].year }} title before the Belt existed. Title fully valid. Belt not included.</p>
+<p class="muted small">* Belt-less: {{ L.belt.name }} started in {{ L.belt.introduced }}. {{ mname(L.beltLineage[0].manager) }} won the {{ L.beltLineage[0].year }} title outright, before there was a Belt to hand him.</p>
 
 <h2>Quick All-Time Records</h2>
 <div class="grid g4">
@@ -39,7 +39,7 @@
 <div class="tbl-wrap"><table>
 <thead><tr><th>Season</th><th>Champion / Belt</th><th>MVP</th><th>Best pickup</th><th>Draft steal</th><th>Draft bust</th><th>Unluckiest</th><th>Luckiest</th></tr></thead><tbody>
 {% for y in L.years|reverse %}{% set A = awards_by_key(y) %}
-<tr><td><a href="seasons/{{ y }}.html">{{ y }}</a></td><td>{% if seasons[y].champion %}{{ ml(seasons[y].champion) }}{% if y < L.belt.introduced %}<span class="muted">*</span>{% endif %}{% else %}<span class="muted">TBD</span>{% endif %}</td>
+<tr><td><a href="seasons/{{ y }}.html">{{ y }}</a></td><td>{% if seasons[y].champion %}{{ ml(seasons[y].champion) }}{% else %}<span class="muted">TBD</span>{% endif %}</td>
 {% for k in ['mvp','waiver','steal','bust','unlucky','lucky'] %}<td>{% if A[k] %}{% if k in ['unlucky','lucky'] %}{{ ml(A[k].manager) }} <span class="muted small">({{ "%+.1f"|format(A[k].value) }})</span>{% else %}{{ A[k].headline }}<br><span class="small">{{ ml(A[k].manager) }}</span>{% endif %}{% if A[k].provisional %} <span class="pill warn">prov.</span>{% endif %}{% else %}<span class="muted">-</span>{% endif %}</td>{% endfor %}</tr>
 {% endfor %}</tbody></table></div>
 <h3>Trophy cabinet: superlatives won, all-time</h3>

@@ -62,6 +62,64 @@
       "source": "league"
     },
     {
+      "id": "the-heist",
+      "title": "The Heist",
+      "subtitle": "Garbage Time",
+      "style": "saga",
+      "featured": true,
+      "season": 2024,
+      "week": 17,
+      "category": "game",
+      "managers": [
+        "brian-mulvihill",
+        "nicholas-kasik"
+      ],
+      "teaser": "2024, the title game. Nicholas Kasik led with 2:58 left on Monday night. Then Jauan Jennings went to work in garbage time of a game the 49ers were losing by 12, and Brian Mulvihill won the championship by 0.08.",
+      "body": "The night a garbage-time drive in a game that was already lost stole a championship.",
+      "exhibits_after": "Garbage time",
+      "chapters": [
+        {
+          "h": "Cold open",
+          "body": "Final score: **Brian Mulvihill 150.06, Nicholas Kasik 149.98.**\n\nThe 2024 championship was decided by **0.08 points**, the closest game in league history, regular season or playoffs. It gave Brian his **second title** (2022, 2024) and took the Belt back from Ryan Nussdorfer. For Kasik, it is the title he had in hand with under three minutes to play, and lost."
+        },
+        {
+          "h": "The road",
+          "body": "Brian's **Wubba Lubba Dub Dubs** came in as the **#2 seed**, took the first-round bye, and beat Kyle Llano **128.12-109.48** in the semifinal.\n\nKasik's **Torts Illustrated** came in as the **#4 seed** and had to win twice: **141.94-132.06** over Bradley Kochheiser, then **175.88-135.22** over Ryan in the semifinal. ESPN liked Kasik in the final, projecting **138.06** to Brian's **127.34**."
+        },
+        {
+          "h": "Five days",
+          "body": "NFL week 17 ran from Christmas Day to Monday night. Brian's Chris Boswell kicked off the week on Wednesday with **4.0**. On Saturday, Cincinnati beat Denver 30-24 and Kasik's Joe Burrow (**36.98**) and Tee Higgins (**40.1**) put up **77.08** points from one game, against **19.2** from Brian's Ja'Marr Chase. Earlier that day Kasik's Hunter Henry went **0 catches on 2 targets** for **0.0**, with T.J. Hockenson's **11.8** on the bench.\n\nSunday belonged to Brian: Malik Nabers **36.1**, Baker Mayfield **34.56**, Saquon Barkley **18.9**.\n\nGoing into Monday: **Brian 136.36, Kasik 123.68.** Each man had one starter left, and they were in the same game, Lions at 49ers on Monday Night Football. Kasik had **Jahmyr Gibbs**. Brian had **Jauan Jennings**."
+        },
+        {
+          "h": "Monday night",
+          "body": "Gibbs did his job: **117 rushing yards on 18 carries** and **4 catches for 46**, worth **26.3 points**. With **2:58 left** he ran 30 yards for a touchdown that put Detroit up **40-28**, and it flipped the title. Fantasy scoreboard: **Kasik 149.98, Brian 143.86.**\n\nJennings had **4 catches for 35 yards (7.5 points)** at that point. The 49ers were down 12 with under three minutes to play. The game was over. The championship was not: Brian needed **6.13 more points** from Jennings."
+        },
+        {
+          "h": "Garbage time",
+          "body": "- **2:30:** deep shot to Jennings, incomplete.\n- **2:22:** Jennings, **8 yards** (+1.8).\n- **1:45:** Brock Purdy is sacked and hurt on the play. Joshua Dobbs comes in.\n- **1:36:** Dobbs to Jennings, **15 yards** (+2.5). Replay reverses the out-of-bounds ruling; the catch stands.\n- **1:17:** Dobbs to Jennings, **9 yards** to the Detroit 18 (+1.9).\n- **0:54:** one more target to Jennings, incomplete.\n\nThree catches, 32 yards, **6.2 points**. Brian needed 6.13. Dobbs scrambled in for a touchdown with 0:43 left, the extra point went wide, the onside kick went out of bounds, and the 49ers lost **40-34**. Jennings finished **7 catches for 67 yards, 13.7 points**, and Brian won the title **150.06-149.98**."
+        },
+        {
+          "h": "The ledger",
+          "body": "*As the Commissioner tells it,* Jennings caught **4 balls for 38 yards** on that last drive with the 49ers **down 14**. The play-by-play is stingier: **3 catches for 32 yards on 5 targets, down 12.** (Add his 5-yard catch from the drive before and it's 4 for 37, but that came with San Francisco down only six.) Legends round up. It didn't matter: any one of those three catches was worth more than the 0.08 margin.\n\nThe historian's footnote: Kasik didn't lose it only on Monday. Hunter Henry's **0.0** started while Hockenson's **11.8** sat on the bench, and his best possible lineup was **168.68**. Brian left points on his bench too: Sam Darnold **24.78** and Alec Pierce **24.2** (optimal **160.56**). Nabers' **36.1** made him the Super Bowl MVP.\n\nSee the [2024 final card](#final-2024) and the [full box score](box/2024/w17-brian-mulvihill-vs-nicholas-kasik.html)."
+        }
+      ],
+      "boxscores": [
+        {
+          "season": 2024,
+          "week": 17,
+          "manager": "brian-mulvihill",
+          "label": "The thief: Brian Mulvihill, Jennings at FLEX"
+        },
+        {
+          "season": 2024,
+          "week": 17,
+          "manager": "nicholas-kasik",
+          "label": "The mark: Nicholas Kasik, Gibbs at RB"
+        }
+      ],
+      "source": "league"
+    },
+    {
       "id": "press-conferences",
       "title": "Post-Game Press Conferences",
       "subtitle": "The podium awaits",
@@ -105,7 +163,7 @@
         "bradley-kochheiser",
         "jacob-maddox"
       ],
-      "body": "Starting in 2021 the league plays for a WWE-style championship belt. Bradley Kochheiser was the first man to hold it. Jacob Maddox won the 2020 title before the Belt existed, which makes him the league's one and only **Belt-less Champion**\\*.\n\n*\\* Title fully valid. Belt not included.*",
+      "body": "Starting in 2021 the league plays for a WWE-style championship belt. Bradley Kochheiser was the first man to hold it. Jacob Maddox won the 2020 title before the Belt existed, which makes him the league's one and only **Belt-less Champion**.\n\n*Title fully valid. Belt not included.*",
       "source": "league"
     },
     {

@@ -4,7 +4,7 @@
 <h1>The {{ S.year }} Season</h1>
 <div class="season-nav">{% for y in L.years %}<a href="{{ y }}.html" class="{{ 'on' if y==S.year }}">{{ y }}</a>{% endfor %}</div>
 {% set B = (L.beltLineage|selectattr('year','equalto',S.year)|list) %}
-{% if S.champion %}<p class="lead">🥇 {% if S.year < L.belt.introduced %}Champion (Belt-less*){% else %}Belt winner{% endif %}: <b>{{ ml(S.champion) }}</b> ({{ team_name(S, S.champion) }}) · 🥈 Runner-up: {{ ml(S.runnerUp) }} ({{ team_name(S, S.runnerUp) }})</p>
+{% if S.champion %}<p class="lead">🥇 {% if S.year < L.belt.introduced %}Champion{% else %}Belt winner{% endif %}: <b>{{ ml(S.champion) }}</b> ({{ team_name(S, S.champion) }}) · 🥈 Runner-up: {{ ml(S.runnerUp) }} ({{ team_name(S, S.runnerUp) }})</p>
 {% else %}<p class="lead">In progress: {{ S.completedWeeks }} weeks complete. Full dynasty coverage lives on the <a href="../dynasty.html">Dynasty Era</a> page.</p>{% endif %}
 <div class="toc"><a href="#story">Story</a><a href="#awards">Awards</a><a href="#standings">Standings</a>{% if S.champion %}<a href="#playoffs">Playoffs</a>{% endif %}<a href="#leaders">Leaders</a><a href="#draft">Draft</a><a href="#notable">Notable games</a>{% if FS.race %}<a href="#race">Race chart</a>{% endif %}<a href="#luck">Schedule luck</a>{% if FS.regrets %}<a href="#regrets">Got away</a>{% endif %}{% if FS.trades %}<a href="#trades">Trades</a>{% endif %}{% if FS.proj %}<a href="#proj">Projections</a>{% endif %}<a href="#weeks">Weekly results</a><a href="{{ root }}box/{{ S.year }}/index.html">All games</a>{% if S.transactions %}<a href="#tx">Transactions</a>{% endif %}</div>
 </section>

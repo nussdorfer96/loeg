@@ -14,9 +14,9 @@
 <article class="saga" id="{{ e.id }}">
 <div class="saga-head"><div class="kicker">{{ e.season }} · Week {{ e.week }} · A league legend</div><h2>{{ e.title }}</h2>{% if e.subtitle %}<div class="sub">{{ e.subtitle }}</div>{% endif %}<p class="logline">{{ e.body }}</p></div>
 {% for c in e.chapters %}<section class="saga-ch"><div class="num">{{ loop.index }}</div><h3>{{ c.h }}</h3>{{ md(c.body) }}</section>
-{% if c.h == 'The Deception' and e.boxscores %}<div class="exhibits">{% for bx in e.boxscores %}<div class="exhibit"><div class="label">{{ bx.label }}</div>{{ lineup_tbl(bx.lineup) }}{% set u = box_for(bx.season, bx.week, bx.manager) %}{% if u %}<div class="small"><a href="{{ u }}">Full box score →</a></div>{% endif %}</div>{% endfor %}</div>{% endif %}
+{% if c.h == (e.exhibits_after or 'The Deception') and e.boxscores %}<div class="exhibits">{% for bx in e.boxscores %}<div class="exhibit"><div class="label">{{ bx.label }}</div>{{ lineup_tbl(bx.lineup) }}{% set u = box_for(bx.season, bx.week, bx.manager) %}{% if u %}<div class="small"><a href="{{ u }}">Full box score →</a></div>{% endif %}</div>{% endfor %}</div>{% endif %}
 {% endfor %}
-<div class="small" style="margin-top:10px">Starring {% for m in e.managers %}{{ ml(m) }}{% if not loop.last %} · {% endif %}{% endfor %} · <a href="seasons/{{ e.season }}.html">2025 season page</a></div>
+<div class="small" style="margin-top:10px">Starring {% for m in e.managers %}{{ ml(m) }}{% if not loop.last %} · {% endif %}{% endfor %} · <a href="seasons/{{ e.season }}.html">{{ e.season }} season page</a>{% set u = box_for(e.season, e.week, e.managers[0]) %}{% if u %} · <a href="{{ u }}">Full box score</a>{% endif %}{% if (L.championships|selectattr('year','equalto',e.season)|selectattr('week','equalto',e.week)|list) %} · <a href="#final-{{ e.season }}">{{ e.season }} final card</a>{% endif %}</div>
 </article>{% endfor %}
 {% for e in lore if e.style == 'presser' %}
 <article class="presser" id="{{ e.id }}">
@@ -41,18 +41,18 @@
 {% set hamlin = (lore|selectattr('id','equalto','hamlin-final-2022')|list) %}
 {% for c in L.championships|reverse %}
 <article class="champ-card {{ 'featured' if c.year == 2022 and hamlin }}" id="final-{{ c.year }}">{% if c.year == 2022 and hamlin %}<span id="hamlin-final-2022"></span>{% endif %}
-<div class="label">{{ c.year }} · Week {{ c.week }}{% if c.year == 2022 %} · played January 2023{% endif %} · {% if c.beltless %}Belt-less Championship*{% elif c.defense %}Belt defended{% else %}Belt reign #{{ c.reignNumber }}{% endif %}</div>
-<h3 class="champ-title">{% if c.year == 2022 and hamlin %}📌 {{ hamlin[0].title }}{% elif c.beltless %}The Belt-less Final{% else %}{{ mname(c.winner.manager).split(' ')[0] }} {{ 'defends' if c.defense else 'takes' }} the Belt{% endif %}</h3>
+<div class="label">{{ c.year }} · Week {{ c.week }}{% if c.year == 2022 %} · played January 2023{% endif %} · {% if c.beltless %}Championship · before the Belt{% elif c.defense %}Belt defended{% else %}Belt reign #{{ c.reignNumber }}{% endif %}</div>
+<h3 class="champ-title">{% if c.year == 2022 and hamlin %}📌 {{ hamlin[0].title }}{% elif c.beltless %}{{ mname(c.winner.manager).split(' ')[0] }} wins the first title{% else %}{{ mname(c.winner.manager).split(' ')[0] }} {{ 'defends' if c.defense else 'takes' }} the Belt{% endif %}</h3>
 <div class="scoreline"><div class="side w"><div class="who">{{ ml(c.winner.manager) }}</div><div class="tm">({{ c.winner.seed }}) {{ c.winner.team }}</div><div class="sc">{{ f(c.winner.score) }}</div></div><div class="vs">def.</div><div class="side"><div class="who">{{ ml(c.loser.manager) }}</div><div class="tm">({{ c.loser.seed }}) {{ c.loser.team }}</div><div class="sc">{{ f(c.loser.score) }}</div></div></div>
-<p class="small">{% if c.beltless %}{{ mname(c.winner.manager) }} won by {{ f(c.margin) }}. No Belt existed yet, so he walked away with the title and an asterisk*.{% elif c.wonFrom and c.wonFrom == c.loser.manager %}{{ mname(c.winner.manager) }} pinned the reigning champ by {{ f(c.margin) }} and ripped the Belt off his waist.{% elif c.defense %}{{ mname(c.winner.manager) }} defended the Belt by {{ f(c.margin) }}.{% else %}{{ mname(c.winner.manager) }} won by {{ f(c.margin) }} and raised the Belt{% if c.wonFrom %}, succeeding {{ mname(c.wonFrom) }}{% endif %}.{% endif %}</p>
+<p class="small">{% if c.beltless %}{{ mname(c.winner.manager) }} won by {{ f(c.margin) }} and took the league's first title outright. The Belt arrived the next season.{% elif c.wonFrom and c.wonFrom == c.loser.manager %}{{ mname(c.winner.manager) }} pinned the reigning champ by {{ f(c.margin) }} and ripped the Belt off his waist.{% elif c.defense %}{{ mname(c.winner.manager) }} defended the Belt by {{ f(c.margin) }}.{% else %}{{ mname(c.winner.manager) }} won by {{ f(c.margin) }} and raised the Belt{% if c.wonFrom %}, succeeding {{ mname(c.wonFrom) }}{% endif %}.{% endif %}</p>
 {% if c.mvp %}<div class="sbmvp">🏅 <b>Super Bowl MVP:</b> {{ c.mvp.name }} ({{ c.mvp.pos }}), {{ f(c.mvp.pts) }} pts</div>{% endif %}
 {% if c.year == 2022 and hamlin %}<div class="callout card" style="margin:10px 0">{{ md(hamlin[0].body) }}</div>{% endif %}
+{% for e in lore if e.style == 'saga' and e.season == c.year and e.week == c.week %}<a class="card callout saga-teaser" style="display:block;margin:10px 0" href="#{{ e.id }}"><div class="label">📌 Forever in the Lore</div><b>{{ e.title }}</b>{% if e.subtitle %} · {{ e.subtitle }}{% endif %} · read the story →</a>{% endfor %}
 <details class="lineups"><summary>Starting lineups</summary><div class="two">
 <div><div class="label">🥇 {{ mname(c.winner.manager) }}</div>{{ lineup_tbl(c.winner.lineup, c.mvp) }}</div>
 <div><div class="label">{{ mname(c.loser.manager) }}</div>{{ lineup_tbl(c.loser.lineup) }}</div></div></details>
 <div class="small"><a href="{{ bx(c.year, c.week, c.winner.manager, c.loser.manager) }}"><b>📊 Full box score →</b></a> · <a href="seasons/{{ c.year }}.html#playoffs">{{ c.year }} bracket</a></div>
 </article>{% endfor %}
-<p class="muted small">* {{ mname(L.beltLineage[0].manager) }} won the {{ L.beltLineage[0].year }} title before the Belt was introduced in {{ L.belt.introduced }}.</p>
 
 <h2 id="moments">More lore</h2>
 <div class="grid g2">{% for e in lore if not e.featured %}<div id="{{ e.id }}" class="card lore-item"><div class="lore-entry">

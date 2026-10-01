@@ -637,7 +637,7 @@ def season_story(s, nb, awards, mvps, gs):
     else:
         P.append(f"{nm(s['champion'])} won the {y} title with {champ['teamName']}, going {recs} in the regular season as the #{champ['seed']} seed"
                  + (f" and beating {nm(ru['manager'])} ({ru['teamName']}) in the final." if ru else ".")
-                 + f" One problem: the Belt didn't exist until {BELT_YEAR}, making this the league's lone Belt-less Championship*. (*Fully valid. Belt not included.)")
+                 + f" The Belt didn't exist until {BELT_YEAR}, so there was no Belt to hand him. The title is his outright.")
     for e in LORE.get("entries", []):
         if e.get("featured") and e.get("season") == y and e.get("category") == "game":
             P.append(f"📌 {e['title']}: see the callout below and the Lore page.")
@@ -709,7 +709,7 @@ def manager_story(p, profiles, seasons):
         bl = [e for e in p.get("belt", []) if e.get("beltless")]
         bits = []
         if bl:
-            bits.append(f"Won the {', '.join(str(e['year']) for e in bl)} title, the league's only Belt-less Championship* (the Belt arrived in {BELT_YEAR}; *title fully valid, belt not included)")
+            bits.append(f"Won the {', '.join(str(e['year']) for e in bl)} title, the league's first title, won outright before the Belt arrived in {BELT_YEAR}")
         if belt:
             reigns = len([e for e in belt if not e.get("defense")])
             bits.append(f"{'Held' if bits == [] else 'held'} the Belt after the {', '.join(str(e['year']) for e in belt)} season{'s' if len(belt) > 1 else ''}" + (f" ({reigns} separate reigns)" if reigns > 1 else ""))
@@ -799,7 +799,7 @@ def league_story(seasons, champions, profiles, records, years):
         s = seasons[c["year"]]; T = next(t for t in s["teams"] if t["manager"] == c["manager"])
         ru = next((t for t in s["teams"] if t["manager"] == s["runnerUp"]), None)
         if c["year"] < BELT_YEAR:
-            line = f"{c['year']}: {c['name']} ({c['team']}) won it all as the #{T['seed']} seed after {'an' if T['w'] in (8, 11, 18) else 'a'} {T['w']}-{T['l']} regular season" + (f", beating {nm(ru['manager'])} in the final" if ru else "") + f". The Belt didn't exist yet, so this stands as the league's only Belt-less Championship*."
+            line = f"{c['year']}: {c['name']} ({c['team']}) won it all as the #{T['seed']} seed after {'an' if T['w'] in (8, 11, 18) else 'a'} {T['w']}-{T['l']} regular season" + (f", beating {nm(ru['manager'])} in the final" if ru else "") + f". The Belt didn't exist yet; the title is his outright."
         else:
             prev = belt_holder_before(c["year"])
             verb = "defended the Belt" if prev == c["manager"] else ("won the Belt" if not prev else "won the Belt")
@@ -847,7 +847,7 @@ def season_label(r, s, belt_entry):
     if not r["complete"]:
         return "Dynasty year one (in progress)" if s["platform"] == "Sleeper" else "In progress"
     if r["champion"]:
-        if belt_entry and belt_entry.get("beltless"): return "Belt-less Champion*"
+        if belt_entry and belt_entry.get("beltless"): return "Champion (before the Belt)"
         if belt_entry and belt_entry.get("defense"): return "Defended the Belt"
         return "Took the Belt"
     if r["runnerUp"]: return "Lost in the title match"
@@ -872,7 +872,7 @@ def manager_book(p, profiles, seasons, awards, team_mvps):
     elif belts:
         tag = f"Belt holder in {belts[0]['year']}" + (f" with a {_rec(next(r for r in comp if r['year'] == belts[0]['year']))} regular season." if comp else ".")
     elif beltless:
-        tag = f"The league's first champion ({beltless[0]['year']}) and its only Belt-less one*."
+        tag = f"The league's first champion ({beltless[0]['year']}) won outright before the Belt existed."
     elif p["runnerUps"]:
         tag = f"Made the title match in {', '.join(map(str, p['runnerUps']))}; still waiting on the Belt."
     elif not comp:
@@ -885,7 +885,7 @@ def manager_book(p, profiles, seasons, awards, team_mvps):
         tag = "🛡️ " + tag
     # --- tale of the tape
     tape = [{"label": "Record", "value": rec, "sub": f"{p['pct']:.3f}"},
-            {"label": "Belts", "value": str(len(belts)) + ("*" if beltless else ""), "sub": (", ".join(str(e["year"]) for e in belts) + (" · " if belts and beltless else "") + ("Belt-less title " + ", ".join(str(e["year"]) for e in beltless) if beltless else "")) or "none yet"},
+            {"label": "Belts", "value": str(len(belts)), "sub": (", ".join(str(e["year"]) for e in belts) + (" · " if belts and beltless else "") + ("Belt-less title " + ", ".join(str(e["year"]) for e in beltless) if beltless else "")) or "none yet"},
             {"label": "Playoff trips", "value": f"{len(p['playoffApps'])}/{len(comp)}" if comp else "-", "sub": f"{p['playoffW']}-{p['playoffL']} in playoff games"},
             {"label": "Best finish", "value": ordinal_s(best["finalRank"]) if best else "-", "sub": str(best["year"]) if best else "in progress"}]
     # --- chapters
@@ -940,7 +940,7 @@ def manager_book(p, profiles, seasons, awards, team_mvps):
             g = _playoff_games(seasons[y], mid)[-1]; me, op = _side(g, mid)
             text = f"{y}: **{fmt(g[me]['score'])}-{fmt(g[op]['score'])}** over {nm(g[op]['manager'])} in the title match"
             be = belt_by_year.get(y, {})
-            if be.get("beltless"): text += ". The Belt didn't exist yet, so it's the league's only Belt-less Championship*."
+            if be.get("beltless"): text += ". The Belt didn't exist yet; the title is his outright."
             elif be.get("wonFrom") and be["wonFrom"] == be.get("runnerUp"): text += f", taking **the Belt straight off the reigning champ**."
             else: text += f" to claim **the Belt**."
             sig = {"title": "Signature moment", "text": text}
@@ -1004,9 +1004,9 @@ def memorial(profiles, records, seasons, years):
         rec = f"{p['w']}-{p['l']}" + (f"-{p['t']}" if p["t"] else "")
         best = min(comp, key=lambda r: (r["finalRank"], -r["pct"])) if comp else None
         cands = []
-        lore = [e for e in LORE.get("entries", []) if e.get("featured") and mid in (e.get("managers") or []) and e.get("category") == "game"]
+        lore = [e for e in LORE.get("entries", []) if e.get("featured") and mid in (e.get("managers") or []) and e.get("category") == "game" and e.get("season") in p["runnerUps"]]
         if lore and p["runnerUps"]:
-            cands.append(("lore", f"Reached the {p['runnerUps'][0]} title match, the one that ran into the Hamlin game, and lost it. Nobody has had a stranger final." if lore[0]["id"].startswith("hamlin") else f"Lost the {p['runnerUps'][0]} title match: {lore[0]['title']}."))
+            cands.append(("lore", f"Reached the {lore[0]['season']} title match, the one that ran into the Hamlin game, and lost it. Nobody has had a stranger final." if lore[0]["id"].startswith("hamlin") else f"Lost the {lore[0]['season']} title match: {lore[0]['title']}."))
         if p["runnerUps"]:
             cands.append(("final", f"Made the {p['runnerUps'][-1]} title match. Lost it. Then left the league. Never saw the dynasty era."))
         if hl and hl["manager"] == mid:

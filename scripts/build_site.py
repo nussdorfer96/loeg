@@ -145,9 +145,14 @@ def main():
     def md(text):
         t = str(escape(text or "")).replace("\\*", "\x00")
         t = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", t); t = re.sub(r"\*(.+?)\*", r"<i>\1</i>", t)
-        t = re.sub(r"\[(.+?)\]\(((?:https?://|#)[^)\s]+)\)", r'<a href="\2">\1</a>', t)
+        t = re.sub(r"\[(.+?)\]\(((?:https?://|#)[^)\s]+|[\w./-]+\.html(?:#[\w-]+)?)\)", r'<a href="\2">\1</a>', t)
         t = t.replace("\x00", "*")
-        return Markup("".join(f"<p>{p}</p>" for p in t.split("\n\n")))
+        def blk(p):
+            ls = p.split("\n")
+            if all(l.startswith("- ") for l in ls):
+                return "<ul>" + "".join(f"<li>{l[2:]}</li>" for l in ls) + "</ul>"
+            return f"<p>{p}</p>"
+        return Markup("".join(blk(p) for p in t.split("\n\n")))
     def cat_icon(c):
         return {"trade": "🤝", "waiver": "🧲", "injury": "🚑", "game": "🏟️", "draft": "📋", "controversy": "🔥", "tradition": "🎩"}.get(c, "📌")
 

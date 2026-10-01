@@ -7,7 +7,7 @@
 {% for s in [A, Z] %}<div class="bs {{ 'w' if s.won else 'l' }}"><div class="res">{{ 'W' if s.won else 'L' }}</div><div class="who">{{ ml(s.manager) }}</div><div class="tm">{{ s.team }}</div><div class="pts">{{ f(s.score) }}</div></div>{% if loop.first %}<div class="vs">vs</div>{% endif %}{% endfor %}
 </div>
 <div class="small muted" style="text-align:center">Margin {{ f(B.margin) }}{% if riv(A.manager, Z.manager) %} · <a href="{{ root }}rivalries/{{ pair_id(A.manager, Z.manager) }}.html">⚔️ Rivalry: {{ riv(A.manager, Z.manager).aW }}-{{ riv(A.manager, Z.manager).bW }} all-time</a>{% endif %}</div>
-{% for l in B.lore %}<a class="card callout {{ 'saga-teaser' if l.id == 'the-betrayal' }}" style="display:block;margin-top:10px" href="{{ root }}lore.html#{{ l.id }}"><div class="label">📌 Forever in the Lore</div><b>{{ l.title }}</b> · read the story →</a>{% endfor %}
+{% for l in B.lore %}<a class="card callout {{ 'saga-teaser' if l.id in ['the-betrayal', 'the-heist'] }}" style="display:block;margin-top:10px" href="{{ root }}lore.html#{{ l.id }}"><div class="label">📌 Forever in the Lore</div><b>{{ l.title }}</b> · read the story →</a>{% endfor %}
 </section>
 <div class="box-cols">
 {% for s in [A, Z] %}{% set lu = s.lineup %}<section class="box-side">
