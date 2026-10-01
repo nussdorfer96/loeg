@@ -22,7 +22,7 @@
 {% endif %}
 <div class="grid g4">
 <div class="card"><div class="label">Format</div><div class="h"><b>{{ S.teams|length }} teams · PPR · superflex</b></div><div class="small muted">{{ S.rosterPositions|reject('equalto','BN')|join(', ') }} + {{ S.rosterPositions|select('equalto','BN')|list|length }} bench</div></div>
-<div class="card"><div class="label">Leader</div><div class="h"><b>{{ S.teams[0].teamName }}</b></div><div class="small">{{ ml(S.teams[0].manager) }} · {{ S.teams[0].officialW }}-{{ S.teams[0].officialL }}</div></div>
+<div class="card"><div class="label">Standings Leader</div><div class="h"><b>{{ S.teams[0].teamName }}</b></div><div class="small">{{ ml(S.teams[0].manager) }} · {{ S.teams[0].officialW }}-{{ S.teams[0].officialL }}</div></div>
 <div class="card"><div class="label">Playoffs</div><div class="small">{{ S.playoffTeams }} teams, starting week {{ S.settings.playoff_week_start }} · trade deadline week {{ S.settings.trade_deadline }}</div></div>
 <div class="card"><div class="label">Extras</div><div class="small">{{ S.settings.taxi_slots }} taxi · {{ S.settings.reserve_slots }} IR · {{ {0: 'rolling waivers', 1: 'reverse-standings waivers'}.get(S.settings.waiver_type, 'traditional waivers') }} (claims clear after {{ S.settings.waiver_clear_days or 2 }} days)<br>Weekly game vs. league median: {{ 'yes' if S.medianGame else 'no' }}</div></div>
 </div>
