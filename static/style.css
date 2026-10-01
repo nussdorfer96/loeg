@@ -433,3 +433,12 @@ html.qs-on{overflow:hidden}
 .lx.psec>summary h2{margin:0;border:0;padding:0;font-size:1.2rem}
 .lx.roster-box,.lx.more-awards{padding:10px 14px;margin:8px 0}
 .dog-tbd{margin:10px 0 4px}
+
+/* Records That Matter (records.html) */
+.rtm-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:10px 0}
+.rtm{padding:14px 16px;display:flex;flex-direction:column;gap:2px}.rtm p{margin:.2em 0}
+.rtm-big{font-family:var(--serif,Georgia,serif);font-size:2rem;font-weight:700;color:var(--gold2);line-height:1.1;margin:.15em 0}
+.rtm-big.rtm-sub{font-size:1.4rem;margin-top:.5em}.rtm-big sup{font-size:.55em}
+.rtm-entry+.rtm-entry{border-top:1px solid var(--line);margin-top:8px;padding-top:6px}
+.rtm .boxlink{font-size:.9rem}.rtm-links .boxlink{margin-right:10px}.rtm-foot{margin-top:8px}
+.rsec{padding:8px 14px;margin:10px 0}.rsec h3{font-size:1.05rem}
