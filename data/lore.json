@@ -100,7 +100,7 @@
         },
         {
           "h": "The ledger",
-          "body": "*As the Commissioner tells it,* the glass shattered and Dobbs fed Jennings **four straight times**, **4 catches for 38 yards**, marching the ball all the way to **the 1-yard line** with the 49ers **down 14**.\n\nThe historian's record is a little more modest: on that last drive Jennings caught **3 passes for 32 yards on 5 targets**, two of them from Dobbs, with San Francisco **down 12**. The drive never got closer than the Detroit 7 before Dobbs ran it in himself. (Add Jennings's 5-yard catch from the drive before and it's 4 for 37, but San Francisco was down only six then.) Legends round up. It didn't matter: any one of those three catches was worth more than the 0.08 margin.\n\nThe historian's footnote: Kasik didn't lose it only on Monday. Hunter Henry's **0.0** started while Hockenson's **11.8** sat on the bench, and his best possible lineup was **168.68**. Brian left points on his bench too: Sam Darnold **24.78** and Alec Pierce **24.2** (optimal **160.56**). Nabers' **36.1** made him the Super Bowl MVP.\n\nSee the [2024 final card](#final-2024) and the [full box score](box/2024/w17-brian-mulvihill-vs-nicholas-kasik.html).\n\n**They don't ask the boys how, they just ask how many.**"
+          "body": "*As the Commissioner tells it,* the glass shattered and Dobbs fed Jennings **four straight times**, **4 catches for 38 yards**, marching the ball all the way to **the 1-yard line** with the 49ers **down 14**.\n\nThe historian's record is a little more modest: on that last drive Jennings caught **3 passes for 32 yards on 5 targets**, two of them from Dobbs, with San Francisco **down 12**. The drive never got closer than the Detroit 7 before Dobbs ran it in himself. (Add Jennings's 5-yard catch from the drive before and it's 4 for 37, but San Francisco was down only six then.) Legends round up. It didn't matter: any one of those three catches was worth more than the 0.08 margin.\n\nThe historian's footnote: Kasik didn't lose it only on Monday. Hunter Henry's **0.0** started while Hockenson's **11.8** sat on the bench, and his best possible lineup was **168.68**. Brian left points on his bench too: Sam Darnold **24.78** and Alec Pierce **24.2** (optimal **160.56**). Officially, Nabers' **36.1** made him the Super Bowl MVP. Unofficially, the **Real MVP** is a backup quarterback who wasn't on either roster, in an NFL game that was already decided: **Joshua Dobbs**. His two completions to Jennings on the final drive went for **24 yards and 4.4 points**. Without them, Kasik wins. The game literally didn't matter, and it decided everything.\n\nSee the [2024 final card](#final-2024) and the [full box score](box/2024/w17-brian-mulvihill-vs-nicholas-kasik.html).\n\n**They don't ask the boys how, they just ask how many.**"
         }
       ],
       "boxscores": [
@@ -117,7 +117,12 @@
           "label": "The mark: Nicholas Kasik, Gibbs at RB"
         }
       ],
-      "source": "league"
+      "source": "league",
+      "real_mvp": {
+        "name": "Joshua Dobbs",
+        "team": "SF",
+        "note": "2 completions to Jennings on the final drive"
+      }
     },
     {
       "id": "press-conferences",
