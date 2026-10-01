@@ -3,7 +3,7 @@
 <section class="hero"><div class="kicker">Sleeper · Dynasty · Superflex</div><h1>The Dynasty Era ({{ S.year }}–)</h1>
 <p class="lead">The league moved to Sleeper in {{ S.year }} and went dynasty: keep your roster forever, trade future picks, and live with your startup draft. {{ S.completedWeeks }} weeks in the books.</p>
 <a class="sleeper-btn" href="https://sleeper.com/leagues/{{ S.leagueId or '1387967526775824384' }}" target="_blank" rel="noopener">Open league in Sleeper ↗</a>
-<div class="toc">{% if PR %}<a href="#power-rankings">Power Rankings</a>{% endif %}<a href="#standings">Standings</a><a href="#matchups">Matchups</a><a href="#trades">Trades &amp; picks</a><a href="#draft">Startup draft</a><a href="#rosters">Rosters</a><a href="#moves">Waiver wire</a><a href="#awards">Awards so far</a><a href="records.html#dynasty-records">Dynasty Era Records</a></div></section>
+<div class="toc">{% if PR %}<a href="#power-rankings">Power Rankings</a>{% endif %}{% if ROAST %}<a href="#roast">🔥 The Roast</a>{% endif %}<a href="#standings">Standings</a><a href="#matchups">Matchups</a><a href="#trades">Trades &amp; picks</a><a href="#draft">Startup draft</a><a href="#rosters">Rosters</a><a href="#moves">Waiver wire</a><a href="#awards">Awards so far</a><a href="records.html#dynasty-records">Dynasty Era Records</a></div></section>
 {% if PR %}{% set PM = PR.meta %}{% set W = PM.weights %}
 <details class="lx card pr-box" id="power-rankings" style="margin:4px 0 14px"><summary class="lx-sum"><div><div class="label">📊 Dynasty · Week {{ PM.week }}</div><h3 style="margin:.25em 0 0">Power Rankings <span class="pill gold">Week {{ PM.week }}</span></h3><p class="lx-teaser">#1 {{ PR.teams[0].team }} ({{ PR.teams[0].owner }}) · through Week {{ PM.completed_weeks|max }} · Win-Now + Dynasty blend</p></div><span class="lx-chev" aria-hidden="true"></span></summary>
 {% if PR_CHART %}<div class="pr-chart-wrap"><div class="label" style="margin-bottom:4px">Movement by week</div>{{ PR_CHART }}{% if PR_RETRO %}<p class="muted small pr-retro">* W{{ PR_RETRO|join(', W') }} are <b>retro</b> rankings, built later from results through the week before, the rosters teams carried that week and Sleeper's projections from then, but today's dynasty values. Week {{ PR_RETRO|max + 1 }} is the first live ranking.</p>{% endif %}</div>{% endif %}
@@ -18,6 +18,15 @@
 <li><b>Dynasty</b> = total trade value of every rostered player plus {{ PM.season|int + 1 }}–{{ PM.season|int + 2 }} rookie picks, from {{ (PM.sources['values'] or 'n/a').split(' https')[0] }}.</li>
 <li><b>Status</b>: Contender = top 4 in Win-Now; Rebuild = bottom 3 in Win-Now and outside the playoff line; everyone else Middle.</li></ul>
 <span class="muted small">Updated {{ PM.generated }} ET{% if PR.teams|selectattr('blurb_source','equalto','auto')|list %} · blurbs auto-written from league data{% endif %}.</span></div>
+</details>
+{% endif %}
+{% if ROAST %}{% set RO = ROAST %}
+<details class="lx card roast-box" id="roast"><summary class="lx-sum"><div><div class="label roast-kick">New every Wednesday · 6 PM ET</div><h3 style="margin:.25em 0 0">{{ RO.title }}</h3><p class="lx-teaser">{{ RO.preview }}</p></div><span class="lx-chev" aria-hidden="true"></span></summary>
+<p class="roast-drop">⏰ {{ RO.schedule_note }}</p>
+<p class="roast-intro">{{ RO.intro }}</p>
+<div class="roast-list">{% for e in RO.entries %}<article class="roast-card"><div class="roast-h"><span class="roast-n">{{ loop.index }}</span><div><b>{{ ml(e.manager) if e.manager else e.owner }}</b><span class="muted small"> · {{ e.team }} · <b class="rec">{{ e.record }}</b></span></div></div>
+<p class="roast-r">{{ e.roast }}</p><p class="roast-w"><span class="label">This week</span><br>{{ e.this_week }}</p><p class="roast-p">🔮 <b>Prediction:</b> {{ e.prediction }}</p></article>{% endfor %}</div>
+<p class="muted small" style="margin:10px 2px 2px">{{ RO.facts_note }}</p>
 </details>
 {% endif %}
 <div class="grid g4">

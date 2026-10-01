@@ -260,6 +260,9 @@ def main():
     PRH.sort(key=lambda d: d["meta"]["week"])
     PR = PRH[-1] if PRH else None
     env.globals["PR"] = PR
+    # Weekly roast: latest data/roasts/<season>_wNN.json for the current season (hand-written, committed)
+    _ro = sorted(_g.glob(os.path.join(DATA, "roasts", f"{max(L['years'])}_w*.json")))
+    env.globals["ROAST"] = _pj.load(open(_ro[-1])) if _ro else None
     env.globals["PR_CHART"] = pr_chart(PRH) if len(PRH) > 1 else None
     env.globals["PR_RETRO"] = [d["meta"]["week"] for d in PRH if d["meta"].get("retro")]
     env.filters["camelwbr"] = lambda t: Markup(re.sub(r"(?<=[a-z0-9])(?=[A-Z])", "<wbr>", str(escape(t))))
