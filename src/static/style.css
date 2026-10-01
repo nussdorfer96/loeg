@@ -320,3 +320,5 @@ table.lineup.box td{vertical-align:top}
 .weeknav{border-top:1px solid var(--line);margin-top:16px;padding-top:6px}
 .boxlink{white-space:nowrap}
 @media (max-width:820px){.box-cols{grid-template-columns:1fr}.box-score .pts{font-size:1.6rem}}
+
+.lore-img{display:block;width:100%;max-width:420px;height:auto;border-radius:14px;margin:10px 0;box-shadow:0 4px 18px rgba(0,0,0,.35)}

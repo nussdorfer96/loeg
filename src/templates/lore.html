@@ -58,7 +58,7 @@
 <h2 id="moments">More lore</h2>
 <div class="grid g2">{% for e in lore if not e.featured %}<div id="{{ e.id }}" class="card lore-item"><div class="lore-entry">
 <div class="meta">{{ cat_icon(e.category) }} {{ e.category|capitalize }}{% if e.season %} · <a href="seasons/{{ e.season }}.html">{{ e.season }}</a>{% endif %}{% if e.week %} · week {{ e.week }}{% endif %}</div>
-<h3 style="margin:.3em 0">{{ e.title }}</h3><div>{{ md(e.body) }}</div>
+<h3 style="margin:.3em 0">{{ e.title }}</h3>{% if e.image %}<img class="lore-img" src="{{ e.image.src }}" alt="{{ e.image.alt }}" width="{{ e.image.width }}" height="{{ e.image.height }}" loading="lazy" decoding="async">{% endif %}<div>{{ md(e.body) }}</div>
 {% if e.managers %}<div class="small" style="margin-top:6px">{% for m in e.managers %}{{ ml(m) }}{% if not loop.last %} · {% endif %}{% endfor %}</div>{% endif %}
 </div></div>{% else %}<p class="muted">Nothing else yet.</p>{% endfor %}</div>
 <div class="note" style="margin-top:20px">Lore is curated by the Commissioner. To add a story, open <code>data/lore.json</code>, copy an entry, give it a unique <code>id</code>, and rebuild. Categories: game, injury, controversy, tradition, draft, other. Only the Championships section is generated automatically each year.</div>

@@ -190,8 +190,14 @@
       "managers": [
         "bradley-kochheiser"
       ],
-      "body": "**September 30th: a league holy day.**\n\nEvery league needs a patron saint. Ours is **Tom Kochheiser**, Bradley Kochheiser's dad, born **September 30, 1956**.\n\n**\"Girls want to be him, Guys want to be with him.\"**\n\nA belated happy **70th birthday**, Tom (September 30, 2026). Light a candle, set your lineup in his honor, and observe the holy day every September 30th.",
-      "source": "league"
+      "body": "**September 30th: a league holy day.**\n\nEvery league needs a patron saint. Ours is **Tom Kochheiser**, Bradley Kochheiser's dad, born **September 30, 1956**.\n\n**\"Girls want to be him, Guys want to be with him.\"**\n\nHappy Birthday, Tom!",
+      "source": "league",
+      "image": {
+        "src": "static/img/tom-kochheiser.jpg",
+        "alt": "Tom Kochheiser",
+        "width": 800,
+        "height": 1067
+      }
     }
   ],
   "belt": {
