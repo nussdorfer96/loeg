@@ -164,6 +164,81 @@ def records_that_matter(records, seasons, profiles, team_mvps, years):
     return H
 
 
+def sleeper_stat_line(year, week, pid):
+    """Real stat line from Sleeper weekly stats (raw/sleeper[/YEAR]/statline_W.json, saved by fetch_sleeper.sh), or None."""
+    d = os.path.join(RAW, "sleeper") if year == 2026 else os.path.join(RAW, "sleeper", str(year))
+    st = (load(os.path.join(d, f"statline_{week}.json"), {}) or {}).get(str(pid))
+    if not st: return None
+    v = lambda k: int(round(st.get(k, 0) or 0))
+    parts = []
+    if v("pass_att"):
+        parts.append(f"{v('pass_cmp')}/{v('pass_att')}, {v('pass_yd')} pass yds, {v('pass_td')} TD" + (f", {v('pass_int')} INT" if v("pass_int") else ""))
+    if v("rush_att") or v("rush_yd"):
+        parts.append(f"{v('rush_att')} rush, {v('rush_yd')} yds" + (f", {v('rush_td')} TD" if v("rush_td") else ""))
+    if v("rec") or v("rec_yd"):
+        parts.append(f"{v('rec')} rec, {v('rec_yd')} yds" + (f", {v('rec_td')} TD" if v("rec_td") else ""))
+    if v("fum_lost"): parts.append(f"{v('fum_lost')} fum lost")
+    return " · ".join(parts) or None
+
+
+def dynasty_records(seasons, years):
+    """Dynasty-era (Sleeper) score records, kept separate from the ESPN redraft era (superflex + different scoring).
+    Ties keep every holder. Only completed weeks with real scores count."""
+    sy = [y for y in years if seasons[y]["platform"] == "Sleeper"]
+    if not sy: return None
+    games, sides, pg = [], [], []
+    for y in sy:
+        s = seasons[y]; done = s.get("completedWeeks") or 0
+        tn = {T["manager"]: T["teamName"] for T in s["teams"]}
+        for g in s["games"]:
+            if not g.get("away") or g["kind"] not in ("regular", "playoff") or g["week"] > done: continue
+            if not (g["home"]["score"] and g["away"]["score"]): continue
+            games.append(dict(g, year=y))
+            for side, other in (("home", "away"), ("away", "home")):
+                sides.append({"year": y, "week": g["week"], "kind": g["kind"], "manager": g[side]["manager"], "team": tn.get(g[side]["manager"]),
+                              "score": g[side]["score"], "opp": g[other]["manager"], "oppScore": g[other]["score"], "won": g["winner"] == side})
+        for wk, tm in (s.get("lineupsByWeek") or {}).items():
+            if int(wk) > done: continue
+            for tid, ent in tm.items():
+                T = team_of(s, int(tid))
+                for pid, slot, pts in ent:
+                    if is_starter(slot) and pts:
+                        pg.append({"year": y, "week": int(wk), "manager": T["manager"], "playerId": pid, "name": pname(s, pid), "pos": ppos(s, pid), "pts": pts})
+    if not games: return None
+    def ties(rows, key, best):
+        if not rows: return []
+        b = best(r[key] for r in rows); return [r for r in rows if r[key] == b]
+    margins = []
+    for g in games:
+        if g["winner"] in ("home", "away"):
+            w, l = (g["home"], g["away"]) if g["winner"] == "home" else (g["away"], g["home"])
+            margins.append({"year": g["year"], "week": g["week"], "kind": g["kind"], "winner": w["manager"], "loser": l["manager"],
+                            "wScore": w["score"], "lScore": l["score"], "margin": r2(w["score"] - l["score"])})
+    top_pg = ties(pg, "pts", max)
+    for r in top_pg: r["statLine"] = sleeper_stat_line(r["year"], r["week"], r["playerId"])
+    # current streaks within the dynasty era
+    per = collections.defaultdict(list)
+    for g in sorted(games, key=lambda g: (g["year"], g["week"])):
+        for side, other in (("home", "away"), ("away", "home")):
+            res = "W" if g["winner"] == side else "T" if g["winner"] == "tie" else "L"
+            per[g[side]["manager"]].append({"res": res, "year": g["year"], "week": g["week"], "opp": g[other]["manager"],
+                                            "score": g[side]["score"], "oppScore": g[other]["score"]})
+    cur = []
+    for m, lst in per.items():
+        r = lst[-1]["res"]; n = 0
+        for x in reversed(lst):
+            if x["res"] != r: break
+            n += 1
+        if r in ("W", "L"):
+            cur.append({"manager": m, "type": r, "length": n, "from": [lst[-n]["year"], lst[-n]["week"]], "last": lst[-1]})
+    cw = [c for c in cur if c["type"] == "W"]; cl = [c for c in cur if c["type"] == "L"]
+    last = max(games, key=lambda g: (g["year"], g["week"]))
+    return {"years": sy, "through": {"year": last["year"], "week": last["week"]}, "games": len(games),
+            "high": ties(sides, "score", max), "low": ties(sides, "score", min),
+            "closest": ties(margins, "margin", min), "blowout": ties(margins, "margin", max), "playerGame": top_pg,
+            "winStreak": sorted(ties(cw, "length", max), key=lambda c: c["manager"]), "lossStreak": sorted(ties(cl, "length", max), key=lambda c: c["manager"])}
+
+
 def season_awards(s):
     """Superlatives for a season. Lineup-based awards use weekly box scores when available.
     Ties: every award carries 'holders' (all managers tied at exactly the same value); 'manager' is the first holder."""
@@ -583,7 +658,7 @@ def build():
                 bx["team"] = T["teamName"]; bx["lineup"] = lineup_of(s_, bx["week"], T["teamId"])
     allt = alltime(profiles)
     headline = records_that_matter(records, seasons, profiles, team_mvps, years)
-    out = {"headline": headline, "belt": BELT, "beltLineage": lineage, "years": years, "espnYears": espn_years, "champions": champions, "profiles": profiles,
+    out = {"headline": headline, "dynastyRecords": dynasty_records(seasons, years), "belt": BELT, "beltLineage": lineage, "years": years, "espnYears": espn_years, "champions": champions, "profiles": profiles,
            "h2h": h2h_out, "records": records, "seasonMeta": season_meta, "lore": lore, "allTime": allt,
            "loyalists": [m for m in profiles if profiles[m]["loyalist"]],
            "fallen": memorial(profiles, records, seasons, years), "championships": championships(seasons, years), "resurrected": [m for m in profiles if profiles[m].get("resurrected")], "leagueStory": league_story(seasons, champions, profiles, records, years),
