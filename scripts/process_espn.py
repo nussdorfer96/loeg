@@ -117,6 +117,7 @@ def process(year):
         gp = T["w"] + T["l"] + T["t"]
         T["expectedWins"] = r2(T["allPlayW"] / n * gp) if n else 0
         T["luck"] = r2(T["w"] - T["expectedWins"])
+        T["luckX"] = (T["w"] - T["allPlayW"] / n * gp) if n else 0  # full precision, for ties
 
     # ---- players: names + weekly league-scoring points from public kona stats
     kona = load(os.path.join(RAW, "espn_players", f"kona_{year}.json"), [])

@@ -110,8 +110,9 @@ def luck(S):
         ap = r["apW"] + r["apL"] + r["apT"]
         pct = (r["apW"] + .5 * r["apT"]) / ap if ap else 0
         exp = round(pct * r["gp"], 2)
-        out.append(dict(r, manager=m, apPct=round(pct, 3), expW=exp, luck=round(r["w"] - exp, 2), pf=round(r["pf"], 2)))
-    out.sort(key=lambda r: -r["luck"])
+        out.append(dict(r, manager=m, apPct=round(pct, 3), expW=exp, luck=round(r["w"] - exp, 2), pf=round(r["pf"], 2),
+                        expX=pct * r["gp"], luckX=r["w"] - pct * r["gp"]))
+    out.sort(key=lambda r: -r["luckX"])
     return out
 
 
@@ -471,7 +472,7 @@ def main():
         for r in lk:
             a = allluck[r["manager"]]
             for k in ("w", "l", "apW", "apL", "apT", "gp"): a[k] += r[k]
-            a["expW"] += r["expW"]; a["seasons"] += 1
+            a["expW"] += r["expX"]; a["seasons"] += 1
         out["regrets"] += rg; out["trades"] += tr
         if pj:
             for r in pj["rows"]:
@@ -482,10 +483,10 @@ def main():
         else:
             pjs = None
         out["seasons"][str(y)] = {"race": rc, "luck": lk, "regrets": rg[:8], "trades": [t["id"] for t in tr], "proj": pjs}
-    out["luckAll"] = sorted([dict(v, manager=m, expW=round(v["expW"], 2), luck=round(v["w"] - v["expW"], 2),
-                                  apPct=round((v["apW"] + .5 * v["apT"]) / max(1, v["apW"] + v["apL"] + v["apT"]), 3)) for m, v in allluck.items()], key=lambda r: -r["luck"])
+    out["luckAll"] = sorted([dict(v, manager=m, expW=round(v["expW"], 2), luck=round(v["w"] - v["expW"], 2), luckX=v["w"] - v["expW"],
+                                  apPct=round((v["apW"] + .5 * v["apT"]) / max(1, v["apW"] + v["apL"] + v["apT"]), 3)) for m, v in allluck.items()], key=lambda r: -r["luckX"])
     allseason = [dict(r, year=int(y)) for y, d in out["seasons"].items() for r in d["luck"]]
-    out["luckSeasons"] = {"lucky": sorted(allseason, key=lambda r: -r["luck"])[:5], "unlucky": sorted(allseason, key=lambda r: r["luck"])[:5]}
+    out["luckSeasons"] = {"lucky": sorted(allseason, key=lambda r: -r["luckX"])[:5], "unlucky": sorted(allseason, key=lambda r: r["luckX"])[:5]}
     out["regrets"].sort(key=lambda r: -r["startedForOthers"])
     out["regretsTop"] = out["regrets"][:20]
     # trade records

@@ -39,3 +39,20 @@ document.querySelectorAll('.race').forEach(function(r){
 });
 // keep the active sub-tab visible on narrow screens
 (function(){var a=document.querySelector('.subnav a.on');if(a&&a.parentNode.scrollWidth>a.parentNode.clientWidth){a.parentNode.scrollLeft=a.offsetLeft-16;}})();
+// Lore: collapsible entries; deep links (#id) auto-expand and scroll
+(function(){
+  if(!document.querySelector('details.lx'))return;
+  function reveal(id,scroll){
+    if(!id)return;var el=document.getElementById(id);if(!el)return;
+    var d=el.tagName==='DETAILS'?el:el.closest('details');
+    while(d){d.open=true;d=d.parentElement&&d.parentElement.closest('details');}
+    var t=el.tagName==='DETAILS'?el:(el.closest('details.lx')||el);
+    if(scroll)requestAnimationFrame(function(){t.scrollIntoView({block:'start',behavior:'instant'});});
+  }
+  function fromHash(){try{reveal(decodeURIComponent(location.hash.slice(1)),true);}catch(e){}}
+  fromHash();window.addEventListener('hashchange',fromHash);window.addEventListener('load',fromHash,{once:true});
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a[href^="#"]');if(a){var id=decodeURIComponent(a.getAttribute('href').slice(1));if(id&&('#'+id)===location.hash)reveal(id,true);else reveal(id,false);}
+    var b=e.target.closest&&e.target.closest('[data-lx]');if(b){var o=b.dataset.lx==='open';document.querySelectorAll('details.lx').forEach(function(d){d.open=o;});}
+  });
+})();

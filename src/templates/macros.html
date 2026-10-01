@@ -1,8 +1,11 @@
 {%- macro award_card(a, show_year=false) -%}
 <div class="card award"><div class="ic">{{ a.icon }}</div><div>
 <div class="t">{{ a.title }}{% if show_year %} · {{ a.season }}{% endif %}{% if a.provisional %} <span class="pill warn" title="Weekly data pending">provisional</span>{% endif %}</div>
+{% set hs_ = a.holders or [{'manager': a.manager, 'headline': a.headline}] %}{% if hs_|length > 1 %}{% set person = a.holdersArePeople %}
+<div class="h">{% if person %}{% for h in hs_ %}{{ ml(h.manager) }}{% if not loop.last %} &amp; {% endif %}{% endfor %}{% else %}{{ hs_|map(attribute='headline')|unique|join(' & ') }}{% endif %} <span class="pill">tie</span></div>
+{% if not person %}<div class="small">{% for h in hs_ %}{{ ml(h.manager) }}{% if not loop.last %} &amp; {% endif %}{% endfor %}</div>{% endif %}{% else %}
 <div class="h">{{ a.headline }}</div>
-<div class="small">{{ ml(a.manager) }}</div>
+<div class="small">{{ ml(a.manager) }}</div>{% endif %}
 <div class="d">{{ a.detail }}{% if a.note %} <em>{{ a.note }}</em>{% endif %}</div></div></div>
 {%- endmacro -%}
 {%- macro mcard(p) -%}

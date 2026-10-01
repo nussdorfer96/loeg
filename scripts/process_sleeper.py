@@ -101,6 +101,7 @@ def process(year=2026):
         n = T["allPlayW"] + T["allPlayL"]; gp = T["w"] + T["l"] + T["t"]
         T["expectedWins"] = r2(T["allPlayW"] / n * gp) if n else 0
         T["luck"] = r2(T["w"] - T["expectedWins"])
+        T["luckX"] = (T["w"] - T["allPlayW"] / n * gp) if n else 0  # full precision, for ties
 
     # transactions
     txs = {}

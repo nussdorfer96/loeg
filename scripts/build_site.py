@@ -135,8 +135,27 @@ def main():
         c = collections.Counter()
         for y in L["years"]:
             for a in L["seasonMeta"][str(y)]["awards"]:
-                if a["manager"] == mid: c[a["key"]] += 1
+                if mid in a.get("holderIds", [a["manager"]]): c[a["key"]] += 1
         return c
+    def _kv(r, key):
+        if key == "wl": return (r["w"], r["l"], r.get("t", 0))
+        v = r.get(key)
+        return v if v is not None else 0
+    def _same(a, b):
+        return a == b if isinstance(a, tuple) else abs(a - b) < 1e-6
+    def rk(rows, key):
+        """Rank labels with ties: identical values share a rank, shown as T1, T1, 3..."""
+        vals = [_kv(r, key) for r in rows]; out = []
+        for i, v in enumerate(vals):
+            first = next(j for j in range(len(vals)) if _same(vals[j], v))
+            n = sum(1 for x in vals if _same(x, v))
+            out.append(("T" if n > 1 else "") + str(first + 1))
+        return out
+    def tied(rows, key):
+        """All rows tied with the first one (exact value)."""
+        if not rows: return []
+        v0 = _kv(rows[0], key)
+        return [r for r in rows if _same(_kv(r, key), v0)]
     def initials(mid):
         return "".join(w[0] for w in mname(mid).split())
     def ts(ms):
@@ -163,7 +182,7 @@ def main():
     built = datetime.datetime.now().strftime("%b %-d, %Y %-I:%M %p ET")
     G = dict(L=L, seasons=seasons, mname=mname, f=f, ordinal=ordinal, team_name=team_name, team_name_id=team_name_id, seed_of=seed_of,
              playoff_rounds=playoff_rounds, weeks=weeks, draft_board=draft_board, top_players=top_players, trade_sides=trade_sides,
-             awards_by_key=awards_by_key, rec=rec, rp=rp, F=F, TR=TR, race_svg=race_svg, grade_cls=grade_cls, pair_id=pair_id, bx=bx, box_of=box_of, box_for=box_for, game_log=game_log, riv=riv, sgn=sgn, award_counts=award_counts, initials=initials, ts=ts, md=md, cat_icon=cat_icon, built=built)
+             awards_by_key=awards_by_key, rec=rec, rp=rp, F=F, TR=TR, race_svg=race_svg, grade_cls=grade_cls, pair_id=pair_id, bx=bx, box_of=box_of, box_for=box_for, game_log=game_log, riv=riv, sgn=sgn, award_counts=award_counts, rk=rk, tied=tied, initials=initials, ts=ts, md=md, cat_icon=cat_icon, built=built)
     G["SITE"] = SITE
     env.globals.update(G)
 

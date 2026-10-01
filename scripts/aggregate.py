@@ -76,8 +76,22 @@ def lineup_coverage(s):
     return have, need
 
 
+def _eq(a, b):
+    return abs((a or 0) - (b or 0)) < 1e-6
+
+
+def _holders(cands, best):
+    """cands: [(value, manager, headline)]; every candidate whose value equals best (ties, full precision), unique per manager+headline."""
+    out, seen = [], set()
+    for v, m, h in cands:
+        if _eq(v, best) and (m, h) not in seen:
+            seen.add((m, h)); out.append({"manager": m, "headline": h})
+    return out
+
+
 def season_awards(s):
-    """Superlatives for a season. Lineup-based awards use weekly box scores when available."""
+    """Superlatives for a season. Lineup-based awards use weekly box scores when available.
+    Ties: every award carries 'holders' (all managers tied at exactly the same value); 'manager' is the first holder."""
     yr = s["year"]; A = []
     teams = {T["teamId"]: T for T in s["teams"]}
     have, need = lineup_coverage(s)
@@ -119,13 +133,14 @@ def season_awards(s):
                  "final-roster": "fantasy points scored while on the team's season-ending roster (weekly lineup data not yet available)"}
     if mvps:
         tid, m = max(mvps.items(), key=lambda kv: kv[1]["points"])
-        A.append({"key": "mvp", "title": "Season MVP", "icon": "🏆", "manager": teams[tid]["manager"],
+        _h = _holders([(v["points"], teams[t]["manager"], f"{v['name']} ({v['pos']})") for t, v in sorted(mvps.items(), key=lambda kv: kv[0] != tid)], m["points"])
+        A.append({"key": "mvp", "holders": _h, "title": "Season MVP", "icon": "🏆", "manager": teams[tid]["manager"],
                   "headline": f"{m['name']} ({m['pos']})", "value": m["points"], "unit": "pts",
                   "detail": f"{fmt(m['points'])} {basis_txt[m['basis']]} for {teams[tid]['teamName']}."})
     team_mvp = {teams[t]["manager"]: m for t, m in mvps.items()}
 
     # waiver pickup
-    best_pick = None
+    best_pick = None; picks_all = []
     txs = s.get("transactions") or []
     if txs and lbw and (full or s["platform"] == "Sleeper"):
         for t in txs:
@@ -137,18 +152,21 @@ def season_awards(s):
                     if int(wk) < (t["week"] or 0): continue
                     for pid, slot, p in tm.get(str(it["to"]), []):
                         if str(pid) == str(it["playerId"]) and is_starter(slot): pts += p or 0
+                picks_all.append((pts, it, t))
                 if not best_pick or pts > best_pick[0]:
                     best_pick = (pts, it, t)
         if best_pick and best_pick[0] > 0:
             pts, it, t = best_pick
-            A.append({"key": "waiver", "title": "Best Waiver Pickup", "icon": "🧲", "manager": teams[it["to"]]["manager"],
+            _h = _holders([(p_, i_["to"] in teams and teams[i_["to"]]["manager"], f"{i_['name']} ({i_.get('pos','?')})") for p_, i_, _ in [best_pick] + picks_all], pts)
+            A.append({"key": "waiver", "holders": _h, "title": "Best Waiver Pickup", "icon": "🧲", "manager": teams[it["to"]]["manager"],
                       "headline": f"{it['name']} ({it.get('pos','?')})", "value": r2(pts), "unit": "pts",
                       "detail": f"Added in week {t['week']} ({t['type'].replace('FREEAGENT','free agent').lower()}), then put up {fmt(r2(pts))} starting points for {teams[it['to']]['teamName']}" + (f" ({cov_note.lower()[:-1]})" if cov_note else "") + "."})
     elif s.get("rosters"):
         cands = [(e["ptsOnRoster"], int(tid), e) for tid, lst in s["rosters"].items() for e in lst if e.get("acq") == "ADD"]
         if cands:
             pts, tid, e = max(cands, key=lambda x: x[0])
-            A.append({"key": "waiver", "title": "Best Waiver Pickup", "icon": "🧲", "manager": teams[tid]["manager"],
+            _h = _holders([(p_, teams[t_]["manager"], f"{e_['name']} ({e_['pos']})") for p_, t_, e_ in [(pts, tid, e)] + cands], pts)
+            A.append({"key": "waiver", "holders": _h, "title": "Best Waiver Pickup", "icon": "🧲", "manager": teams[tid]["manager"],
                       "headline": f"{e['name']} ({e['pos']})", "value": pts, "unit": "pts", "provisional": True,
                       "detail": f"Picked up off waivers/free agency (first counted week ≈ {e['firstWeek']}) and still on the roster at season's end: {fmt(pts)} points from then on. Provisional until weekly transaction data is processed."})
 
@@ -157,34 +175,37 @@ def season_awards(s):
         steal = max([p for p in draft if p.get("valueDelta") is not None and p.get("valueRank", 99) <= 40], key=lambda p: p["valueDelta"], default=None)
         bust = min([p for p in draft if p.get("valueDelta") is not None and p["round"] <= 3], key=lambda p: p["valueDelta"], default=None)
         if steal:
-            A.append({"key": "steal", "title": "Draft Steal", "icon": "💎", "manager": steal["manager"],
+            _h = _holders([(p["valueDelta"], p["manager"], f"{p['name']} ({p['pos']})") for p in [steal] + [p for p in draft if p.get("valueDelta") is not None and p.get("valueRank", 99) <= 40]], steal["valueDelta"])
+            A.append({"key": "steal", "holders": _h, "title": "Draft Steal", "icon": "💎", "manager": steal["manager"],
                       "headline": f"{steal['name']} ({steal['pos']})", "value": steal["points"], "unit": "pts",
                       "pick": rp(steal), "detail": f"Pick {rp(steal)} (#{steal['overall']} overall) → finished {steal['pos']}{steal['posRank']} with {fmt(steal['points'])} points."})
         if bust:
-            A.append({"key": "bust", "title": "Draft Bust", "icon": "💀", "manager": bust["manager"],
+            _h = _holders([(p["valueDelta"], p["manager"], f"{p['name']} ({p['pos']})") for p in [bust] + [p for p in draft if p.get("valueDelta") is not None and p["round"] <= 3]], bust["valueDelta"])
+            A.append({"key": "bust", "holders": _h, "title": "Draft Bust", "icon": "💀", "manager": bust["manager"],
                       "headline": f"{bust['name']} ({bust['pos']})", "value": bust["points"], "unit": "pts",
                       "pick": rp(bust), "detail": f"Pick {rp(bust)} (#{bust['overall']} overall) → only {fmt(bust['points'])} points" + (f" ({bust['pos']}{bust['posRank']})" if bust.get("posRank") else "") + "."})
 
     if bench and (full or s["platform"] == "Sleeper"):
         tid, b = max(bench.items(), key=lambda kv: kv[1])
-        A.append({"key": "bench", "title": "Most Points Left on the Bench", "icon": "🪑", "manager": teams[tid]["manager"],
+        _h = _holders([(v, teams[t]["manager"], teams[t]["teamName"]) for t, v in [(tid, b)] + list(bench.items())], b)
+        A.append({"key": "bench", "holders": _h, "title": "Most Points Left on the Bench", "icon": "🪑", "manager": teams[tid]["manager"],
                   "headline": teams[tid]["teamName"], "value": r2(b), "unit": "pts",
                   "detail": f"{fmt(r2(b))} points rotted on the bench" + (f" across {have} weeks" if s['platform'] == 'Sleeper' else f" during the {reg_weeks}-week regular season") + "."})
 
     if reg_games:
-        unl = min(s["teams"], key=lambda T: T["luck"])
-        lk = max(s["teams"], key=lambda T: T["luck"])
-        A.append({"key": "unlucky", "title": "Unluckiest Manager", "icon": "🌧️", "manager": unl["manager"],
+        unl = min(s["teams"], key=lambda T: T.get("luckX", T["luck"]))
+        lk = max(s["teams"], key=lambda T: T.get("luckX", T["luck"]))
+        A.append({"key": "unlucky", "holders": _holders([(T.get("luckX", T["luck"]), T["manager"], T["teamName"]) for T in [unl] + s["teams"]], unl.get("luckX", unl["luck"])), "title": "Unluckiest Manager", "icon": "🌧️", "manager": unl["manager"],
                   "headline": unl["teamName"], "value": unl["luck"], "unit": "wins vs expected",
                   "detail": f"Went {unl['w']}-{unl['l']}{'-'+str(unl['t']) if unl['t'] else ''} but an all-play record of {unl['allPlayW']}-{unl['allPlayL']} says {fmt(unl['expectedWins'])} wins were deserved. {fmt(unl['pa'])} points against."})
-        A.append({"key": "lucky", "title": "Luckiest Manager", "icon": "🍀", "manager": lk["manager"],
+        A.append({"key": "lucky", "holders": _holders([(T.get("luckX", T["luck"]), T["manager"], T["teamName"]) for T in [lk] + s["teams"]], lk.get("luckX", lk["luck"])), "title": "Luckiest Manager", "icon": "🍀", "manager": lk["manager"],
                   "headline": lk["teamName"], "value": lk["luck"], "unit": "wins vs expected",
                   "detail": f"Went {lk['w']}-{lk['l']}{'-'+str(lk['t']) if lk['t'] else ''} on an all-play pace of {fmt(lk['expectedWins'])} wins (+{fmt(lk['luck'])}). Only {fmt(lk['pa'])} points against."})
         pa = max(s["teams"], key=lambda T: T["pa"])
-        A.append({"key": "pa", "title": "Most Points Against", "icon": "🎯", "manager": pa["manager"], "headline": pa["teamName"],
+        A.append({"key": "pa", "holders": _holders([(T["pa"], T["manager"], T["teamName"]) for T in [pa] + s["teams"]], pa["pa"]), "title": "Most Points Against", "icon": "🎯", "manager": pa["manager"], "headline": pa["teamName"],
                   "value": pa["pa"], "unit": "pts", "detail": f"Opponents dropped {fmt(pa['pa'])} on them in the regular season."})
         pf = max(s["teams"], key=lambda T: T["pf"])
-        A.append({"key": "pf", "title": "Points Machine", "icon": "🔥", "manager": pf["manager"], "headline": pf["teamName"],
+        A.append({"key": "pf", "holders": _holders([(T["pf"], T["manager"], T["teamName"]) for T in [pf] + s["teams"]], pf["pf"]), "title": "Points Machine", "icon": "🔥", "manager": pf["manager"], "headline": pf["teamName"],
                   "value": pf["pf"], "unit": "pts", "detail": f"Led the league with {fmt(pf['pf'])} regular-season points."})
         # weekly high / low counts
         hi = collections.Counter(); lo = collections.Counter()
@@ -195,10 +216,10 @@ def season_awards(s):
             hi[max(lst, key=lambda x: x["score"])["manager"]] += 1
             lo[min(lst, key=lambda x: x["score"])["manager"]] += 1
         m, c = hi.most_common(1)[0]
-        A.append({"key": "tophigh", "title": "Weekly High-Score King", "icon": "👑", "manager": m, "headline": nm(m), "value": c, "unit": "weeks",
+        A.append({"key": "tophigh", "holders": _holders([(v, k, nm(k)) for k, v in hi.most_common()], c), "title": "Weekly High-Score King", "icon": "👑", "manager": m, "headline": nm(m), "value": c, "unit": "weeks",
                   "detail": f"Top score of the week {c} times in the regular season."})
         m, c = lo.most_common(1)[0]
-        A.append({"key": "toplow", "title": "Basement Dweller", "icon": "🧱", "manager": m, "headline": nm(m), "value": c, "unit": "weeks",
+        A.append({"key": "toplow", "holders": _holders([(v, k, nm(k)) for k, v in lo.most_common()], c), "title": "Basement Dweller", "icon": "🧱", "manager": m, "headline": nm(m), "value": c, "unit": "weeks",
                   "detail": f"Lowest score of the week {c} times in the regular season."})
         heart = collections.Counter()
         for g in reg_games:
@@ -207,12 +228,13 @@ def season_awards(s):
                 if abs(g["home"]["score"] - g["away"]["score"]) < 5: heart[los["manager"]] += 1
         if heart:
             m, c = heart.most_common(1)[0]
-            A.append({"key": "heartbreak", "title": "Heartbreak Kid", "icon": "💔", "manager": m, "headline": nm(m), "value": c, "unit": "losses",
+            A.append({"key": "heartbreak", "holders": _holders([(v, k, nm(k)) for k, v in heart.most_common()], c), "title": "Heartbreak Kid", "icon": "💔", "manager": m, "headline": nm(m), "value": c, "unit": "losses",
                       "detail": f"Lost {c} regular-season game{'s' if c > 1 else ''} by fewer than 5 points."})
 
     if single and (full or s["platform"] == "Sleeper"):
         pts, wk, tid, pid = max(single)
-        A.append({"key": "game", "title": "Highest Single-Game Player Performance", "icon": "💥", "manager": teams[tid]["manager"],
+        _h = _holders([(p_, teams[t_]["manager"], f"{pname(s, i_)} ({ppos(s, i_)})") for p_, w_, t_, i_ in [(pts, wk, tid, pid)] + single], pts)
+        A.append({"key": "game", "holders": _h, "title": "Highest Single-Game Player Performance", "icon": "💥", "manager": teams[tid]["manager"],
                   "headline": f"{pname(s, pid)} ({ppos(s, pid)})", "value": r2(pts), "unit": "pts",
                   "detail": f"{fmt(r2(pts))} points in week {wk} in {teams[tid]['teamName']}'s starting lineup."})
     elif single:
@@ -221,17 +243,23 @@ def season_awards(s):
     tc = [(T["transactions"].get("acquisitions", 0), T) for T in s["teams"]]
     if any(c for c, _ in tc):
         c, T = max(tc, key=lambda x: x[0])
-        A.append({"key": "moves", "title": "Most Transactions", "icon": "📝", "manager": T["manager"], "headline": T["teamName"], "value": c, "unit": "adds",
+        A.append({"key": "moves", "holders": _holders([(v, X["manager"], X["teamName"]) for v, X in [(c, T)] + tc], c), "title": "Most Transactions", "icon": "📝", "manager": T["manager"], "headline": T["teamName"], "value": c, "unit": "adds",
                   "detail": f"{c} acquisitions, {T['transactions'].get('drops', 0)} drops. The waiver wire knows this manager by name."})
     tr = [(T["transactions"].get("trades", 0), T) for T in s["teams"]]
     if any(c for c, _ in tr):
         c, T = max(tr, key=lambda x: x[0])
         ties = [x[1] for x in tr if x[0] == c]
-        A.append({"key": "trader", "title": "Most Active Trader", "icon": "🤝", "manager": T["manager"],
+        A.append({"key": "trader", "holders": _holders([(v, X["manager"], X["teamName"]) for v, X in [(c, T)] + tr], c), "title": "Most Active Trader", "icon": "🤝", "manager": T["manager"],
                   "headline": " & ".join(x["teamName"] for x in ties) if len(ties) <= 3 else T["teamName"], "value": c, "unit": "trades",
                   "detail": f"{c} trade{'s' if c != 1 else ''} completed" + (" (tied: " + ", ".join(nm(x['manager']) for x in ties) + ")" if len(ties) > 1 else "") + "."})
     for a in A:
         a["season"] = yr
+        a.setdefault("holders", [{"manager": a["manager"], "headline": a["headline"]}])
+        a["holderIds"] = list(dict.fromkeys(h["manager"] for h in a["holders"]))
+        a["holdersArePeople"] = all(h["headline"] == nm(h["manager"]) for h in a["holders"])
+        if len(a["holderIds"]) > 1 and a["key"] != "trader":
+            others = [nm(m) for m in a["holderIds"] if m != a["manager"]]
+            a["detail"] = a.get("detail", "") + f" Tied at exactly the same mark with {' & '.join(others)}."
         if cov_note and a["key"] in ("waiver",) and not a.get("provisional"):
             a["note"] = cov_note
     return A, team_mvp, {"lineupWeeks": have, "neededWeeks": need, "full": full}
@@ -251,7 +279,7 @@ def build():
             row = {"year": y, "platform": s["platform"], "teamName": T["teamName"], "teamId": T["teamId"],
                    "w": T["w"], "l": T["l"], "t": T["t"], "pf": T["pf"], "pa": T["pa"],
                    "seed": T.get("seed"), "finalRank": T.get("finalRank"), "standing": T.get("standing"),
-                   "complete": done, "luck": T.get("luck"), "expectedWins": T.get("expectedWins"),
+                   "complete": done, "luck": T.get("luck"), "luckX": T.get("luckX", T.get("luck")), "expectedWins": T.get("expectedWins"),
                    "madePlayoffs": bool(done and T.get("seed") and T["seed"] <= s["playoffTeams"]),
                    "champion": s.get("champion") == T["manager"], "runnerUp": s.get("runnerUp") == T["manager"],
                    "tookOverFrom": T.get("tookOverFrom"), "transactions": T.get("transactions", {}),
@@ -259,6 +287,7 @@ def build():
                    "medianRecord": f"{T['medW']}-{T['medL']}" if "medW" in T else None}
             gp = row["w"] + row["l"] + row["t"]
             row["pct"] = round((row["w"] + 0.5 * row["t"]) / gp, 3) if gp else 0
+            row["pctX"] = ((row["w"] + 0.5 * row["t"]) / gp) if gp else 0
             rows[T["manager"]].append(row)
 
     # ---------- games list (person-attributed)
@@ -327,6 +356,9 @@ def build():
     for r in season_rows:
         r["ppg"] = r2(r["pf"] / r["games"]) if r["games"] else 0
         r["pct"] = round((r["w"] + 0.5 * r["t"]) / r["games"], 3) if r["games"] else 0
+        r["pctX"] = ((r["w"] + 0.5 * r["t"]) / r["games"]) if r["games"] else 0
+        r["ppgX"] = (r["pf"] / r["games"]) if r["games"] else 0
+        r["papgX"] = (r["pa"] / r["games"]) if r["games"] else 0
     records = {
         "highScores": sorted(sr_real, key=lambda r: -r["score"])[:10],
         "lowScores": sorted([r for r in sr_real if r["platform"] == "ESPN" or r["score"] > 0], key=lambda r: r["score"])[:10],
@@ -334,13 +366,13 @@ def build():
         "closest": sorted(margins, key=lambda m: m["margin"])[:10],
         "highLoss": sorted([r for r in sr_real if not r["won"]], key=lambda r: -r["score"])[:10],
         "lowWin": sorted([r for r in sr_real if r["won"]], key=lambda r: r["score"])[:10],
-        "seasonPF": sorted(season_rows, key=lambda r: -r["ppg"])[:10],
-        "seasonPFlow": sorted(season_rows, key=lambda r: r["ppg"])[:10],
+        "seasonPF": sorted(season_rows, key=lambda r: -r["ppgX"])[:10],
+        "seasonPFlow": sorted(season_rows, key=lambda r: r["ppgX"])[:10],
         "seasonPA": sorted(season_rows, key=lambda r: -r["pa"] / max(r["games"], 1))[:10],
-        "bestRecords": sorted(season_rows, key=lambda r: (-r["pct"], -r["pf"]))[:10],
-        "worstRecords": sorted(season_rows, key=lambda r: (r["pct"], r["pf"]))[:10],
-        "luckiest": sorted(season_rows, key=lambda r: -(r["luck"] or 0))[:8],
-        "unluckiest": sorted(season_rows, key=lambda r: (r["luck"] or 0))[:8],
+        "bestRecords": sorted(season_rows, key=lambda r: (-r["pctX"], -r["pf"]))[:10],
+        "worstRecords": sorted(season_rows, key=lambda r: (r["pctX"], r["pf"]))[:10],
+        "luckiest": sorted(season_rows, key=lambda r: -(r["luckX"] or 0))[:8],
+        "unluckiest": sorted(season_rows, key=lambda r: (r["luckX"] or 0))[:8],
         "winStreaks": win_streaks, "lossStreaks": loss_streaks,
         "consolationNote": "Score and margin records cover the ESPN era (2020-2025), regular season plus winners-bracket playoff games; consolation games are excluded. Sleeper dynasty scoring is different (superflex, bonuses), so 2026+ marks live on the Dynasty page. Win/loss streaks span both platforms.",
     }
@@ -382,8 +414,9 @@ def build():
                 "teamNames": [{"year": r["year"], "platform": r["platform"], "name": r["teamName"]} for r in rs],
                 "inherited": [{"year": r["year"], "from": r["tookOverFrom"], "fromName": nm(r["tookOverFrom"])} for r in rs if r.get("tookOverFrom")],
                 "teamMVPs": [{"year": y, **team_mvps[y][mid]} for y in years if mid in team_mvps[y]],
-                "awards": [a for y in years for a in awards[y] if a["manager"] == mid]}
+                "awards": [a for y in years for a in awards[y] if mid in a.get("holderIds", [a["manager"]])]}
         prof["pct"] = round((W + 0.5 * Tt) / prof["games"], 3) if prof["games"] else 0
+        prof["pctX"] = ((W + 0.5 * Tt) / prof["games"]) if prof["games"] else 0
         prof["ppg"] = r2(prof["pf"] / prof["games"]) if prof["games"] else 0
         # successors: who took over this person's slot after they left
         prof["succeededBy"] = []
@@ -477,7 +510,7 @@ def build():
            "fallen": memorial(profiles, records, seasons, years), "championships": championships(seasons, years), "resurrected": [m for m in profiles if profiles[m].get("resurrected")], "leagueStory": league_story(seasons, champions, profiles, records, years),
            "podium": podium(seasons, years), "pressArchive": (LORE.get("press_conferences") or {}).get("archive", []),
            "draftOrder": draft_order(seasons, years),
-           "managerOrder": sorted(profiles, key=lambda m: (-len(profiles[m]["titles"]), -profiles[m]["pct"]))}
+           "managerOrder": sorted(profiles, key=lambda m: (-len(profiles[m]["titles"]), -profiles[m]["pctX"]))}
     save(os.path.join(GEN, "league.json"), out)
     print("league.json written:", len(profiles), "managers,", len(lore), "lore entries")
 
@@ -665,16 +698,16 @@ def season_story(s, nb, awards, mvps, gs):
         P.append(f"{nm(pf['manager'])} led the league in points ({fmt(pf['pf'])}) and finished #{pf['finalRank']}" + (" despite missing the playoffs." if pf["seed"] > s["playoffTeams"] else "."))
     A = {a["key"]: a for a in awards}
     if "mvp" in A:
-        P.append(f"Carrying the load: {A['mvp']['headline']} was the season's MVP for {nm(A['mvp']['manager'])}. {A['mvp']['detail']}")
+        P.append(f"Carrying the load: {A['mvp']['headline']} was the season's MVP for {' & '.join(nm(m) for m in A['mvp']['holderIds'])}. {A['mvp']['detail']}")
     if "steal" in A and "bust" in A:
-        P.append(f"Draft room verdict: {A['steal']['headline']} was the steal of the draft for {nm(A['steal']['manager'])} ({A['steal']['detail'].rstrip('.')}). "
-                 f"On the other end, {nm(A['bust']['manager'])} spent a top pick on {A['bust']['headline']}, who returned {A['bust']['detail'].split('→ ')[-1]}")
+        P.append(f"Draft room verdict: {A['steal']['headline']} was the steal of the draft for {' & '.join(nm(m) for m in A['steal']['holderIds'])} ({A['steal']['detail'].rstrip('.')}). "
+                 f"On the other end, {' & '.join(nm(m) for m in A['bust']['holderIds'])} spent a top pick on {A['bust']['headline']}, who returned {A['bust']['detail'].split('→ ')[-1]}")
     if "waiver" in A:
-        P.append(f"Wire hero: {nm(A['waiver']['manager'])} found {A['waiver']['headline']}. {A['waiver']['detail']}")
+        P.append(f"Wire hero: {' & '.join(nm(m) for m in A['waiver']['holderIds'])} found {A['waiver']['headline']}. {A['waiver']['detail']}")
     if "unlucky" in A and A["unlucky"]["value"] <= -1.5:
-        P.append(f"Schedule victim of the year: {nm(A['unlucky']['manager'])}. {A['unlucky']['detail']}")
+        P.append(f"Schedule victim of the year: {' & '.join(nm(m) for m in A['unlucky']['holderIds'])}. {A['unlucky']['detail']}")
     if "lucky" in A and A["lucky"]["value"] >= 1.5:
-        P.append(f"And the horseshoe award goes to {nm(A['lucky']['manager'])}: {A['lucky']['detail']}")
+        P.append(f"And the horseshoe award goes to {' & '.join(nm(m) for m in A['lucky']['holderIds'])}: {A['lucky']['detail']}")
     last = max(teams, key=lambda T: T["finalRank"] or 0)
     P.append(f"Bringing up the rear: {nm(last['manager'])} ({last['teamName']}) finished last in the final standings at {last['w']}-{last['l']}.")
     tr = [t for t in s.get("transactions", []) if t["type"] == "TRADE"]
@@ -781,10 +814,23 @@ def alltime(profiles):
         c = [p for p in P if flt(p)]
         return sorted(c, key=lambda p: p[key] if not callable(key) else key(p), reverse=rev)[0]["id"] if c else None
     vets = lambda p: p["games"] >= 28
+    def tied(val, flt=lambda p: True):
+        c = [p for p in P if flt(p)]
+        if not c: return []
+        b = max(val(p) for p in c)
+        return [p["id"] for p in sorted(c, key=lambda p: -p["games"]) if _eq(val(p), b)]
+    from fractions import Fraction
+    frac = lambda p: Fraction(2 * p["w"] + p["t"], 2 * p["games"]) if p["games"] else Fraction(0)
+    best_pct = [p["id"] for p in P if vets(p) and frac(p) == max(frac(q) for q in P if vets(q))]
+    worst_pct = [p["id"] for p in P if vets(p) and frac(p) == min(frac(q) for q in P if vets(q))]
     return {
         "mostTitles": sorted([(len(p["titles"]), p["id"]) for p in P if p["titles"]], reverse=True),
-        "bestPct": top("pct", flt=vets), "worstPct": top("pct", rev=False, flt=vets),
-        "mostPF": top("pf"), "mostPlayoffApps": max(P, key=lambda p: len(p["playoffApps"]))["id"],
+        "bestPct": best_pct[0] if best_pct else None, "worstPct": worst_pct[0] if worst_pct else None,
+        "bestPctAll": best_pct, "worstPctAll": worst_pct,
+        "bestPctNext": next((p["id"] for p in sorted([p for p in P if vets(p) and p["id"] not in best_pct], key=lambda p: -frac(p))), None),
+        "mostPF": top("pf"), "mostPFAll": tied(lambda p: p["pf"]),
+        "mostPlayoffApps": max(P, key=lambda p: len(p["playoffApps"]))["id"],
+        "mostPlayoffAppsAll": tied(lambda p: len(p["playoffApps"])),
     }
 
 
@@ -917,7 +963,7 @@ def manager_book(p, profiles, seasons, awards, team_mvps):
         else:
             lines.append(f"As **{r['teamName']}**: {_rec(r)} head-to-head (**{r['officialRecord']}** official, with median games), {fmt(r['pf'])} points through {s.get('completedWeeks')} weeks.")
         mv = team_mvps.get(y, {}).get(mid)
-        aw = [a for a in awards.get(y, []) if a["manager"] == mid and a["key"] in ("steal", "bust", "waiver", "game", "mvp")]
+        aw = [dict(a, headline=next((h["headline"] for h in a["holders"] if h["manager"] == mid), a["headline"])) for a in awards.get(y, []) if mid in a["holderIds"] and a["key"] in ("steal", "bust", "waiver", "game", "mvp")]
         extra = None
         for a in aw:
             if a["key"] == "mvp": extra = f"Rode the season's MVP, **{a['headline']}** ({fmt(a['value'])} pts)."; break
@@ -977,7 +1023,7 @@ def manager_book(p, profiles, seasons, awards, team_mvps):
     for x in p["bestPicks"][:2]:
         bestm.append(f"{x['year']} draft: **{x['name']}** at {rp(x)} → {x['pos']}{x['posRank']}, {fmt(x['points'])} pts")
     for a in p["awards"]:
-        if a["key"] == "waiver": bestm.append(f"{a['season']} pickup: **{a['headline']}** ({fmt(a['value'])} pts)")
+        if a["key"] == "waiver": bestm.append(f"{a['season']} pickup: **{next((h['headline'] for h in a['holders'] if h['manager'] == mid), a['headline'])}** ({fmt(a['value'])} pts)")
     for x in p["worstPicks"][:2]:
         worstm.append(f"{x['year']} draft: **{x['name']}** at {rp(x)} → {fmt(x['points'])} pts" + (f" ({x['pos']}{x['posRank']})" if x.get("posRank") else ""))
     notes = []
