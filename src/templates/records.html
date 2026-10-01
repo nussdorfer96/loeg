@@ -33,10 +33,8 @@
 <p class="muted small">Score records cover the ESPN era (2020-2025); streaks span both platforms.</p>
 {% for A in L.era.awards %}<div class="card era-card" id="era-awards"><div class="label">🏛️ Era Awards · {{ A.label }} {{ A.span }}</div>
 <h3>{{ A.icon }} {{ A.title }}</h3>
-<p class="era-emcee"><em>The lights come down. The emcee steps to the mic.</em> "Ladies and gentlemen, for six seasons of ESPN redraft, one manager stood above the rest. Please welcome to the stage…"</p>
 <div class="era-win">{{ ml(A.winner) }}</div>
 <ol class="era-roll">{% for r in A.roll %}<li>{{ r }}</li>{% endfor %}</ol>
-<p class="era-shine"><b>This is his moment to shine.</b></p>
 <ul class="era-list"><li><span class="era-tag">Runner-up</span> {{ ml(A.runnerUp) }} <span class="muted">({{ A.runnerUpText }})</span></li>
 <li><span class="era-tag">Honorable mention</span> {{ ml(A.honorable) }} <span class="muted">({{ A.honorableText }})</span></li></ul>
 {% if A.unluckiestChamp %}<p class="era-nod">One more thing: the worst luck of any champion in the league. Two titles anyway. So much for <a href="lore.html#the-mulvihill-conspiracy">The Mulvihill Conspiracy</a>. 🧵</p>{% endif %}
