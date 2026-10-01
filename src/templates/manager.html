@@ -1,0 +1,93 @@
+{% extends "base.html" %}{% from "macros.html" import award_card, mcard, luck_table, trade_card, luck_help with context %}{% set FM = F.managers[P.id] %}{% block body %}
+<section class="hero"><div class="kicker">{{ P.role or ('Active manager' if P.active else 'Former manager') }}{% if P.nickname %} · "{{ P.nickname }}"{% endif %}</div>
+<h1>{{ P.name }} {% if P.loyalist %}<span class="pill gold" style="font-size:.9rem" title="Original member, every season since {{ P.years|first }}">🛡️ Loyalist</span> {% endif %}{% if P.resurrected %}<span class="pill gold" style="font-size:.9rem" title="Left after {{ P.resurrection.leftAfter }}, returned in {{ P.resurrection.returned }}">🧟 Resurrected</span> {% endif %}{% if P.fallen %}<a class="pill" style="font-size:.9rem" href="../memoriam.html#{{ P.id }}">🪦 In Memoriam</a> {% endif %}{% if P.titles %}<span class="rings">{{ '🏆'*P.titles|length }}</span>{% endif %}</h1>
+<p class="lead">{{ P.years|first }}{% if P.years|length > 1 %}–{{ P.years|last }}{% endif %} · {{ P.years|length }} season{{ 's' if P.years|length != 1 }}{% if P.note %} · {{ P.note }}{% endif %}</p>
+{% if P.inherited %}<div class="note">🔁 {% for i in P.inherited %}Took over the team slot previously run by <a href="{{ i.from }}.html">{{ i.fromName }}</a> in {{ i.year }}. {% endfor %}Only {{ P.name.split(' ')[0] }}'s own seasons count here.</div>{% endif %}
+{% if P.succeededBy %}<div class="note">➡️ {% for s in P.succeededBy %}{% if s.kind == 'seat' %}<a href="{{ s.manager }}.html">{{ s.name }}</a> took the {{ ordinal(s.seat) }} seat he vacated when the dynasty began in {{ s.year }}. {% else %}The team slot passed to <a href="{{ s.manager }}.html">{{ s.name }}</a> in {{ s.year }}. {% endif %}{% endfor %}</div>{% endif %}
+{% if P.seatFrom %}<div class="note">🪑 Took the {{ ordinal(P.seatFrom.seat) }} seat vacated by <a href="{{ P.seatFrom.from }}.html">{{ P.seatFrom.fromName }}</a> in {{ P.seatFrom.year }}. Lineage only: {{ P.name.split(' ')[0] }} inherits none of {{ P.seatFrom.fromName.split(' ')[0] }}'s history, and every number here is his own.</div>{% endif %}
+</section>
+{% set BK = P.book %}
+{% set comp = P.seasons|selectattr('complete')|list %}{% set belts = (P.belt or [])|rejectattr('beltless')|list %}{% set bl = (P.belt or [])|selectattr('beltless')|list %}
+<div class="tape">
+<div class="tape-item"><div class="label">Record</div><div class="v">{{ P.w }}-{{ P.l }}{% if P.t %}-{{ P.t }}{% endif %}</div><div class="s">{{ "%.3f"|format(P.pct) }} win %</div></div>
+<div class="tape-item"><div class="label">Points</div><div class="v">{{ f(P.pf) }}</div><div class="s">{{ f(P.pa) }} against · {{ f(P.ppg) }} PPG</div></div>
+<div class="tape-item"><div class="label">Belts</div><div class="v">{{ belts|length }}{% if bl %}*{% endif %}</div><div class="s">{% if belts %}{{ belts|map(attribute='year')|join(', ') }}{% endif %}{% if bl %}{% if belts %} · {% endif %}Belt-less title {{ bl|map(attribute='year')|join(', ') }}{% endif %}{% if not belts and not bl %}none yet{% endif %}{% if P.runnerUps %} · runner-up {{ P.runnerUps|join(', ') }}{% endif %}</div></div>
+<div class="tape-item"><div class="label">Playoff trips</div><div class="v">{% if comp %}{{ P.playoffApps|length }}/{{ comp|length }}{% else %}-{% endif %}</div><div class="s">{{ P.playoffW }}-{{ P.playoffL }} in playoff games</div></div>
+<div class="tape-item"><div class="label">Best finish</div><div class="v">{{ BK.tape[3].value }}</div><div class="s">{{ BK.tape[3].sub }}</div></div>
+</div>
+<div class="toc"><a href="#book">The Book</a><a href="#h2h">Head-to-head</a>{% if FM.rivalries %}<a href="#rivals">Rivalries</a>{% endif %}<a href="#luck">Schedule luck</a>{% if FM.draft %}<a href="#draft-habits">Draft habits</a>{% endif %}{% if FM.tradeRecord %}<a href="#trades">Trades</a>{% endif %}{% if FM.regrets %}<a href="#regrets">Got away</a>{% endif %}</div>
+<h2 id="book">The Book on {{ P.name.split(' ')[0] }}</h2>
+<p class="tagline">{{ BK.tagline }}</p>
+{% if BK.signature %}<blockquote class="pull"><div class="label">⭐ {{ BK.signature.title }}</div>{% if BK.signature.text %}<div class="q">{{ md(BK.signature.text) }}</div>{% endif %}{% for l in BK.signature.lore or [] %}<div class="small">📌 Also forever in the lore: <a href="../lore.html#{{ l.id }}">{{ l.title }}</a></div>{% endfor %}</blockquote>{% endif %}
+<div class="chapters">{% for c in BK.chapters %}<section class="chapter {{ 'won' if c.champion }}"><h3><a href="../seasons/{{ c.year }}.html">{{ c.h }}</a></h3>{% for l in c.lines %}{{ md(l) }}{% endfor %}</section>{% endfor %}</div>
+<div class="quick grid g2">
+{% for key, label in [('rivalries','⚔️ Rivalries'),('favorites','❤️ Favorite players'),('bestMoves','💎 Best moves'),('worstMoves','💀 Worst moves')] %}{% if BK.quick[key] %}<div class="card"><div class="label">{{ label }}</div><ul>{% for x in BK.quick[key] %}<li>{{ md(x) }}</li>{% endfor %}</ul></div>{% endif %}{% endfor %}
+</div>
+{% if BK.notes %}<p class="muted small">{{ BK.notes|join(' ') }}</p>{% endif %}
+{% if P.belt %}<h2>🥇 Belt History</h2><div class="timeline">{% for e in P.belt %}<a class="yr c" style="min-width:150px" href="../seasons/{{ e.year }}.html"><span class="small muted">{{ e.year }}</span><b>{% if e.beltless %}Belt-less Champion*{% elif e.defense %}Defended{% else %}Reign #{{ e.reignNumber }}{% endif %}</b><span class="small">{% if e.runnerUp %}def. {{ mname(e.runnerUp) }}{% endif %}{% if e.wonFrom and not e.beltless %}<br>took it from {{ mname(e.wonFrom) }}{% endif %}</span></a>{% endfor %}</div>
+{% if P.belt|selectattr('beltless')|list %}<p class="muted small">* Won before the Belt was introduced in {{ L.belt.introduced }}. Title fully valid. Belt not included.</p>{% endif %}{% endif %}
+{% set mylore = L.lore|selectattr('id','in',P.lore)|list %}{% if mylore %}<h2>📌 In the Lore</h2>{% for e in mylore %}<div class="card callout {{ 'saga-teaser' if e.style=='saga' }}"><div class="label">{{ e.season }} · {{ e.category }}{% if e.subtitle %} · {{ e.subtitle }}{% endif %}</div><h3 style="margin:.3em 0">{{ e.title }}</h3>{{ md(e.teaser or e.body) }}{% if e.style=='saga' %}<div class="small"><a href="../lore.html#{{ e.id }}">Read the full saga →</a></div>{% endif %}</div>{% endfor %}{% endif %}
+<h2>Finishes by Year</h2>
+<div class="timeline">{% for r in P.seasons %}<a class="yr {{ 'c' if r.champion }}" href="../seasons/{{ r.year }}.html"><span class="small muted">{{ r.year }}</span><b>{% if r.complete %}{{ ordinal(r.finalRank) }}{% else %}{{ r.standing }}*{% endif %}</b><span class="small">{{ r.w }}-{{ r.l }}</span>{% if r.champion %}<br>🏆{% elif r.runnerUp %}<br>🥈{% endif %}</a>{% endfor %}</div>
+<div class="tbl-wrap" style="margin-top:12px"><table><thead><tr><th>Year</th><th>Platform</th><th>Team name</th><th>Record</th><th class="num">PF</th><th class="num">PA</th><th class="num">Seed</th><th class="num">Finish</th><th class="num">Luck</th><th class="num">Adds</th><th class="num">Trades</th></tr></thead><tbody>
+{% for r in P.seasons %}<tr class="{{ 'champ' if r.champion }}"><td><a href="../seasons/{{ r.year }}.html">{{ r.year }}</a></td><td>{{ r.platform }}</td><td>{{ r.teamName }}{% if r.tookOverFrom %} <span class="pill">took over from {{ mname(r.tookOverFrom) }}</span>{% endif %}</td><td>{{ r.w }}-{{ r.l }}{% if r.t %}-{{ r.t }}{% endif %}{% if not r.complete %} <span class="muted small">(official {{ r.officialRecord }}, in progress)</span>{% endif %}</td><td class="num">{{ f(r.pf) }}</td><td class="num">{{ f(r.pa) }}</td><td class="num">{{ r.seed or '-' }}</td><td class="num">{% if r.complete %}{{ ordinal(r.finalRank) }}{% else %}-{% endif %}{% if r.champion %} 🏆{% elif r.runnerUp %} 🥈{% endif %}</td><td class="num">{{ "%+.1f"|format(r.luck or 0) }}</td><td class="num">{{ r.transactions.acquisitions }}</td><td class="num">{{ r.transactions.trades }}</td></tr>{% endfor %}
+</tbody></table></div>
+<p class="muted small">Career moves: {{ P.transactionsTotal.acquisitions }} adds, {{ P.transactionsTotal.drops }} drops, {{ P.transactionsTotal.trades }} trades.</p>
+
+<h2>Team-Name History</h2>
+<div class="timeline">{% for t in P.teamNames %}<div class="yr" style="min-width:140px"><span class="small muted">{{ t.year }} · {{ t.platform }}</span><b style="font-size:.95rem">{{ t.name }}</b></div>{% endfor %}</div>
+
+{% if P.awards %}<h2>Trophy Case</h2><div class="grid g3">{% for a in P.awards if a.key in ['mvp','waiver','steal','bust','lucky','unlucky','pf','tophigh','game','bench','moves','trader','heartbreak','toplow','pa'] %}{{ award_card(a, true) }}{% endfor %}</div>{% endif %}
+
+<h2 id="h2h">Head-to-Head</h2>
+<div class="tbl-wrap"><table class="sortable"><thead><tr><th>Opponent</th><th class="num">Games</th><th>Reg. season</th><th>Playoffs</th><th class="num">Overall</th><th class="num">PF</th><th class="num">PA</th></tr></thead><tbody>
+{% for h in P.h2h %}{% set ow = h.w + h.pw %}{% set ol = h.l + h.pl %}<tr><td>{{ ml(h.opp) }}{% if riv(P.id, h.opp) %} <a class="small" href="../rivalries/{{ pair_id(P.id, h.opp) }}.html" title="Rivalry page">⚔️</a>{% endif %}</td><td class="num">{{ h.games }}</td><td>{{ h.w }}-{{ h.l }}{% if h.t %}-{{ h.t }}{% endif %}</td><td>{{ h.pw }}-{{ h.pl }}</td><td class="num {{ 'win' if ow > ol else 'loss' if ol > ow }}" data-v="{{ ow - ol }}">{{ ow }}-{{ ol }}</td><td class="num">{{ f(h.pf) }}</td><td class="num">{{ f(h.pa) }}</td></tr>{% endfor %}
+</tbody></table></div>
+
+{% if FM.rivalries %}<h2 id="rivals">⚔️ Rivalries</h2><div class="grid g3">{% for k in FM.rivalries[:6] %}{% set R = F.rivalries[k] %}{% set opp = R.b if R.a == P.id else R.a %}{% set mw = R.aW if R.a == P.id else R.bW %}{% set ow = R.bW if R.a == P.id else R.aW %}
+<a class="card riv-card" href="../rivalries/{{ k }}.html"><div class="label">{% if R.tag %}{{ R.tag }} · {% endif %}{{ R.n }} games</div><div class="vs-line">vs <b>{{ mname(opp) }}</b> <span class="sc {{ 'pos' if mw>ow else 'neg' if ow>mw }}">{{ mw }}-{{ ow }}</span></div><div class="small muted">avg margin {{ f(R.avgMargin) }}{% if R.playoff %} · {{ R.playoff }} playoff{% endif %}</div></a>{% endfor %}</div>{% endif %}
+
+<h2 id="luck">🍀 Schedule Luck</h2>
+{% if FM.luckAll %}{% set la = FM.luckAll %}<div class="tape"><div class="tape-item"><div class="label">All-play record</div><div class="v">{{ la.apW }}-{{ la.apL }}</div><div class="s">{{ "%.3f"|format(la.apPct) }} vs the whole league</div></div>
+<div class="tape-item"><div class="label">Actual vs expected</div><div class="v">{{ la.w }} / {{ f(la.expW) }}</div><div class="s">wins vs expected wins</div></div>
+<div class="tape-item"><div class="label">Luck</div><div class="v {{ 'pos' if la.luck>0 else 'neg' }}">{{ sgn(la.luck) }}</div><div class="s">{{ 'wins the schedule gave him' if la.luck>0 else 'wins the schedule stole' }}</div></div>
+{% if FM.proj %}<div class="tape-item"><div class="label">Vs ESPN projections</div><div class="v {{ 'pos' if FM.proj.perGame>0 else 'neg' }}">{{ sgn(FM.proj.perGame) }}</div><div class="s">pts per game · beat proj. {{ FM.proj.beat }}/{{ FM.proj.games }}</div></div>{% endif %}</div>
+{{ luck_table(FM.luck, true, false, false) }}{{ luck_help() }}{% endif %}
+
+{% set D = FM.draft %}{% if D %}<h2 id="draft-habits">📋 Draft Habits</h2>
+<div class="tape">
+<div class="tape-item"><div class="label">Avg 1st-round slot</div><div class="v">{{ D.avgR1Slot }}</div><div class="s">{% for p, n in D.r1Pos.items() %}{{ n }} {{ p }}{% if not loop.last %}, {% endif %}{% endfor %} in round 1</div></div>
+<div class="tape-item"><div class="label">Hit rate (R1-6)</div><div class="v">{{ (D.hitRate*100)|round|int }}%</div><div class="s">{{ D.hits }} of {{ D.early }} finished as starters</div></div>
+<div class="tape-item"><div class="label">Bust rate (R1-6)</div><div class="v">{{ (D.bustRate*100)|round|int }}%</div><div class="s">{{ D.busts }} finished outside 2× starter range</div></div>
+<div class="tape-item"><div class="label">Value vs finish</div><div class="v {{ 'pos' if D.avgValue>0 else 'neg' }}">{{ sgn(D.avgValue) }}</div><div class="s">spots per pick vs league avg for the round (R1-8)</div></div>
+<div class="tape-item"><div class="label">First QB</div><div class="v">R{{ D.firstQB }}</div><div class="s">avg round · K/DST avg R{{ D.kdstAvg }}</div></div></div>
+<h3>Position mix by round ({{ D.drafts }} ESPN drafts)</h3>
+<div class="mix">{% for b in ['R1','R2','R3-4','R5-8','R9+'] %}{% set c = D.mix[b] %}{% set tot = c.values()|sum %}<div class="mix-row"><span class="bl">{{ b }}</span><span class="stack">{% for p in ['QB','RB','WR','TE','K','D/ST'] %}{% if c.get(p) %}<i class="pos-{{ p|replace('/','') }}" style="flex:{{ c[p] }}" title="{{ p }}: {{ c[p] }}">{{ c[p] }} {{ p }}</i>{% endif %}{% endfor %}</span></div>{% endfor %}</div>
+<div class="grid g2">
+<div class="card"><div class="label">💎 Best picks (value vs finish)</div><ul>{% for p in D.best %}<li>{{ p.year }} · {{ rp(p) }}: <b>{{ p.name }}</b> ({{ p.pos }}{{ p.posRank }}, {{ f(p.points) }} pts) <span class="pos">+{{ p.valueDelta }}</span></li>{% endfor %}</ul></div>
+<div class="card"><div class="label">💀 Biggest reaches (R1-5)</div><ul>{% for p in D.worst %}<li>{{ p.year }} · {{ rp(p) }}: <b>{{ p.name }}</b> ({{ p.pos }}{{ p.posRank or '-' }}, {{ f(p.points) }} pts) <span class="neg">{{ p.valueDelta }}</span></li>{% endfor %}</ul></div></div>
+<p class="small"><a href="../drafts.html">League draft trends →</a></p>{% endif %}
+
+{% if FM.tradeRecord %}{% set T = FM.tradeRecord %}<h2 id="trades">🤝 Trades</h2>
+<p>Career trade record: <b>{{ T.w }}-{{ T.l }}-{{ T.t }}</b> (W-L-push) over {{ T.n }} trade{{ 's' if T.n!=1 }}, <b class="{{ 'pos' if T.net>0 else 'neg' }}">{{ sgn(T.net) }}</b> net started points. <a href="../trades.html">All trades →</a></p>
+<div class="grid g2">{% for tid in FM.trades[:4] %}{{ trade_card(TR[tid]) }}{% endfor %}</div>{% if FM.trades|length > 4 %}<p class="small"><a href="../trades.html">+{{ FM.trades|length - 4 }} more →</a></p>{% endif %}{% endif %}
+
+{% if FM.regrets %}<h2 id="regrets">💔 The Ones That Got Away</h2>
+<div class="tbl-wrap"><table><thead><tr><th>Year</th><th>Player</th><th class="num">Pts for others</th><th>Cashed in</th></tr></thead><tbody>
+{% for r in FM.regrets %}<tr><td><a href="../seasons/{{ r.year }}.html#regrets">{{ r.year }}</a> wk {{ r.week }}</td><td><b>{{ r.name }}</b> <span class="muted small">{{ r.pos }}</span></td><td class="num">{{ f(r.startedForOthers) }}</td><td>{{ ml(r.beneficiary) }}{% if r.champBenefit %} 🏆{% endif %}</td></tr>{% endfor %}</tbody></table></div>{% endif %}
+
+<div class="grid g2">
+<div><h2>Favorite Players</h2>{% if P.favorites %}<div class="tbl-wrap"><table><thead><tr><th>Player</th><th>Pos</th><th class="num">Seasons</th><th>Years</th><th class="num">Times drafted</th></tr></thead><tbody>
+{% for x in P.favorites %}<tr><td>{{ x.name }}</td><td>{{ x.pos }}</td><td class="num">{{ x.count }}</td><td class="small">{{ x.seasons|join(', ') }}</td><td class="num">{{ x.drafted }}</td></tr>{% endfor %}
+</tbody></table></div><p class="muted small">Players drafted by or on the season-ending roster{% if True %} (plus weekly lineups where archived){% endif %} in 2+ seasons. K/DST excluded.</p>{% else %}<p class="muted">Not enough seasons yet to have favorites.</p>{% endif %}</div>
+<div><h2>First-Round Picks</h2>{% if P.firstRounders %}<div class="tbl-wrap"><table><thead><tr><th>Year</th><th>Pick</th><th>Player</th><th class="num">Pts</th></tr></thead><tbody>
+{% for p in P.firstRounders %}<tr><td>{{ p.year }}</td><td>{{ rp(p) if p.pick is defined else "#" ~ p.overall }}</td><td>{{ p.name }} <span class="muted">{{ p.pos }}</span></td><td class="num">{{ f(p.points) }}{% if p.posRank %} <span class="muted small">{{ p.pos }}{{ p.posRank }}</span>{% endif %}</td></tr>{% endfor %}
+</tbody></table></div>{% endif %}</div>
+</div>
+{% if P.bestPicks or P.worstPicks %}<div class="grid g2">
+<div><h3>💎 Best draft picks (ESPN era)</h3><div class="tbl-wrap"><table><thead><tr><th>Year</th><th>Pick</th><th>Player</th><th class="num">Pts</th><th>Finish</th></tr></thead><tbody>
+{% for p in P.bestPicks %}<tr><td>{{ p.year }}</td><td>{{ rp(p) }} <span class="muted small">#{{ p.overall }}</span></td><td>{{ p.name }} <span class="muted">{{ p.pos }}</span></td><td class="num">{{ f(p.points) }}</td><td>{{ p.pos }}{{ p.posRank }}</td></tr>{% endfor %}</tbody></table></div></div>
+<div><h3>💀 Worst draft picks (rounds 1-5)</h3><div class="tbl-wrap"><table><thead><tr><th>Year</th><th>Pick</th><th>Player</th><th class="num">Pts</th><th>Finish</th></tr></thead><tbody>
+{% for p in P.worstPicks %}<tr><td>{{ p.year }}</td><td>{{ rp(p) }} <span class="muted small">#{{ p.overall }}</span></td><td>{{ p.name }} <span class="muted">{{ p.pos }}</span></td><td class="num">{{ f(p.points) }}</td><td>{{ p.pos }}{{ p.posRank or '-' }}</td></tr>{% endfor %}</tbody></table></div></div>
+</div><p class="muted small">Pick value = where the player was drafted among QB/RB/WR/TE vs. where he finished in points above positional replacement.</p>{% endif %}
+{% endblock %}

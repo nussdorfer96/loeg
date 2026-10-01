@@ -1,0 +1,111 @@
+{% extends "base.html" %}{% from "macros.html" import award_card, mcard, luck_table, trade_card, luck_help with context %}{% block body %}
+{% set M = L.seasonMeta[S.year|string] %}{% set FS = F.seasons[S.year|string] %}
+<section class="hero"><div class="kicker">{{ S.platform }} · {{ S.format }} · Season {{ S.year }}</div>
+<h1>The {{ S.year }} Season</h1>
+<div class="season-nav">{% for y in L.years %}<a href="{{ y }}.html" class="{{ 'on' if y==S.year }}">{{ y }}</a>{% endfor %}</div>
+{% set B = (L.beltLineage|selectattr('year','equalto',S.year)|list) %}
+{% if S.champion %}<p class="lead">🥇 {% if S.year < L.belt.introduced %}Champion (Belt-less*){% else %}Belt winner{% endif %}: <b>{{ ml(S.champion) }}</b> ({{ team_name(S, S.champion) }}) · 🥈 Runner-up: {{ ml(S.runnerUp) }} ({{ team_name(S, S.runnerUp) }})</p>
+{% else %}<p class="lead">In progress: {{ S.completedWeeks }} weeks complete. Full dynasty coverage lives on the <a href="../dynasty.html">Dynasty Era</a> page.</p>{% endif %}
+<div class="toc"><a href="#story">Story</a><a href="#awards">Awards</a><a href="#standings">Standings</a>{% if S.champion %}<a href="#playoffs">Playoffs</a>{% endif %}<a href="#leaders">Leaders</a><a href="#draft">Draft</a><a href="#notable">Notable games</a>{% if FS.race %}<a href="#race">Race chart</a>{% endif %}<a href="#luck">Schedule luck</a>{% if FS.regrets %}<a href="#regrets">Got away</a>{% endif %}{% if FS.trades %}<a href="#trades">Trades</a>{% endif %}{% if FS.proj %}<a href="#proj">Projections</a>{% endif %}<a href="#weeks">Weekly results</a>{% if S.transactions %}<a href="#tx">Transactions</a>{% endif %}</div>
+</section>
+
+<h2 id="story">The Season Story</h2>
+<div class="chapters">{% for c in M.chapters %}<section class="chapter {{ 'won' if loop.first and S.champion }}"><h3>{{ c.h }}</h3>{% for l in c.lines %}{{ md(l) }}{% endfor %}</section>{% endfor %}</div>
+{% for e in L.lore if e.featured and e.season == S.year %}<div class="card callout {{ 'saga-teaser' if e.style=='saga' }}" id="lore-{{ e.id }}"><div class="label">📌 Featured lore{% if e.subtitle %} · {{ e.subtitle }}{% endif %}</div><h3 style="margin:.3em 0">{{ e.title }}</h3>{{ md(e.teaser or e.body) }}<div class="small"><a href="../lore.html#{{ e.id }}">{{ 'Read the full saga →' if e.style=='saga' else 'On the Lore page →' }}</a></div></div>{% endfor %}
+{% if not M.coverage.full and S.platform == 'ESPN' %}<div class="note">Weekly box scores for {{ S.year }}: {{ M.coverage.lineupWeeks }} of {{ M.coverage.neededWeeks }} weeks archived so far. MVP and pickup awards use season-ending rosters until the full weekly archive is processed; bench-points and single-game player awards appear once it is.</div>{% endif %}
+
+<h2 id="awards">🏅 Season Awards &amp; Superlatives</h2>
+<div class="grid g3">{% for a in M.awards %}{{ award_card(a) }}{% endfor %}</div>
+{% if M.teamMVPs %}<h3>Team MVPs</h3>
+<div class="tbl-wrap"><table><thead><tr><th>Manager</th><th>Team</th><th>MVP</th><th class="num">Points</th></tr></thead><tbody>
+{% for T in S.teams %}{% set m = M.teamMVPs.get(T.manager) %}{% if m %}<tr><td>{{ ml(T.manager) }}</td><td>{{ T.teamName }}</td><td>{{ m.name }} <span class="muted">{{ m.pos }}</span></td><td class="num">{{ f(m.points) }}</td></tr>{% endif %}{% endfor %}
+</tbody></table></div><p class="muted small">{% if S.platform == 'ESPN' and not M.coverage.full %}Points scored while on the team's season-ending roster (weeks 1-{{ S.lastWeek }}).{% else %}Points scored in the starting lineup.{% endif %}</p>{% endif %}
+
+<h2 id="standings">Final Standings</h2>
+<div class="tbl-wrap"><table class="sortable"><thead><tr><th class="num">{{ 'Finish' if S.champion else '#' }}</th><th>Team</th><th>Manager</th>{% if S.platform=='ESPN' %}<th class="num">Seed</th>{% endif %}<th>Record</th>{% if S.platform=='Sleeper' %}<th>Official (w/ median)</th>{% endif %}<th class="num">PF</th><th class="num">PA</th><th class="num">All-play</th><th class="num">Luck</th><th class="num">Adds</th><th class="num">Trades</th></tr></thead><tbody>
+{% for T in S.teams %}<tr class="{{ 'champ' if T.manager==S.champion }}"><td class="num">{{ T.finalRank or T.standing }}</td><td>{{ T.teamName }}{% if T.tookOverFrom %} <span class="pill" title="Took over this team slot from {{ mname(T.tookOverFrom) }}">new owner</span>{% endif %}</td><td>{{ ml(T.manager) }}</td>{% if S.platform=='ESPN' %}<td class="num">{{ T.seed }}</td>{% endif %}<td>{{ rec(T) }}</td>{% if S.platform=='Sleeper' %}<td>{{ T.officialW }}-{{ T.officialL }}</td>{% endif %}<td class="num">{{ f(T.pf) }}</td><td class="num">{{ f(T.pa) }}</td><td class="num">{{ T.allPlayW }}-{{ T.allPlayL }}</td><td class="num {{ 'win' if T.luck > 0.5 else 'loss' if T.luck < -0.5 }}">{{ "%+.2f"|format(T.luck) }}</td><td class="num">{{ T.transactions.acquisitions }}</td><td class="num">{{ T.transactions.trades }}</td></tr>{% endfor %}
+</tbody></table></div>
+<p class="muted small">Luck = actual wins minus expected wins from the all-play record (your score vs. every team, every week). <a href="#luck">How to read this ↓</a> Adds/trades from ESPN's team transaction counters{% if S.platform=='Sleeper' %} / Sleeper transactions{% endif %}.{% if S.divisions %} Divisions: {{ S.divisions.values()|join(' · ') }}.{% endif %}</p>
+
+{% if FS.race %}{% set rc = FS.race %}
+<h2 id="race">📈 The Race</h2>
+<p class="small muted">Games over .500 after each regular-season week{% if S.medianGame %} (median wins included){% endif %}. Tap a name to highlight that manager's line; tap again to clear.</p>
+{{ race_svg(rc) }}
+<div class="grid g2">{% if rc.collapse %}<div class="card stat-hl neg"><div class="label">📉 Biggest collapse</div><b>{{ ml(rc.collapse.manager) }}</b> sat {{ ordinal(rc.collapse.peak) }} after week {{ rc.collapse.peakWeek }} and finished the regular season {{ ordinal(rc.collapse.final) }}, a {{ rc.collapse.places }}-place slide.</div>{% endif %}
+{% if rc.surge %}<div class="card stat-hl pos"><div class="label">📈 Biggest surge</div><b>{{ ml(rc.surge.manager) }}</b> was {{ ordinal(rc.surge.low) }} after week {{ rc.surge.lowWeek }} and climbed to {{ ordinal(rc.surge.final) }}, up {{ rc.surge.places }} places.</div>{% endif %}</div>
+{% endif %}
+<h2 id="luck">🍀 Schedule Luck</h2>
+<p class="small muted">All-play = your score vs every other team, every week. Expected wins = all-play win% × games. Luck = actual minus expected (head-to-head games only{% if S.medianGame %}; median wins not included{% endif %}). <a href="../luck.html">All-time luck →</a></p>
+{{ luck_table(FS.luck) }}{{ luck_help() }}
+{% if FS.regrets %}<h2 id="regrets">💔 The Ones That Got Away</h2>
+<div class="tbl-wrap"><table><thead><tr><th>Dropped by</th><th>Player</th><th>Wk</th><th class="num">Pts for others</th><th>Cashed in</th></tr></thead><tbody>
+{% for r in FS.regrets[:6] %}<tr><td>{{ ml(r.manager) }}</td><td><b>{{ r.name }}</b> <span class="muted small">{{ r.pos }}</span></td><td>{{ r.week }}</td><td class="num">{{ f(r.startedForOthers) }}</td><td>{{ ml(r.beneficiary) }}{% if r.champBenefit %} 🏆{% endif %}</td></tr>{% endfor %}</tbody></table></div>
+<p class="small muted">Points he scored in other managers' starting lineups after the drop. <a href="../regrets.html">All-time regrets →</a></p>{% endif %}
+{% if FS.trades %}<h2 id="trades">🤝 Trade Report Cards</h2><div class="grid g2">{% for tid in FS.trades %}{{ trade_card(TR[tid]) }}{% endfor %}</div><p class="small"><a href="../trades.html">Every trade, graded →</a></p>{% endif %}
+{% if FS.proj %}{% set PJ = FS.proj %}<h2 id="proj">🔮 Projection vs Reality</h2>
+<div class="grid g2">
+<div class="card"><div class="label">Beat ESPN by the most</div>{% set r = PJ.rows[0] %}<b>{{ ml(r.manager) }}</b>: {{ sgn(r.perGame) }} per game ({{ f(r.act) }} actual vs {{ f(r.proj) }} projected)</div>
+<div class="card"><div class="label">Fell short the most</div>{% set r = PJ.rows[-1] %}<b>{{ ml(r.manager) }}</b>: {{ sgn(r.perGame) }} per game ({{ f(r.act) }} actual vs {{ f(r.proj) }} projected)</div>
+{% if PJ.chokes %}{% set g = PJ.chokes[0] %}<div class="card choke"><div class="label">😱 Choke of the year</div>Week {{ g.week }}: <b>{{ ml(g.fav) }}</b> was projected to beat {{ ml(g.dog) }} by {{ f(g.projEdge) }} and lost {{ f(g.dogScore) }}-{{ f(g.favScore) }}.</div>{% endif %}
+<div class="card"><div class="label">Upsets</div>The projected favorite lost {{ PJ.upsets }} of {{ PJ.nGames }} games ({{ (100*PJ.upsets/PJ.nGames)|round|int }}%).</div></div>
+<p class="small"><a href="../projections.html">Projection hall of fame →</a></p>{% endif %}
+
+{% if S.champion %}
+<h2 id="playoffs">Playoff Bracket</h2>
+<div class="bracket">
+{% for wk, gs in playoff_rounds(S) %}<div class="round"><h4>Week {{ wk }}{% if loop.last %} · Championship{% elif loop.revindex==2 %} · Semifinals{% else %} · Round {{ loop.index }}{% endif %}</h4>
+{% for g in gs %}{% if g.bye %}<div class="mu"><div class="w"><span>({{ seed_of(S, g.home.teamId) }}) {{ mname(g.home.manager) }}</span><span class="muted">bye</span></div></div>
+{% else %}{% set hw = g.winner=='home' %}<div class="mu {{ 'final' if g.isFinal }}"><div class="{{ 'w' if hw else 'l' }}"><span>({{ seed_of(S, g.home.teamId) }}) {{ mname(g.home.manager) }}</span><span>{{ f(g.home.score) }}</span></div><div class="{{ 'l' if hw else 'w' }}"><span>({{ seed_of(S, g.away.teamId) }}) {{ mname(g.away.manager) }}</span><span>{{ f(g.away.score) }}</span></div></div>{% endif %}{% endfor %}
+</div>{% endfor %}</div>
+<details class="small" style="margin-top:8px"><summary class="muted">Consolation ladder results</summary><div class="games">
+{% for g in S.games if g.kind=='consolation' and g.away %}<div class="mu"><div class="{{ 'w' if g.winner=='home' else 'l' }}"><span>Wk {{ g.week }} · {{ mname(g.home.manager) }}</span><span>{{ f(g.home.score) }}</span></div><div class="{{ 'w' if g.winner=='away' else 'l' }}"><span>{{ mname(g.away.manager) }}</span><span>{{ f(g.away.score) }}</span></div></div>{% endfor %}
+</div></details>
+{% endif %}
+
+<h2 id="leaders">Points Leaders</h2>
+<div class="grid g2">
+<div><h3>Regular-season team scoring</h3><div class="tbl-wrap"><table><thead><tr><th>#</th><th>Manager</th><th class="num">PF</th><th class="num">PPG</th></tr></thead><tbody>
+{% for T in S.teams|sort(attribute='pf', reverse=true) %}<tr><td>{{ loop.index }}</td><td>{{ ml(T.manager) }}</td><td class="num">{{ f(T.pf) }}</td><td class="num">{{ f((T.pf/((T.w+T.l+T.t) or 1))|round(2)) }}</td></tr>{% endfor %}</tbody></table></div></div>
+<div><h3>Top fantasy players</h3><div class="tbl-wrap"><table><thead><tr><th>Player</th><th>Pos</th><th class="num">Pts</th><th>Drafted by</th><th>Ended on</th></tr></thead><tbody>
+{% for p in top_players(S) %}<tr><td>{{ p.name }}</td><td>{{ p.pos }}</td><td class="num">{{ f(p.pts) }}</td><td>{% if p.drafted %}{{ ml(p.drafted) }} <span class="muted small">{{ p.slot }}</span>{% else %}<span class="muted">undrafted</span>{% endif %}</td><td>{% if p.owner %}{{ ml(p.owner) }}{% else %}<span class="muted">-</span>{% endif %}</td></tr>{% endfor %}
+</tbody></table></div><p class="muted small">{% if S.platform=='ESPN' %}League scoring, weeks 1-{{ S.lastWeek }}, computed from ESPN's weekly stat lines.{% else %}Points scored while rostered in this league.{% endif %}</p></div>
+</div>
+
+<h2 id="draft">Draft Board</h2>
+<p class="small"><a href="draft-order.html#y{{ S.year }}">🎲 How the {{ S.year }} draft order was decided →</a></p>
+{% set B = draft_board(S) %}
+<p class="muted small">Round 1 highlighted in gold. <span class="pill green">green outline</span> = top-5 value picks, <span class="pill red">red outline</span> = biggest early-round busts, judged by points above positional replacement vs. draft slot. Hover a cell for details.</p>
+<div class="tbl-wrap" style="padding:8px"><div class="draftboard" style="grid-template-columns:40px repeat({{ B.cols|length }},1fr)">
+<div class="cell hdr"></div>{% for tid in B.cols %}<div class="cell hdr">{{ mname(B.mgr[tid]).split(' ')[0] }}</div>{% endfor %}
+{% for r in B.rounds %}<div class="cell hdr">R{{ r }}</div>{% for tid in B.cols %}{% set p = B.grid.get((r,tid)) %}<div class="cell {{ (p.pos|replace('/','')) if p }} {{ 'r1' if r==1 }} {{ p.tag if p and p.tag }}" title="{% if p %}#{{ p.overall }} {{ p.name }} ({{ p.pos }}) · {{ f(p.points) }} pts{% if p.posRank %} · {{ p.pos }}{{ p.posRank }}{% endif %}{% endif %}">{% if p %}<b>{{ p.name }}</b>{{ p.pos }} · {{ f(p.points) }}{% endif %}</div>{% endfor %}{% endfor %}
+</div></div>
+{% if S.platform=='ESPN' %}
+<div class="grid g2"><div><h3>💎 Best picks</h3><div class="tbl-wrap"><table><thead><tr><th>Pick</th><th>Player</th><th>Manager</th><th class="num">Pts</th><th>Finish</th></tr></thead><tbody>
+{% for p in S.draft if p.tag=='steal' %}<tr><td>{{ rp(p) }} <span class="muted small">#{{ p.overall }}</span></td><td>{{ p.name }} <span class="muted">{{ p.pos }}</span></td><td>{{ ml(p.manager) }}</td><td class="num">{{ f(p.points) }}</td><td>{{ p.pos }}{{ p.posRank }}</td></tr>{% endfor %}</tbody></table></div></div>
+<div><h3>💀 Worst picks</h3><div class="tbl-wrap"><table><thead><tr><th>Pick</th><th>Player</th><th>Manager</th><th class="num">Pts</th><th>Finish</th></tr></thead><tbody>
+{% for p in S.draft|selectattr('tag','equalto','bust')|sort(attribute='valueDelta') %}<tr><td>{{ rp(p) }} <span class="muted small">#{{ p.overall }}</span></td><td>{{ p.name }} <span class="muted">{{ p.pos }}</span></td><td>{{ ml(p.manager) }}</td><td class="num">{{ f(p.points) }}</td><td>{{ p.pos }}{{ p.posRank or '-' }}</td></tr>{% endfor %}</tbody></table></div></div></div>
+{% endif %}
+
+<h2 id="notable">Notable Games</h2>
+{% set N = M.notable %}{% if N %}<div class="grid g3">
+{% for key, label, icon in [('highest','Highest score','🔥'),('blowout','Biggest blowout','💣'),('closest','Closest game','😬'),('worstLoss','Worst loss (highest score in a defeat)','💔'),('lowest','Lowest score','🧊'),('luckiestWin','Ugliest win','🍀')] %}{% set g = N[key] %}
+<div class="card"><div class="label">{{ icon }} {{ label }}</div><div class="h" style="margin:6px 0"><b>{{ mname(g.w.manager) }}</b> {{ f(g.w.score) }} – {{ f(g.l.score) }} {{ mname(g.l.manager) }}</div><div class="small muted">Week {{ g.week }}{% if g.kind=='playoff' %} (playoffs){% endif %} · margin {{ f(g.margin) }} · {{ g.w.team }} vs {{ g.l.team }}</div></div>{% endfor %}
+</div>{% endif %}
+
+<h2 id="weeks">Weekly Results</h2>
+<div class="weeks">{% for wk, gs in weeks(S) %}<details {{ 'open' if loop.last and not S.champion }}><summary>Week {{ wk }}{% if gs[0].kind=='playoff' %} · Playoffs{% elif gs[0].kind=='consolation' %} · Playoffs/consolation{% endif %}</summary><div class="games">
+{% for g in gs if g.away %}<div class="mu"><div class="{{ 'w' if g.winner=='home' else 'l' }}"><span>{{ mname(g.home.manager) }} <span class="muted small">{% if g.kind!='regular' %}{{ 'P' if g.kind=='playoff' else 'C' }}{% endif %}</span></span><span>{{ f(g.home.score) }}</span></div><div class="{{ 'w' if g.winner=='away' else 'l' }}"><span>{{ mname(g.away.manager) }}</span><span>{{ f(g.away.score) }}</span></div></div>{% endfor %}
+</div></details>{% endfor %}</div>
+
+{% if S.transactions %}
+<h2 id="tx">Transactions</h2>
+{% if S.platform=='ESPN' and not M.coverage.full %}<div class="note">Partial: the weekly archive currently covers weeks {{ S.archive.weeks|join(', ') }} of {{ S.year }}. This list fills in as more weeks are processed.</div>{% endif %}
+{% set trades = S.transactions|selectattr('type','equalto','TRADE')|list %}
+<h3>Trades ({{ trades|length }})</h3>
+{% if trades %}<div class="grid g2">{% for t in trades %}<div class="card small"><div class="label">Week {{ t.week }}</div>{% for m, items in trade_sides(t) %}<div><b>{{ mname(m) }}</b> received: {{ items|join(', ') }}</div>{% endfor %}</div>{% endfor %}</div>{% else %}<p class="muted">No trades in the archive for this season (yet).</p>{% endif %}
+<h3>Pickups ({{ S.transactions|rejectattr('type','equalto','TRADE')|list|length }} waiver/free-agent moves)</h3>
+<details><summary class="muted">Show all</summary><div class="tbl-wrap"><table class="sortable"><thead><tr><th class="num">Wk</th><th>Manager</th><th>Type</th><th>Added</th><th>Dropped</th></tr></thead><tbody>
+{% for t in S.transactions if t.type!='TRADE' %}<tr><td class="num">{{ t.week }}</td><td>{% set ad = t["items"]|selectattr('type','equalto','ADD')|list %}{% set dr = t["items"]|selectattr('type','equalto','DROP')|list %}{% if ad and ad[0].toManager %}{{ ml(ad[0].toManager) }}{% elif dr and dr[0].fromManager %}{{ ml(dr[0].fromManager) }}{% endif %}</td><td>{{ t.type|lower|replace('freeagent','free agent') }}</td><td>{{ ad|map(attribute='name')|join(', ') }}</td><td class="muted">{{ dr|map(attribute='name')|join(', ') }}</td></tr>{% endfor %}
+</tbody></table></div></details>
+{% elif S.platform=='ESPN' %}<div class="note">Transaction-level data for {{ S.year }} isn't in the archive yet. Team-level counts (adds/trades) above come from ESPN's season summary. Rerun <code>python3 scripts/build_all.py</code> after the weekly archive lands to fill in trades and pickups.</div>{% endif %}
+{% endblock %}

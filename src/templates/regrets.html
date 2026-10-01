@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% from "macros.html" import subnav with context %}{% block body %}
+{{ subnav('records', sub) }}
+<section class="hero"><div class="kicker">Should've kept him</div><h1>The Ones That Got Away</h1>
+<p class="lead">Players a manager dropped who went on to score for someone else. The number is the points he put up <b>in other managers' starting lineups</b> after the drop, for the rest of that season (from the weekly box scores). The clock stops if the original manager picks him back up.</p></section>
+<h2>💔 Biggest regrets of all time</h2>
+<div class="tbl-wrap"><table><thead><tr><th>#</th><th>Dropped by</th><th>Player</th><th>When</th><th class="num">Pts for others</th><th>Who cashed in</th></tr></thead><tbody>
+{% for r in F.regretsTop %}<tr><td>{{ loop.index }}</td><td>{{ ml(r.manager) }}</td><td><b>{{ r.name }}</b> <span class="muted small">{{ r.pos }}</span></td><td><a href="seasons/{{ r.year }}.html#regrets">{{ r.year }}</a> wk {{ r.week }}</td><td class="num"><b>{{ f(r.startedForOthers) }}</b></td><td>{{ ml(r.beneficiary) }}{% if r.champBenefit %} <span class="pill gold" title="Won the title that year">🏆 champ</span>{% endif %}</td></tr>{% endfor %}</tbody></table></div>
+<h2>Each manager's biggest regret</h2>
+<div class="grid g2">{% for m, P in F.managers.items() if P.regrets %}{% set r = P.regrets[0] %}<div class="card"><div class="label">{{ ml(m) }}</div><b>{{ r.name }}</b> ({{ r.pos }}), dropped {{ r.year }} week {{ r.week }}: <b>{{ f(r.startedForOthers) }}</b> pts for {{ mname(r.beneficiary) }}{% if r.champBenefit %}, who won the title{% endif %}.</div>{% endfor %}</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}{% from "macros.html" import award_card, mcard with context %}{% block body %}
+<section class="hero"><div class="kicker">🕯️ Gone but not forgotten</div><h1>In Memoriam</h1>
+<p class="lead">Honoring the fallen owners: the men who drafted, traded, set lineups (mostly) and then left the league. Their records are preserved here forever, whether they like it or not.</p></section>
+<div class="graveyard">
+{% for f in L.fallen %}<article class="tomb" id="{{ f.id }}">
+<div class="rip">R.I.P.</div>
+<h2><a href="managers/{{ f.id }}.html">{{ f.name }}</a></h2>
+<div class="dates">{{ f.years }}</div>
+<p class="epitaph">“{{ f.epitaph }}”</p>
+<dl>
+<dt>Teams</dt><dd>{{ f.teamNames|join(' · ') }}</dd>
+<dt>All-time record</dt><dd>{{ f.record }} <span class="muted">({{ "%.3f"|format(f.pct) }})</span></dd>
+<dt>Best finish</dt><dd>{{ f.bestFinish }}{% if f.titles %} 🏆{% elif f.runnerUps %} 🥈{% endif %}</dd>
+{% if f.signature and f.signature.text %}<dt>{{ f.signature.title }}</dt><dd>{{ md(f.signature.text) }}</dd>{% endif %}
+<dt>Survived by</dt><dd>{% if f.successors %}{% for s in f.successors %}<a href="managers/{{ s.manager }}.html">{{ s.name }}</a>, {% if s.kind == 'seat' %}who filled the {{ ordinal(s.seat) }} seat when the dynasty began in {{ s.year }}{% else %}who took over the team slot in {{ s.year }}{% endif %}{% if not loop.last %}; {% endif %}{% endfor %}{% elif f.leftAtMigration %}Nobody. He bowed out when the league moved to Sleeper, and the dynasty started fresh without him.{% else %}No heir. The team slot was retired with him.{% endif %}</dd>
+</dl>
+<div class="flowers">💐 🕯️ 🏈</div>
+</article>{% endfor %}
+</div>
+{% for mid in L.resurrected %}{% set p = L.profiles[mid] %}<div class="card callout"><div class="label">🧟 Back from the dead</div><p><a href="managers/{{ mid }}.html"><b>{{ p.name }}</b></a> was laid to rest after {{ p.resurrection.leftAfter }}, then clawed his way back in {{ p.resurrection.returned }}. He's still with us, so he gets a <span class="pill gold">🧟 Resurrected</span> badge instead of a tombstone.</p></div>{% endfor %}
+<p class="muted small">This page updates itself: anyone with no season in the latest league year ({{ L.years|last }}) gets a tombstone. Epitaphs come from their real stats.</p>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}{% from "macros.html" import award_card, mcard, luck_table, luck_help with context %}{% block body %}{% from "macros.html" import subnav with context %}{{ subnav('records', sub) }}
+<section class="hero"><div class="kicker">Etched in stone</div><h1>The Record Book</h1><p class="lead">All-time marks, attributed to the person who was managing that week.</p>
+<div class="toc"><a href="#games">Single games</a><a href="#seasons">Seasons</a><a href="#streaks">Streaks</a><a href="#players">Player games</a><a href="#career">Career</a><a href="#luck">Schedule luck</a><a href="#matrix">Rivalry matrix</a></div></section>
+<p class="note">{{ L.records.consolationNote }}</p>
+{% macro scoretbl(rows, title) %}<div><h3>{{ title }}</h3><div class="tbl-wrap"><table><thead><tr><th>#</th><th>Manager</th><th class="num">Score</th><th>Opponent</th><th>When</th></tr></thead><tbody>
+{% for r in rows %}<tr><td>{{ loop.index }}</td><td>{{ ml(r.manager) }}<div class="small muted">{{ r.team }}</div></td><td class="num"><b>{{ f(r.score) }}</b></td><td>{{ ml(r.opp) }} <span class="muted">{{ f(r.oppScore) }}</span></td><td><a href="seasons/{{ r.year }}.html">{{ r.year }}</a> wk {{ r.week }}{% if r.kind=='playoff' %} <span class="pill gold">playoffs</span>{% endif %}</td></tr>{% endfor %}</tbody></table></div></div>{% endmacro %}
+{% macro margintbl(rows, title) %}<div><h3>{{ title }}</h3><div class="tbl-wrap"><table><thead><tr><th>#</th><th>Winner</th><th>Loser</th><th class="num">Score</th><th class="num">Margin</th><th>When</th></tr></thead><tbody>
+{% for r in rows %}<tr><td>{{ loop.index }}</td><td>{{ ml(r.winner) }}</td><td>{{ ml(r.loser) }}</td><td class="num">{{ f(r.wScore) }}-{{ f(r.lScore) }}</td><td class="num"><b>{{ f(r.margin) }}</b></td><td><a href="seasons/{{ r.year }}.html">{{ r.year }}</a> wk {{ r.week }}{% if r.kind=='playoff' %} <span class="pill gold">playoffs</span>{% endif %}</td></tr>{% endfor %}</tbody></table></div></div>{% endmacro %}
+{% macro seasontbl(rows, title, key) %}<div><h3>{{ title }}</h3><div class="tbl-wrap"><table><thead><tr><th>#</th><th>Manager</th><th>Year</th><th>Record</th><th class="num">PF</th><th class="num">PPG</th><th class="num">PA</th><th class="num">Luck</th><th class="num">Finish</th></tr></thead><tbody>
+{% for r in rows %}<tr><td>{{ loop.index }}</td><td>{{ ml(r.manager) }}<div class="small muted">{{ r.teamName }}</div></td><td><a href="seasons/{{ r.year }}.html">{{ r.year }}</a></td><td>{{ r.w }}-{{ r.l }}</td><td class="num">{{ f(r.pf) }}</td><td class="num">{{ f(r.ppg) }}</td><td class="num">{{ f(r.pa) }}</td><td class="num">{{ "%+.2f"|format(r.luck) }}</td><td class="num">{{ ordinal(r.finalRank) }}{% if r.champion %} 🏆{% endif %}</td></tr>{% endfor %}</tbody></table></div></div>{% endmacro %}
+<h2 id="games">Single-Game Records</h2>
+<div class="grid g2">{{ scoretbl(L.records.highScores, '🔥 Highest scores') }}{{ scoretbl(L.records.lowScores, '🧊 Lowest scores') }}
+{{ margintbl(L.records.blowouts, '💣 Biggest blowouts') }}{{ margintbl(L.records.closest, '😬 Closest games') }}
+{{ scoretbl(L.records.highLoss, '💔 Highest score in a loss') }}{{ scoretbl(L.records.lowWin, '🍀 Lowest score in a win') }}</div>
+<h2 id="seasons">Season Records</h2>
+<div class="grid g2">{{ seasontbl(L.records.seasonPF, '📈 Most points per game (season)') }}{{ seasontbl(L.records.seasonPFlow, '📉 Fewest points per game (season)') }}
+{{ seasontbl(L.records.bestRecords, '🥇 Best regular-season records') }}{{ seasontbl(L.records.worstRecords, '🪦 Worst regular-season records') }}
+{{ seasontbl(L.records.seasonPA, '🎯 Most points against per game') }}{{ seasontbl(L.records.unluckiest, '🌧️ Unluckiest seasons (wins below all-play expectation)') }}
+{{ seasontbl(L.records.luckiest, '🍀 Luckiest seasons') }}</div>
+<p class="muted small">PPG is used because 2020 had a 13-week regular season and later years had 14.</p>
+<h2 id="streaks">Streaks</h2>
+<div class="grid g2">{% for rows, title in [(L.records.winStreaks,'🔥 Longest winning streaks'),(L.records.lossStreaks,'🥶 Longest losing streaks')] %}<div><h3>{{ title }}</h3><div class="tbl-wrap"><table><thead><tr><th>#</th><th>Manager</th><th class="num">Games</th><th>From</th><th>To</th></tr></thead><tbody>
+{% for s in rows %}<tr><td>{{ loop.index }}</td><td>{{ ml(s.manager) }}</td><td class="num"><b>{{ s.length }}</b></td><td>{{ s['from'][0] }} wk {{ s['from'][1] }}</td><td>{{ s['to'][0] }} wk {{ s['to'][1] }}</td></tr>{% endfor %}</tbody></table></div></div>{% endfor %}</div>
+<p class="muted small">Streaks count regular-season and winners-bracket playoff games in order, carrying across seasons and platforms for the same person.</p>
+<h2 id="players">Biggest Player Games (starting lineups)</h2>
+{% if L.records.playerGames %}<div class="tbl-wrap"><table><thead><tr><th>#</th><th>Player</th><th class="num">Pts</th><th>Manager</th><th>When</th></tr></thead><tbody>
+{% for r in L.records.playerGames %}<tr><td>{{ loop.index }}</td><td>{{ r.name }} <span class="muted">{{ r.pos }}</span></td><td class="num"><b>{{ f(r.pts) }}</b></td><td>{{ ml(r.manager) }}</td><td>{{ r.year }} wk {{ r.week }}</td></tr>{% endfor %}</tbody></table></div>
+<p class="muted small">Coverage: {% for y in L.years %}{{ y }}: {{ L.seasonMeta[y|string].coverage.lineupWeeks }}/{{ L.seasonMeta[y|string].coverage.neededWeeks }} weeks{% if not loop.last %} · {% endif %}{% endfor %}. Mixes ESPN and Sleeper scoring; grows as the weekly archive fills in.</p>{% endif %}
+<h2 id="career">Career Leaderboards</h2>
+<div class="tbl-wrap"><table class="sortable"><thead><tr><th>Manager</th><th class="num">Titles</th><th class="num">Finals</th><th class="num">Playoff apps</th><th class="num">Win %</th><th class="num">PPG</th><th class="num">Last-place finishes</th><th class="num">Career luck</th></tr></thead><tbody>
+{% for mid in L.managerOrder %}{% set p = L.profiles[mid] %}<tr><td>{{ ml(mid) }}</td><td class="num">{{ p.titles|length }}</td><td class="num">{{ p.titles|length + p.runnerUps|length }}</td><td class="num">{{ p.playoffApps|length }}</td><td class="num">{{ "%.3f"|format(p.pct) }}</td><td class="num">{{ f(p.ppg) }}</td><td class="num">{{ p.lastPlace|length }}</td><td class="num">{{ "%+.2f"|format(p.seasons|map(attribute='luck')|map('float')|sum) }}</td></tr>{% endfor %}
+</tbody></table></div>
+<h2 id="luck">🍀 Schedule Luck (all-time)</h2>
+<p class="small muted">Actual wins minus wins expected from the all-play record. <a href="luck.html">Full luck page →</a></p>
+{{ luck_help() }}<div class="grid g2"><div><h3>Luckiest careers</h3>{{ luck_table(F.luckAll[:5]) }}</div><div><h3>Unluckiest careers</h3>{{ luck_table((F.luckAll|reverse|list)[:5]) }}</div></div>
+<h2 id="matrix">Head-to-Head Rivalry Matrix</h2>
+<p class="muted small">Row manager's record vs. column manager, all regular-season and playoff games. Green = winning record.</p>
+{% set ids = L.managerOrder %}
+<div class="tbl-wrap"><table class="matrix"><thead><tr><th class="rowh">vs →</th>{% for c in ids %}<th title="{{ mname(c) }}">{{ initials(c) }}</th>{% endfor %}</tr></thead><tbody>
+{% for r in ids %}<tr><th class="rowh"><a href="managers/{{ r }}.html">{{ mname(r) }}</a></th>{% for c in ids %}{% if r==c %}<td class="self"></td>{% else %}{% set h = L.h2h.get(r~'|'~c) %}{% if h %}{% set w = h.w+h.pw %}{% set l = h.l+h.pl %}<td class="{{ 'pos' if w>l else 'neg' if l>w }}" title="{{ mname(r) }} vs {{ mname(c) }}: {{ w }}-{{ l }}{% if h.t %}-{{ h.t }}{% endif %}"><a href="rivalries/{{ pair_id(r, c) }}.html">{{ w }}-{{ l }}</a></td>{% else %}<td class="muted">·</td>{% endif %}{% endif %}{% endfor %}</tr>{% endfor %}
+</tbody></table></div>
+{% endblock %}

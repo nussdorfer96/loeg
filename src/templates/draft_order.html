@@ -1,0 +1,18 @@
+{% extends "base.html" %}{% block body %}
+<section class="hero"><div class="kicker">🎲 Earn your slot</div><h1>Draft Order Games</h1>
+<p class="lead">Nobody here gets a random draft slot. Every year the Commissioner makes the league compete for draft order. Below is each year's game and the first-round order it produced. The order comes straight from the ESPN and Sleeper draft data.</p>
+<div class="season-nav">{% for d in L.draftOrder|reverse %}<a href="#y{{ d.year }}">{{ d.year }}</a>{% endfor %}</div></section>
+{% for d in L.draftOrder|reverse %}
+<article class="card dog" id="y{{ d.year }}">
+<div class="label">{{ d.year }} · {{ d.platform }} · {{ d.draftKind }} draft</div>
+{% set tbd = (not d.competition) or d.competition.startswith('Commissioner to fill in') %}
+<h3 class="dog-title">{% if tbd %}<span class="tbd">🎲 Competition: Commissioner to fill in</span>{% else %}🎲 {{ d.competition }}{% endif %}</h3>
+{% if d.description and not d.description.startswith('Commissioner to fill in') %}<p>{{ d.description }}</p>{% else %}<p class="tbd small">How was it played? Commissioner to fill in.</p>{% endif %}
+<div class="small">🏅 Winner: {% if d.winner %}<b>{{ ml(d.winner) }}</b>{% else %}<span class="tbd">Commissioner to fill in</span>{% endif %}</div>
+{% if d.notes %}<p class="small">{{ d.notes }}</p>{% endif %}
+<details class="order" {{ 'open' if loop.first }}><summary>Resulting draft order</summary>
+<ol class="draft-order">{% for o in d.order %}<li><span class="pk">{{ o.pick }}</span><span class="who">{{ ml(o.manager) }}<span class="small muted"> · {{ o.team }}</span></span><span class="small muted pl">took {{ o.player }} ({{ o.pos }})</span></li>{% endfor %}</ol></details>
+<div class="small"><a href="{{ d.year }}.html#draft">{{ d.year }} draft board →</a></div>
+</article>{% endfor %}
+<div class="note">Commissioner: fill in each year's game in <code>data/draft_order_games.json</code> (competition, description, winner as a manager id like <code>ryan-nussdorfer</code>, optional notes) and rebuild. Draft orders update themselves from the draft data.</div>
+{% endblock %}

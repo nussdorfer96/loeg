@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% from "macros.html" import subnav, trade_card with context %}{% block body %}
+{{ subnav('records', sub) }}
+<section class="hero"><div class="kicker">Fleeced or fleecer?</div><h1>Trade Report Cards</h1>
+<p class="lead">Every trade graded by what each side got from the players it acquired, counting only <b>points scored in that manager's starting lineup</b> for the rest of that season (from the weekly box scores). Grades come from each side's share of the total: A+ at 75% or more, F under 35%. A trade decided by less than 5 points is a push.</p></section>
+<div class="note">ESPN only logged {{ F.trades|selectattr('year','lt',2026)|list|length }} trades from 2020 to 2025, plus {{ F.trades|selectattr('year','ge',2026)|list|length }} so far in the dynasty. A player flipped in a follow-up trade only counts while he was on that roster. Draft picks and dynasty value can't be scored yet, so 2026 grades are provisional.</div>
+<h2>Career trade records</h2>
+<div class="tbl-wrap"><table class="sortable"><thead><tr><th>Manager</th><th class="num">Trades</th><th class="num">W-L-Push</th><th class="num">Net started pts</th></tr></thead><tbody>
+{% for r in F.tradeRecords %}<tr><td>{{ ml(r.manager) }}</td><td class="num">{{ r.n }}</td><td class="num">{{ r.w }}-{{ r.l }}-{{ r.t }}</td><td class="num {{ 'pos' if r.net>0 else 'neg' if r.net<0 }}">{{ sgn(r.net) }}</td></tr>{% endfor %}</tbody></table></div>
+{% set lop = F.trades|selectattr('winner')|sort(attribute='margin', reverse=true)|list %}
+{% if lop %}<h2>🚨 Most lopsided</h2>{{ trade_card(lop[0]) }}{% endif %}
+<h2>Every trade</h2>
+{% for y, ts in F.trades|groupby('year')|reverse %}<h3>{{ y }}</h3><div class="grid g2">{% for t in ts %}{{ trade_card(t) }}{% endfor %}</div>{% endfor %}
+{% endblock %}

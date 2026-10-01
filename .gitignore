@@ -1,0 +1,13 @@
+# Raw league data (private ESPN exports, weekly archive, Sleeper dumps incl. the ~10 MB players DB) stays on the build box
+raw/
+espn_archive_backup.tar.gz
+*.tar.gz
+# Build outputs: dist/ is published to the gh-pages branch by scripts/publish.sh
+dist/
+data/generated/
+league-site.zip
+screenshots/
+# Python / OS cruft
+__pycache__/
+*.pyc
+.DS_Store

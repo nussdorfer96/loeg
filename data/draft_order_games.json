@@ -1,0 +1,47 @@
+{
+  "_readme": "Draft Order Games: the commissioner makes the league compete for draft order every year. Fill in one entry per year: 'competition' (short name), 'description' (how it was played), 'winner' (a manager id from data/managers.json, e.g. 'ryan-nussdorfer', or null) and optional 'notes'. The actual draft order is pulled automatically from the ESPN/Sleeper draft data; don't type it here. Rebuild with: python3 scripts/build_all.py",
+  "years": {
+    "2020": {
+      "competition": "Commissioner to fill in",
+      "description": "Commissioner to fill in: what was the game, and how did it set the draft order?",
+      "winner": null,
+      "notes": ""
+    },
+    "2021": {
+      "competition": "Commissioner to fill in",
+      "description": "Commissioner to fill in: what was the game, and how did it set the draft order?",
+      "winner": null,
+      "notes": ""
+    },
+    "2022": {
+      "competition": "Commissioner to fill in",
+      "description": "Commissioner to fill in: what was the game, and how did it set the draft order?",
+      "winner": null,
+      "notes": ""
+    },
+    "2023": {
+      "competition": "Commissioner to fill in",
+      "description": "Commissioner to fill in: what was the game, and how did it set the draft order?",
+      "winner": null,
+      "notes": ""
+    },
+    "2024": {
+      "competition": "Commissioner to fill in",
+      "description": "Commissioner to fill in: what was the game, and how did it set the draft order?",
+      "winner": null,
+      "notes": ""
+    },
+    "2025": {
+      "competition": "Commissioner to fill in",
+      "description": "Commissioner to fill in: what was the game, and how did it set the draft order?",
+      "winner": null,
+      "notes": ""
+    },
+    "2026": {
+      "competition": "Commissioner to fill in",
+      "description": "Commissioner to fill in: what was the game, and how did it set the draft order?",
+      "winner": null,
+      "notes": ""
+    }
+  }
+}

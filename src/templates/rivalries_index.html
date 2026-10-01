@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% from "macros.html" import subnav with context %}{% block body %}
+{{ subnav('records', sub) }}
+<section class="hero"><div class="kicker">Bad blood</div><h1>Rivalries</h1>
+<p class="lead">Picked automatically from every head-to-head game: the most played, the closest, the most playoff meetings and the biggest grudges. Every pair that has ever met has its own page. Tap any cell in the <a href="../records.html#matrix">rivalry matrix</a> to open one.</p></section>
+<div class="grid g2">{% for k in F.rivalryPicks %}{% set R = F.rivalries[k] %}
+<a class="card riv-card" href="{{ k }}.html"><div class="label">{{ R.tag }} · {{ R.why }}</div>
+<div class="vs-line"><b>{{ mname(R.a) }}</b> <span class="sc">{{ R.aW }}-{{ R.bW }}</span> <b>{{ mname(R.b) }}</b></div>
+<div class="small">{{ R.n }} games · avg margin {{ f(R.avgMargin) }}{% if R.playoff %} · {{ R.playoff }} playoff{% endif %}</div></a>{% endfor %}</div>
+<h2>Every series</h2>
+<div class="tbl-wrap"><table class="sortable"><thead><tr><th>Series</th><th class="num">Games</th><th class="num">Record</th><th class="num">Avg margin</th><th class="num">Playoff</th></tr></thead><tbody>
+{% for R in F.rivalries.values()|sort(attribute='n', reverse=true) %}<tr><td><a href="{{ R.id }}.html">{{ mname(R.a) }} vs {{ mname(R.b) }}</a></td><td class="num">{{ R.n }}</td><td class="num">{{ R.aW }}-{{ R.bW }}</td><td class="num">{{ f(R.avgMargin) }}</td><td class="num">{{ R.playoff }}</td></tr>{% endfor %}</tbody></table></div>
+{% endblock %}

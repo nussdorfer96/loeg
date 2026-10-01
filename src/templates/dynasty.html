@@ -1,0 +1,53 @@
+{% extends "base.html" %}{% from "macros.html" import award_card, mcard with context %}{% block body %}{% from "macros.html" import subnav with context %}{{ subnav('dynasty', sub) }}
+{% set M = L.seasonMeta[S.year|string] %}
+<section class="hero"><div class="kicker">Sleeper · Dynasty · Superflex</div><h1>The Dynasty Era ({{ S.year }}–)</h1>
+<p class="lead">The league moved to Sleeper in {{ S.year }} and went dynasty: keep your roster forever, trade future picks, and live with your startup draft. {{ S.completedWeeks }} weeks in the books.</p>
+<div class="toc"><a href="#standings">Standings</a><a href="#matchups">Matchups</a><a href="#trades">Trades &amp; picks</a><a href="#draft">Startup draft</a><a href="#rosters">Rosters</a><a href="#moves">Waiver wire</a><a href="#awards">Awards so far</a></div></section>
+<div class="grid g4">
+<div class="card"><div class="label">Format</div><div class="h"><b>{{ S.teams|length }} teams · PPR · superflex</b></div><div class="small muted">{{ S.rosterPositions|reject('equalto','BN')|join(', ') }} + {{ S.rosterPositions|select('equalto','BN')|list|length }} bench</div></div>
+<div class="card"><div class="label">Extras</div><div class="small">{{ S.settings.taxi_slots }} taxi · {{ S.settings.reserve_slots }} IR · {{ {0: 'rolling waivers', 1: 'reverse-standings waivers'}.get(S.settings.waiver_type, 'traditional waivers') }} (claims clear after {{ S.settings.waiver_clear_days or 2 }} days)<br>Weekly game vs. league median: {{ 'yes' if S.medianGame else 'no' }}</div></div>
+<div class="card"><div class="label">Playoffs</div><div class="small">{{ S.playoffTeams }} teams, starting week {{ S.settings.playoff_week_start }} · trade deadline week {{ S.settings.trade_deadline }}</div></div>
+<div class="card"><div class="label">Leader</div><div class="h"><b>{{ S.teams[0].teamName }}</b></div><div class="small">{{ ml(S.teams[0].manager) }} · {{ S.teams[0].officialW }}-{{ S.teams[0].officialL }}</div></div>
+</div>
+<h2>Where things stand</h2><div class="chapters">{% for c in M.chapters %}<section class="chapter"><h3>{{ c.h }}</h3>{% for l in c.lines %}{{ md(l) }}{% endfor %}</section>{% endfor %}</div>
+
+<h2 id="standings">Standings</h2>
+<div class="tbl-wrap"><table class="sortable"><thead><tr><th class="num">#</th><th>Team</th><th>Manager</th><th>Sleeper user</th><th>Official</th><th>H2H</th><th>vs Median</th><th class="num">PF</th><th class="num">PA</th><th class="num">Max PF</th><th class="num">Moves</th><th class="num">Trades</th></tr></thead><tbody>
+{% for T in S.teams %}<tr><td class="num">{{ T.standing }}</td><td>{{ T.teamName }}</td><td>{{ ml(T.manager) }}{% if not T.managerConfirmed %} <span class="pill warn">unconfirmed</span>{% endif %}</td><td class="muted">{{ T.sleeperUser }}</td><td><b>{{ T.officialW }}-{{ T.officialL }}</b></td><td>{{ T.w }}-{{ T.l }}</td><td>{{ T.medW }}-{{ T.medL }}</td><td class="num">{{ f(T.pf) }}</td><td class="num">{{ f(T.pa) }}</td><td class="num">{{ f(T.maxPF) }}</td><td class="num">{{ T.transactions.acquisitions }}</td><td class="num">{{ T.transactions.trades }}</td></tr>{% endfor %}
+</tbody></table></div>
+<p class="muted small">Official record = head-to-head + the weekly game against the league median. Max PF = Sleeper's optimal-lineup points.</p>
+
+<h2 id="matchups">Matchups</h2>
+<div class="weeks">{% for wk, gs in weeks(S) %}<details open><summary>Week {{ wk }}</summary><div class="games">
+{% for g in gs %}<div class="mu"><div class="{{ 'w' if g.winner=='home' else 'l' }}"><span>{{ team_name_id(S, g.home.teamId) }} <span class="muted small">{{ mname(g.home.manager).split(' ')[0] }}</span></span><span>{{ f(g.home.score) }}</span></div><div class="{{ 'w' if g.winner=='away' else 'l' }}"><span>{{ team_name_id(S, g.away.teamId) }} <span class="muted small">{{ mname(g.away.manager).split(' ')[0] }}</span></span><span>{{ f(g.away.score) }}</span></div></div>{% endfor %}
+</div></details>{% endfor %}</div>
+
+<h2 id="trades">Trades &amp; Traded Picks</h2>
+{% set trades = S.transactions|selectattr('type','equalto','TRADE')|list %}
+<div class="grid g2">{% for t in trades %}<div class="card small"><div class="label">Week {{ t.week }} · {{ ts(t.date) }}</div>{% for m, items in trade_sides(t) %}<div style="margin-top:4px"><b>{{ ml(m) }}</b> received: {{ items|join(', ') }}</div>{% endfor %}</div>{% else %}<p class="muted">No trades yet.</p>{% endfor %}</div>
+<h3>Future picks that have changed hands</h3>
+{% if S.tradedPicks %}<div class="tbl-wrap"><table><thead><tr><th>Season</th><th>Round</th><th>Originally</th><th>Now owned by</th></tr></thead><tbody>
+{% for p in S.tradedPicks|sort(attribute='season') %}<tr><td>{{ p.season }}</td><td>{{ p.round }}</td><td>{{ ml(p.originalManager) }}</td><td>{{ ml(p.ownerManager) }}</td></tr>{% endfor %}</tbody></table></div>{% else %}<p class="muted">None yet.</p>{% endif %}
+
+<h2 id="draft">The Startup Draft</h2>
+<p class="small"><a href="seasons/draft-order.html#y{{ S.year }}">🎲 How the draft order was decided →</a></p>
+{% for D in S.drafts %}<p class="muted small">{{ D.kind|capitalize }} draft · {{ D.rounds }} rounds · {{ D.type }} · {{ ts(D.start) }}. Round 1 in gold. Points = scored for this league in {{ S.year }} so far.</p>
+{% set B = draft_board(S, D) %}
+<div class="tbl-wrap" style="padding:8px"><div class="draftboard" style="grid-template-columns:40px repeat({{ B.cols|length }},1fr)">
+<div class="cell hdr"></div>{% for tid in B.cols %}<div class="cell hdr">{{ mname(B.mgr[tid]).split(' ')[0] }}</div>{% endfor %}
+{% for r in B.rounds %}<div class="cell hdr">R{{ r }}</div>{% for tid in B.cols %}{% set p = B.grid.get((r,tid)) %}<div class="cell {{ p.pos if p }} {{ 'r1' if r==1 }}" title="{% if p %}#{{ p.overall }} {{ p.name }} ({{ p.pos }}, {{ p.nflTeam }}){% endif %}">{% if p %}<b>{{ p.name }}</b>{{ p.pos }}{% if p.yearsExp == '0' %} · rookie{% endif %}{% endif %}</div>{% endfor %}{% endfor %}
+</div></div>{% endfor %}
+<div class="note">Rookie drafts will appear here automatically once Sleeper creates them (rerun <code>scripts/fetch_sleeper.sh</code> then <code>scripts/build_all.py</code>).</div>
+
+<h2 id="rosters">Rosters</h2>
+<div class="grid g3">{% for T in S.teams %}<div class="card"><div class="h"><b>{{ T.teamName }}</b></div><div class="small">{{ ml(T.manager) }}</div>
+<table style="margin-top:8px"><tbody>{% for p in S.rosters[T.teamId|string] %}<tr><td class="small">{{ p.name }}{% if p.status!='active' %} <span class="pill">{{ p.status }}</span>{% endif %}</td><td class="small muted">{{ p.pos }}</td><td class="num small">{{ f(p.seasonPts) }}</td></tr>{% endfor %}</tbody></table></div>{% endfor %}</div>
+
+<h2 id="moves">Waiver Wire</h2>
+<div class="tbl-wrap"><table class="sortable"><thead><tr><th class="num">Wk</th><th>Manager</th><th>Type</th><th>Added</th><th>Dropped</th></tr></thead><tbody>
+{% for t in S.transactions if t.type!='TRADE' %}{% set ad = t["items"]|selectattr('type','equalto','ADD')|list %}{% set dr = t["items"]|selectattr('type','equalto','DROP')|list %}<tr><td class="num">{{ t.week }}</td><td>{% if ad %}{{ ml(ad[0].toManager) }}{% elif dr %}{{ ml(dr[0].fromManager) }}{% endif %}</td><td>{{ t.type|lower|replace('freeagent','free agent') }}</td><td>{{ ad|map(attribute='name')|join(', ') }}</td><td class="muted">{{ dr|map(attribute='name')|join(', ') }}</td></tr>{% endfor %}
+</tbody></table></div>
+
+<h2 id="awards">Awards So Far</h2>
+<div class="grid g3">{% for a in M.awards %}{{ award_card(a) }}{% endfor %}</div>
+{% endblock %}

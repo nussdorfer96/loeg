@@ -1,0 +1,16 @@
+{% extends "base.html" %}{% from "macros.html" import subnav, luck_table, luck_help with context %}{% block body %}
+{{ subnav('records', sub) }}
+<section class="hero"><div class="kicker">Blame the schedule</div><h1>Schedule Luck</h1>
+<p class="lead">The <b>all-play record</b> pits every team against every other team, every week. It shows how good you really were. <b>Expected wins</b> = all-play win% × games played. <b>Luck</b> = actual wins minus expected. Regular season only.</p>{{ luck_help() }}</section>
+{% set lk = F.luckSeasons.lucky[0] %}{% set ul = F.luckSeasons.unlucky[0] %}
+<div class="grid g2">
+<div class="card stat-hl pos"><div class="label">🍀 Luckiest season ever</div><div class="big">{{ mname(lk.manager) }}, {{ lk.year }}</div><div class="small">Went {{ lk.w }}-{{ lk.l }} with an all-play record of {{ lk.apW }}-{{ lk.apL }} ({{ "%.3f"|format(lk.apPct) }}). Expected {{ f(lk.expW) }} wins: <b>{{ sgn(lk.luck) }}</b> lucky wins.</div></div>
+<div class="card stat-hl neg"><div class="label">⛈️ Unluckiest season ever</div><div class="big">{{ mname(ul.manager) }}, {{ ul.year }}</div><div class="small">Went {{ ul.w }}-{{ ul.l }} despite an all-play record of {{ ul.apW }}-{{ ul.apL }} ({{ "%.3f"|format(ul.apPct) }}). Expected {{ f(ul.expW) }} wins: <b>{{ sgn(ul.luck) }}</b>.</div></div></div>
+<h2>All-time luck ledger</h2>
+{{ luck_table(F.luckAll) }}
+<div class="grid g2">
+<div><h2>Luckiest seasons</h2>{{ luck_table(F.luckSeasons.lucky, true) }}</div>
+<div><h2>Unluckiest seasons</h2>{{ luck_table(F.luckSeasons.unlucky, true) }}</div></div>
+<h2>By season</h2>
+<div class="season-nav">{% for y in L.years %}<a href="seasons/{{ y }}.html#luck">{{ y }}</a>{% endfor %}</div>
+{% endblock %}

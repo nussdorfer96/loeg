@@ -1,0 +1,36 @@
+{% extends "base.html" %}{% from "macros.html" import subnav with context %}{% block body %}
+{{ subnav('dynasty', sub) }}
+<section class="hero"><div class="kicker">Sleeper · Dynasty</div><h1>Dynasty Tracker</h1>
+<p class="lead">Who owns whose future, how old every roster is, and every manager who's ever had a given player, across ESPN 2020-2025 and Sleeper.</p>
+<div class="toc"><a href="#lookup">Player lookup</a><a href="#picks">Future picks</a><a href="#ages">Roster ages</a></div></section>
+<h2 id="lookup">🔎 Player history</h2>
+<div class="card"><input id="ph-q" type="search" placeholder="Type a player, e.g. Josh Allen" autocomplete="off" aria-label="Search player">
+<div id="ph-out" class="ph-out"><p class="muted small">Matched by name across platforms. Shows each season, who had him, weeks rostered, points scored in their starting lineup, and draft slot.</p></div></div>
+<h2 id="picks">🎟️ Future pick ownership</h2>
+<p class="small muted">{{ D.rounds }} rounds per rookie draft. Rows are each pick's original team. Highlighted cells were traded (initials = current owner). {{ D.traded }} pick{{ 's' if D.traded!=1 }} traded so far. Sleeper shows tradable picks {{ D.years|first }}-{{ D.years|last }}.</p>
+{% for y in D.years %}<h3>{{ y }} rookie draft</h3>
+<div class="tbl-wrap"><table class="pickgrid"><thead><tr><th>Original team</th>{% for r in range(1, D.rounds+1) %}<th class="num">R{{ r }}</th>{% endfor %}</tr></thead><tbody>
+{% for row in D.grid %}<tr><td><a href="managers/{{ row.manager }}.html">{{ mname(row.manager) }}</a></td>{% for c in row.cells[y] %}<td class="num {{ 'traded' if c.traded }}" title="Owned by {{ mname(c.owner) }}">{% if c.traded %}→ {{ initials(c.owner) }}{% else %}<span class="muted">own</span>{% endif %}</td>{% endfor %}</tr>{% endfor %}</tbody></table></div>{% endfor %}
+<h3>Picks owned ({{ D.years|first }}-{{ D.years|last }})</h3>
+<div class="bars">{% set mx = D.pickCounts.values()|max %}{% for m, n in D.pickCounts|dictsort(by='value', reverse=true) %}<div class="bar-row"><span class="bl">{{ mname(m) }}</span><span class="bar"><i style="width:{{ (100*n/mx)|round }}%"></i></span><b>{{ n }}</b></div>{% endfor %}</div>
+<h2 id="ages">🧬 Roster age profile</h2>
+<p class="small muted">Ages from the Sleeper players database (team defenses excluded). Starter age uses the latest completed week's lineup. Youngest roster first.</p>
+<div class="grid g2">{% for a in D.ages %}<div class="card age"><div class="label">{{ ml(a.manager) }} · {{ a.team }}</div>
+<div class="age-big"><b>{{ a.avg }}</b> avg <span class="muted small">· starters {{ a.starterAvg or '-' }} · {{ a.n }} players</span></div>
+<div class="stack">{% for b in ['≤23','24-26','27-29','30+'] %}{% set n = a.buckets.get(b, 0) %}{% if n %}<i class="b{{ loop.index }}" style="flex:{{ n }}" title="{{ b }}: {{ n }}">{{ n }}</i>{% endif %}{% endfor %}</div>
+<div class="small muted">Youngest: {{ a.youngest[1] }} ({{ a.youngest[0] }}) · Oldest: {{ a.oldest[1] }} ({{ a.oldest[0] }})</div></div>{% endfor %}</div>
+<div class="legend-age small"><i class="b1"></i>≤23 <i class="b2"></i>24-26 <i class="b3"></i>27-29 <i class="b4"></i>30+</div>
+<script src="static/players.js"></script>
+<script>
+(function(){var q=document.getElementById('ph-q'),o=document.getElementById('ph-out');
+function n(s){return s.toLowerCase().replace(/[.'’]/g,'').replace(/\b(jr|sr|ii|iii|iv|v)\b/g,'').replace(/[^a-z ]/g,'').replace(/\s+/g,' ').trim();}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+q.addEventListener('input',function(){var v=n(q.value);if(v.length<2){o.innerHTML='';return;}
+var hits=Object.keys(PH).filter(function(k){return k.indexOf(v)>=0;}).sort(function(a,b){return (a.indexOf(v)-b.indexOf(v))||(a.length-b.length);}).slice(0,12);
+if(!hits.length){o.innerHTML='<p class="muted">No player by that name has been rostered or drafted in this league.</p>';return;}
+o.innerHTML=hits.map(function(k){var p=PH[k];var rows=p.h.slice().sort(function(a,b){return a[0]-b[0]||b[2]-a[2];});
+var ms={};rows.forEach(function(r){ms[r[1]]=1;});
+return '<div class="ph-card"><div class="ph-n"><b>'+esc(p.n)+'</b> <span class="muted small">'+esc(p.p)+' · '+Object.keys(ms).length+' manager(s)</span></div><table class="lineup"><tbody>'+rows.map(function(r){return '<tr><td class="slot">'+r[0]+'</td><td><a href="managers/'+r[1]+'.html">'+esc(PHM[r[1]]||r[1])+'</a>'+(r[4]?' <span class="pill">drafted '+r[4]+'</span>':'')+'</td><td class="num">'+r[2]+' wk</td><td class="num">'+r[3]+'</td></tr>';}).join('')+'</tbody></table></div>';}).join('');});
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% from "macros.html" import award_card, mcard with context %}{% block body %}
+<section class="hero"><div class="kicker">Year by year</div><h1>Seasons</h1></section>
+<a class="card cta-card" href="draft-order.html"><div class="label">🎲 Tradition</div><b>Draft Order Games</b><div class="small muted">Every year the league competes for draft slots. See each year's game and the order it produced →</div></a>
+<div class="grid g3">{% for y in L.years|reverse %}{% set S = seasons[y] %}<a class="card mgr-card" href="{{ y }}.html"><div class="label">{{ S.platform }} · {{ S.format }}</div><div class="nm">{{ y }}</div>
+{% if S.champion %}<div>🏆 {{ mname(S.champion) }} <span class="muted small">({{ team_name(S, S.champion) }})</span></div><div class="small muted">🥈 {{ mname(S.runnerUp) }} · regular-season leader: {{ mname((S.teams|sort(attribute='seed'))[0].manager) }}</div>
+{% else %}<div class="muted">In progress · week {{ S.completedWeeks }} complete</div>{% endif %}</a>{% endfor %}</div>
+{% endblock %}

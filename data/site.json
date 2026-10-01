@@ -1,0 +1,7 @@
+{
+  "_readme": "Site metadata for link previews. When you publish (e.g. GitHub Pages), set 'url' to the full site address ending in '/', e.g. https://yourname.github.io/loeg/ . Link-preview images need an absolute URL, so og:image/og:url are only emitted when 'url' is set. Rebuild after editing.",
+  "title": "LOEG History Book",
+  "description": "The official history book of The League of Extraordinary Gentlemen: champions, the Belt, records, rivalries, trades and league lore, 2020 to today.",
+  "url": "https://nussdorfer96.github.io/loeg/",
+  "theme_color": "#0e1320"
+}

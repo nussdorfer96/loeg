@@ -1,0 +1,17 @@
+{% extends "base.html" %}{% from "macros.html" import award_card, mcard with context %}{% block body %}
+<section class="hero"><div class="kicker">People, not team names</div><h1>The Managers</h1>
+<p class="lead">Every person who has run a team in the league. Former owners are honored in <a href="../memoriam.html">🪦 In Memoriam</a>. Career numbers count only the seasons each person managed; when someone takes over a team slot, they start from zero.</p></section>
+<h2>🛡️ The Loyalists</h2>
+<p class="muted small">Original members who have played every season since {{ L.years|first }} without ever leaving.</p>
+<div class="grid g3">{% for mid in L.managerOrder if L.profiles[mid].loyalist %}{{ mcard(L.profiles[mid]) }}{% endfor %}</div>
+<h2>Active (2026)</h2>
+<div class="grid g3">{% for mid in L.managerOrder if L.profiles[mid].active and not L.profiles[mid].loyalist %}{{ mcard(L.profiles[mid]) }}{% endfor %}</div>
+<a class="card memorial-cta" href="../memoriam.html"><span class="big">🪦</span><span><b>In Memoriam</b><br><span class="small muted">Tombstones and epitaphs for the {{ L.fallen|length }} fallen owners.</span></span><span class="arrow">›</span></a>
+<h2>Former managers</h2>
+<div class="grid g3">{% for mid in L.managerOrder if not L.profiles[mid].active %}{{ mcard(L.profiles[mid]) }}{% endfor %}</div>
+<h2>All-time standings</h2>
+<div class="tbl-wrap"><table class="sortable"><thead><tr><th>Manager</th><th class="num">Seasons</th><th>W-L-T</th><th class="num">Win %</th><th class="num">PF</th><th class="num">PA</th><th class="num">PPG</th><th class="num">Playoffs</th><th>Playoff W-L</th><th class="num">Titles</th><th class="num">Avg finish</th></tr></thead><tbody>
+{% for mid in L.managerOrder %}{% set p = L.profiles[mid] %}<tr><td>{{ ml(mid) }}</td><td class="num">{{ p.years|length }}</td><td>{{ p.w }}-{{ p.l }}-{{ p.t }}</td><td class="num">{{ "%.3f"|format(p.pct) }}</td><td class="num">{{ f(p.pf) }}</td><td class="num">{{ f(p.pa) }}</td><td class="num">{{ f(p.ppg) }}</td><td class="num">{{ p.playoffApps|length }}</td><td>{{ p.playoffW }}-{{ p.playoffL }}</td><td class="num" data-v="{{ p.titles|length }}">{{ '🏆'*p.titles|length }}</td><td class="num">{{ p.avgFinish or '-' }}</td></tr>{% endfor %}
+</tbody></table></div>
+<p class="muted small">Regular-season head-to-head games on both platforms (Sleeper's weekly median games excluded). Playoff W-L counts winners-bracket games only.</p>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}{% from "macros.html" import award_card, mcard with context %}{% block body %}
+<section class="hero"><div class="kicker">Est. 2020 · Ten gentlemen, one trophy</div>
+<h1>The League of Extraordinary Gentlemen</h1>
+<p class="lead">The official history book and record keeper: every season, every champion, every 0.08-point heartbreak. From the ESPN redraft years to the Sleeper dynasty era.</p></section>
+
+<a class="card memorial-cta" href="memoriam.html"><span class="big">🪦</span><span><b>In Memoriam</b><br><span class="small muted">{{ L.fallen|length }} fallen owners, honored (and roasted) forever. Tap to pay your respects.</span></span><span class="arrow">›</span></a>
+<h2>🥇 The Belt Lineage</h2>
+<p class="muted small">The official title history of {{ L.belt.name }}, introduced in {{ L.belt.introduced }}. Every champion, every reign, WWE-style.</p>
+<div class="banner">
+{% for e in L.beltLineage %}<a class="pennant {{ 'beltless' if e.beltless }}" href="seasons/{{ e.year }}.html"><div class="yr">{{ e.year }}{% if e.beltless %}<sup>*</sup>{% endif %}</div><div class="who">{{ mname(e.manager) }}</div><div class="tm">{{ e.team }}</div>
+<div class="reign">{% if e.beltless %}Belt-less Champion*{% elif e.defense %}Successful defense{% else %}Reign #{{ e.reignNumber }}{% if e.reign > 1 %} · {{ ordinal(e.reign) }} reign{% endif %}{% endif %}</div>
+<div class="tm">{% if e.runnerUp %}def. {{ mname(e.runnerUp) }}{% endif %}</div></a>{% endfor %}
+{% for y in L.years if not seasons[y].champion %}<a class="pennant tbd" href="dynasty.html"><div class="yr">{{ y }}</div><div class="who">On the line</div><div class="tm">Season in progress</div><div class="reign">Current holder: {{ mname(L.beltLineage[-1].manager) }}</div></a>{% endfor %}
+</div>
+<p class="muted small">* {{ mname(L.beltLineage[0].manager) }} won the {{ L.beltLineage[0].year }} title before the Belt existed. Title fully valid. Belt not included.</p>
+
+<h2>Quick All-Time Records</h2>
+<div class="grid g4">
+{% set hs = L.records.highScores[0] %}{% set bl = L.records.blowouts[0] %}{% set cl = L.records.closest[0] %}{% set sp = L.records.seasonPF[0] %}
+<div class="card"><div class="label">Current Belt holder</div><div class="stat">🥇</div><div class="small">{{ ml(L.beltLineage[-1].manager) }} ({{ L.beltLineage[-1].year }})</div></div>
+<div class="card"><div class="label">Most titles</div><div class="stat">{{ L.allTime.mostTitles[0][0] }}</div><div class="small">{% for n,m in L.allTime.mostTitles if n == L.allTime.mostTitles[0][0] %}{{ ml(m) }}{% if not loop.last %}, {% endif %}{% endfor %}</div></div>
+<div class="card"><div class="label">Highest score (ESPN era)</div><div class="stat">{{ f(hs.score) }}</div><div class="small">{{ ml(hs.manager) }} · {{ hs.year }} wk {{ hs.week }}</div></div>
+<div class="card"><div class="label">Biggest blowout</div><div class="stat">{{ f(bl.margin) }}</div><div class="small">{{ ml(bl.winner) }} over {{ ml(bl.loser) }} · {{ bl.year }}</div></div>
+<div class="card"><div class="label">Closest game</div><div class="stat">{{ f(cl.margin) }}</div><div class="small">{{ ml(cl.winner) }} over {{ ml(cl.loser) }} · {{ cl.year }} wk {{ cl.week }}</div></div>
+<div class="card"><div class="label">Best all-time win %</div><div class="stat">{{ "%.3f"|format(L.profiles[L.allTime.bestPct].pct) }}</div><div class="small">{{ ml(L.allTime.bestPct) }} (min. 28 games)</div></div>
+<div class="card"><div class="label">Most points per game, season</div><div class="stat">{{ f(sp.ppg) }}</div><div class="small">{{ ml(sp.manager) }} · {{ sp.year }}</div></div>
+<div class="card"><div class="label">Longest win streak</div><div class="stat">{{ L.records.winStreaks[0].length }}</div><div class="small">{{ ml(L.records.winStreaks[0].manager) }}</div></div>
+<div class="card"><div class="label">Longest losing streak</div><div class="stat">{{ L.records.lossStreaks[0].length }}</div><div class="small">{{ ml(L.records.lossStreaks[0].manager) }}</div></div>
+</div>
+
+{% set feat = L.lore|selectattr('featured')|list %}{% if feat %}<h2>📌 Featured Lore</h2><div class="grid g2">{% for e in feat %}<a class="card mgr-card" href="lore.html#{{ e.id }}"><div class="label">{{ e.season }} · {{ e.category }}</div><div class="nm">{{ e.title }}</div><div class="small muted">{{ e.body[:180] }}…</div></a>{% endfor %}</div>{% endif %}
+<h2>📜 The Story of the League</h2>
+<div class="story">
+{% for sec in L.leagueStory %}<h3>{{ sec.h }}</h3>{% for p in sec.p %}<p class="{{ 'dropcap' if loop.first and loop.index0==0 and sec==L.leagueStory[0] }}">{{ p }}</p>{% endfor %}{% endfor %}
+</div>
+
+<h2>🏛️ Hall of Superlatives</h2>
+<p class="muted small">Season awards at a glance. Click a year for the full ceremony on its season page.</p>
+<div class="tbl-wrap"><table>
+<thead><tr><th>Season</th><th>Champion / Belt</th><th>MVP</th><th>Best pickup</th><th>Draft steal</th><th>Draft bust</th><th>Unluckiest</th><th>Luckiest</th></tr></thead><tbody>
+{% for y in L.years|reverse %}{% set A = awards_by_key(y) %}
+<tr><td><a href="seasons/{{ y }}.html">{{ y }}</a></td><td>{% if seasons[y].champion %}{{ ml(seasons[y].champion) }}{% if y < L.belt.introduced %}<span class="muted">*</span>{% endif %}{% else %}<span class="muted">TBD</span>{% endif %}</td>
+{% for k in ['mvp','waiver','steal','bust','unlucky','lucky'] %}<td>{% if A[k] %}{% if k in ['unlucky','lucky'] %}{{ ml(A[k].manager) }} <span class="muted small">({{ "%+.1f"|format(A[k].value) }})</span>{% else %}{{ A[k].headline }}<br><span class="small">{{ ml(A[k].manager) }}</span>{% endif %}{% if A[k].provisional %} <span class="pill warn">prov.</span>{% endif %}{% else %}<span class="muted">-</span>{% endif %}</td>{% endfor %}</tr>
+{% endfor %}</tbody></table></div>
+<h3>Trophy cabinet: superlatives won, all-time</h3>
+<div class="tbl-wrap"><table class="sortable"><thead><tr><th>Manager</th><th class="num">🏆 Titles</th><th class="num">MVPs</th><th class="num">Steals</th><th class="num">Busts</th><th class="num">🍀 Lucky</th><th class="num">🌧️ Unlucky</th><th class="num">👑 High-score king</th><th class="num">🧱 Basement</th></tr></thead><tbody>
+{% for mid in L.managerOrder %}{% set c = award_counts(mid) %}<tr><td>{{ ml(mid) }}</td><td class="num">{{ L.profiles[mid].titles|length }}</td>{% for k in ['mvp','steal','bust','lucky','unlucky','tophigh','toplow'] %}<td class="num">{{ c[k] or '' }}</td>{% endfor %}</tr>{% endfor %}
+</tbody></table></div>
+{% endblock %}

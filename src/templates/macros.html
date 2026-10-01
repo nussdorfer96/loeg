@@ -1,0 +1,44 @@
+{%- macro award_card(a, show_year=false) -%}
+<div class="card award"><div class="ic">{{ a.icon }}</div><div>
+<div class="t">{{ a.title }}{% if show_year %} · {{ a.season }}{% endif %}{% if a.provisional %} <span class="pill warn" title="Weekly data pending">provisional</span>{% endif %}</div>
+<div class="h">{{ a.headline }}</div>
+<div class="small">{{ ml(a.manager) }}</div>
+<div class="d">{{ a.detail }}{% if a.note %} <em>{{ a.note }}</em>{% endif %}</div></div></div>
+{%- endmacro -%}
+{%- macro mcard(p) -%}
+<a class="card mgr-card" href="{{ root }}managers/{{ p.id }}.html"><div class="nm">{{ p.name }} {% if p.loyalist %}<span class="pill gold" title="Original member, every season since {{ p.years|first }}">🛡️ Loyalist</span> {% endif %}{% if p.resurrected %}<span class="pill gold" title="Left after {{ p.resurrection.leftAfter }}, returned in {{ p.resurrection.returned }}">🧟 Resurrected</span> {% endif %}{% if p.titles %}<span class="rings">{{ '🏆'*p.titles|length }}</span>{% endif %}</div>
+<div class="small muted">{{ p.years|first }}{% if p.years|length>1 %}–{{ p.years|last }}{% endif %} · {{ p.years|length }} season{{ 's' if p.years|length!=1 }}{% if p.inherited %} · took over from {{ p.inherited[0].fromName }}{% endif %}</div>
+<div style="margin-top:6px">{{ p.w }}-{{ p.l }}{% if p.t %}-{{ p.t }}{% endif %} <span class="muted">({{ "%.3f"|format(p.pct) }})</span> · {{ p.playoffApps|length }} playoff app{{ 's' if p.playoffApps|length!=1 }}</div>
+<div class="small" style="margin-top:6px">{{ p.book.tagline }}</div>
+<div class="small muted">Latest team: {{ p.teamNames[-1].name }}</div></a>
+{%- endmacro -%}
+
+{%- macro subnav(group, cur) -%}
+{% set groups = {'records': [('records.html','📖 Records'),('luck.html','🍀 Schedule luck'),('trades.html','🤝 Trades'),('rivalries/index.html','⚔️ Rivalries'),('regrets.html','💔 Got away'),('drafts.html','📋 Draft trends'),('projections.html','📈 Projections')],
+ 'dynasty': [('dynasty.html','🏰 Overview'),('tracker.html','🔭 Tracker')]} %}
+<nav class="subnav" aria-label="Section pages">{% for href, label in groups[group] %}<a href="{{ root }}{{ href }}" class="{{ 'on' if href==cur }}">{{ label }}</a>{% endfor %}</nav>
+{%- endmacro -%}
+{%- macro luck_table(rows, show_year=false, link=true, show_mgr=true) -%}
+<div class="tbl-wrap"><table class="sortable"><thead><tr>{% if show_year %}<th>Year</th>{% endif %}{% if show_mgr %}<th>Manager</th>{% endif %}<th class="num">Luck</th><th class="num">Actual</th><th class="num">Exp. W</th><th class="num">All-play</th></tr></thead><tbody>
+{% for r in rows %}<tr>{% if show_year %}<td><a href="{{ root }}seasons/{{ r.year }}.html#luck">{{ r.year }}</a></td>{% endif %}{% if show_mgr %}<td>{{ ml(r.manager) if link else mname(r.manager) }}</td>{% endif %}<td class="num {{ 'pos' if r.luck>0 else 'neg' if r.luck<0 }}"><b>{{ sgn(r.luck) }}</b></td><td class="num">{{ r.w }}-{{ r.l }}</td><td class="num">{{ f(r.expW) }}</td><td class="num">{{ r.apW }}-{{ r.apL }}{% if r.apT %}-{{ r.apT }}{% endif %} <span class="muted small">({{ "%.3f"|format(r.apPct) }})</span></td></tr>{% endfor %}</tbody></table></div>
+{%- endmacro -%}
+{%- macro trade_card(t, root='') -%}
+<div class="card trade" id="t-{{ t.id }}"><div class="label">{{ t.year }} · Week {{ t.week }}{% if t.winner %} · Winner: {{ mname(t.winner) }} (+{{ f(t.margin) }}){% else %} · Push{% endif %}</div>
+<div class="sides">{% for s in t.sides %}<div class="side"><div class="g {{ grade_cls(s.grade) }}">{{ s.grade }}</div><div><b>{{ ml(s.manager) }}</b> got
+<ul>{% for p in s.players %}<li>{{ p.name }} <span class="muted small">{{ p.pos }}</span> · <b>{{ f(p.started) }}</b> started pts{% if p.starts %} in {{ p.starts }} start{{ 's' if p.starts!=1 }}{% endif %}{% if p.total > p.started %} <span class="muted small">({{ f(p.total) }} rostered)</span>{% endif %}</li>{% endfor %}{% for pk in s.picks %}<li>🎟️ {{ pk }} pick <span class="muted small">(unscored)</span></li>{% endfor %}</ul>
+<div class="small">Total: <b>{{ f(s.started) }}</b> started pts</div></div></div>{% endfor %}</div>
+{% if t.note %}<div class="small muted">{{ t.note }}</div>{% endif %}</div>
+{%- endmacro -%}
+
+{%- macro luck_help() -%}
+{% set ex = F.luckSeasons.lucky[0] %}{% set ux = F.luckSeasons.unlucky[0] %}
+<details class="info"><summary><span class="i">i</span> How to read this</summary>
+<ul>
+<li><b>All-play record:</b> your score that week against <i>every</i> other team, not just your opponent. In a 10-team league that's 9 games a week. It's the fairest measure of how good your team really was.</li>
+<li><b>Expected wins:</b> your all-play win % × the games you actually played. It's what a perfectly fair schedule would have given you.</li>
+<li><b>Actual vs expected:</b> the wins you got against the schedule you drew.</li>
+<li><b>Luck (+/-):</b> actual minus expected. <span class="pos">+2</span> means the schedule handed you about two extra wins. <span class="neg">-2</span> means it stole about two. Near 0 means your record was fair.</li>
+</ul>
+<p class="small"><b>Real example:</b> in {{ ex.year }}, {{ mname(ex.manager) }} went <b>{{ ex.w }}-{{ ex.l }}</b>, but his all-play record was {{ ex.apW }}-{{ ex.apL }} ({{ "%.3f"|format(ex.apPct) }}). That's worth {{ f(ex.expW) }} wins over {{ ex.gp }} games, so he was <span class="pos">{{ sgn(ex.luck) }}</span> lucky. The flip side: {{ mname(ux.manager) }} in {{ ux.year }} went {{ ux.w }}-{{ ux.l }} with a {{ "%.3f"|format(ux.apPct) }} all-play, <span class="neg">{{ sgn(ux.luck) }}</span>.</p>
+</details>
+{%- endmacro -%}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}{% from "macros.html" import subnav with context %}{% block body %}
+{{ subnav('records', sub) }}
+<section class="hero"><div class="kicker">{{ R.tag or 'Head to head' }}{% if R.why %} · {{ R.why }}{% endif %}</div><h1 class="riv-h">{{ mname(R.a) }} <span class="muted">vs</span> {{ mname(R.b) }}</h1>
+<div class="tale">
+<div class="t-side {{ 'lead' if R.aW > R.bW }}"><div class="n">{{ ml(R.a) }}</div><div class="w">{{ R.aW }}</div><div class="small">{{ f(R.aPts) }} pts</div></div>
+<div class="t-mid"><div class="small muted">{{ R.n }} games</div><div class="small muted">avg margin {{ f(R.avgMargin) }}</div></div>
+<div class="t-side {{ 'lead' if R.bW > R.aW }}"><div class="n">{{ ml(R.b) }}</div><div class="w">{{ R.bW }}</div><div class="small">{{ f(R.bPts) }} pts</div></div></div>
+<p class="lead">{{ R.blurb }}</p>
+{% for lid in R.lore %}{% set e = (L.lore|selectattr('id','equalto',lid)|list) %}{% if e %}<a class="card callout {{ 'saga-teaser' if e[0].style=='saga' }}" href="../lore.html#{{ lid }}" style="display:block"><div class="label">📌 Lore</div><b>{{ e[0].title }}</b>{% if e[0].teaser %}<div class="small">{{ e[0].teaser }}</div>{% endif %}</a>{% endif %}{% endfor %}
+</section>
+<div class="grid g3">
+<div class="card"><div class="label">Closest game</div>{% set g = R.closest[0] %}<b>{{ f(g.margin) }}</b> pts · {{ g.year }} wk {{ g.week }}<div class="small">{{ mname(g.winner) }} won {{ f([g.aScore,g.bScore]|max) }}-{{ f([g.aScore,g.bScore]|min) }}</div></div>
+<div class="card"><div class="label">Biggest blowout</div>{% set g = R.blowout %}<b>{{ f(g.margin) }}</b> pts · {{ g.year }} wk {{ g.week }}<div class="small">{{ mname(g.winner) }} won {{ f([g.aScore,g.bScore]|max) }}-{{ f([g.aScore,g.bScore]|min) }}</div></div>
+<div class="card"><div class="label">Highest-scoring</div>{% set g = R.shootout %}<b>{{ f(g.combined) }}</b> combined · {{ g.year }} wk {{ g.week }}<div class="small">{{ mname(g.winner) }} won {{ f([g.aScore,g.bScore]|max) }}-{{ f([g.aScore,g.bScore]|min) }}</div></div></div>
+{% set po = R.games|selectattr('kind','equalto','playoff')|list %}{% if po %}<h2>Playoff meetings</h2><div class="grid g2">{% for g in po %}<div class="card"><div class="label">{{ g.year }} · Week {{ g.week }}{% if g.final %} · 🥇 Championship{% endif %}</div>{{ mname(g.winner) }} won {{ f([g.aScore,g.bScore]|max) }}-{{ f([g.aScore,g.bScore]|min) }}</div>{% endfor %}</div>{% endif %}
+<h2>Every meeting</h2>
+<div class="tbl-wrap"><table><thead><tr><th>Year</th><th>Wk</th><th class="num">{{ mname(R.a).split(' ')[0] }}</th><th class="num">{{ mname(R.b).split(' ')[0] }}</th><th>Winner</th><th class="num">Margin</th></tr></thead><tbody>
+{% for g in R.games|reverse %}<tr><td><a href="../seasons/{{ g.year }}.html">{{ g.year }}</a></td><td>{{ g.week }}{% if g.kind=='playoff' %} <span class="pill gold">{{ '🥇' if g.final else 'PO' }}</span>{% elif g.kind=='consolation' %} <span class="pill">cons.</span>{% endif %}</td><td class="num {{ 'pos' if g.winner==R.a }}">{{ f(g.aScore) }}</td><td class="num {{ 'pos' if g.winner==R.b }}">{{ f(g.bScore) }}</td><td>{{ mname(g.winner).split(' ')[0] }}</td><td class="num">{{ f(g.margin) }}</td></tr>{% endfor %}</tbody></table></div>
+<p class="small"><a href="index.html">← All rivalries</a> · <a href="../records.html#matrix">Rivalry matrix</a></p>
+{% endblock %}

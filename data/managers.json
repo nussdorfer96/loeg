@@ -1,0 +1,311 @@
+{
+  "_readme": "Editable config: who managed which team each season. Track PEOPLE, not team names. 'confirmed': false marks guesses. ESPN entries key off the ESPN team id (slot); Sleeper entries key off the Sleeper user id / roster id. After editing, run: python3 scripts/build_all.py",
+  "managers": [
+    {
+      "id": "ryan-nussdorfer",
+      "name": "Ryan Nussdorfer",
+      "nickname": "The Commish",
+      "role": "Commissioner",
+      "confirmed": true
+    },
+    {
+      "id": "taylor-alvarado",
+      "name": "Taylor Alvarado",
+      "confirmed": true
+    },
+    {
+      "id": "eli-werner",
+      "name": "Eli Werner",
+      "confirmed": true
+    },
+    {
+      "id": "parker-williams",
+      "name": "Parker Williams",
+      "confirmed": true,
+      "note": "ESPN run ended after 2025; not part of the 2026 Sleeper dynasty."
+    },
+    {
+      "id": "brian-mulvihill",
+      "name": "Brian Mulvihill",
+      "confirmed": true
+    },
+    {
+      "id": "jacob-maddox",
+      "name": "Jacob Maddox",
+      "confirmed": true
+    },
+    {
+      "id": "drew-hartman",
+      "name": "Drew Hartman",
+      "confirmed": true
+    },
+    {
+      "id": "jonah-hohner",
+      "name": "Jonah Hohner",
+      "confirmed": true
+    },
+    {
+      "id": "bradley-kochheiser",
+      "name": "Bradley Kochheiser",
+      "confirmed": true
+    },
+    {
+      "id": "alec-adgate",
+      "name": "Alec Adgate",
+      "confirmed": true
+    },
+    {
+      "id": "patrick-fitzgerald",
+      "name": "Patrick Fitzgerald",
+      "confirmed": true
+    },
+    {
+      "id": "matthew-vinson",
+      "name": "Matthew Vinson",
+      "confirmed": true
+    },
+    {
+      "id": "kyle-llano",
+      "name": "Kyle Llano",
+      "confirmed": true
+    },
+    {
+      "id": "nicholas-kasik",
+      "name": "Nicholas Kasik",
+      "nickname": "Nick",
+      "confirmed": true
+    },
+    {
+      "id": "jacob-seeterlin",
+      "name": "Jacob Seeterlin",
+      "confirmed": true
+    },
+    {
+      "id": "andrew-saur",
+      "name": "Andrew Saur",
+      "confirmed": true
+    },
+    {
+      "id": "nick-cardillo",
+      "name": "Nick Cardillo",
+      "confirmed": true
+    },
+    {
+      "id": "mike-hemstreet",
+      "name": "Mike Hemstreet",
+      "confirmed": true,
+      "note": "New manager, joined for the 2026 Sleeper dynasty."
+    }
+  ],
+  "espn": {
+    "league_id": 645976,
+    "_comment": "slot -> list of {years, manager}. Team names are read from the raw ESPN data automatically; override with team_names if needed.",
+    "slots": {
+      "1": [
+        {
+          "from": 2020,
+          "to": 2025,
+          "manager": "ryan-nussdorfer",
+          "confirmed": true
+        }
+      ],
+      "3": [
+        {
+          "from": 2020,
+          "to": 2025,
+          "manager": "taylor-alvarado",
+          "confirmed": true
+        }
+      ],
+      "4": [
+        {
+          "from": 2020,
+          "to": 2020,
+          "manager": "eli-werner",
+          "confirmed": true
+        }
+      ],
+      "5": [
+        {
+          "from": 2020,
+          "to": 2025,
+          "manager": "parker-williams",
+          "confirmed": true
+        }
+      ],
+      "6": [
+        {
+          "from": 2020,
+          "to": 2025,
+          "manager": "brian-mulvihill",
+          "confirmed": true
+        }
+      ],
+      "7": [
+        {
+          "from": 2020,
+          "to": 2025,
+          "manager": "jacob-maddox",
+          "confirmed": true
+        }
+      ],
+      "8": [
+        {
+          "from": 2020,
+          "to": 2025,
+          "manager": "drew-hartman",
+          "confirmed": true
+        }
+      ],
+      "9": [
+        {
+          "from": 2020,
+          "to": 2020,
+          "manager": "jonah-hohner",
+          "confirmed": true
+        },
+        {
+          "from": 2021,
+          "to": 2025,
+          "manager": "bradley-kochheiser",
+          "confirmed": true
+        }
+      ],
+      "10": [
+        {
+          "from": 2020,
+          "to": 2020,
+          "manager": "alec-adgate",
+          "confirmed": true
+        },
+        {
+          "from": 2021,
+          "to": 2021,
+          "manager": "patrick-fitzgerald",
+          "confirmed": true
+        },
+        {
+          "from": 2022,
+          "to": 2023,
+          "manager": "matthew-vinson",
+          "confirmed": true
+        },
+        {
+          "from": 2024,
+          "to": 2025,
+          "manager": "kyle-llano",
+          "confirmed": true
+        }
+      ],
+      "11": [
+        {
+          "from": 2020,
+          "to": 2020,
+          "manager": "nicholas-kasik",
+          "confirmed": true
+        },
+        {
+          "from": 2021,
+          "to": 2023,
+          "manager": "jacob-seeterlin",
+          "confirmed": true
+        },
+        {
+          "from": 2024,
+          "to": 2025,
+          "manager": "nicholas-kasik",
+          "confirmed": true
+        }
+      ],
+      "12": [
+        {
+          "from": 2021,
+          "to": 2024,
+          "manager": "andrew-saur",
+          "confirmed": true
+        },
+        {
+          "from": 2025,
+          "to": 2025,
+          "manager": "nick-cardillo",
+          "confirmed": true
+        }
+      ]
+    },
+    "team_names": {}
+  },
+  "sleeper": {
+    "league_ids": {
+      "2026": "1387967526775824384"
+    },
+    "users": {
+      "832642596978409472": {
+        "display_name": "Nussy96",
+        "manager": "ryan-nussdorfer",
+        "confirmed": true
+      },
+      "1208387241785692160": {
+        "display_name": "BaldyBy22",
+        "manager": "nicholas-kasik",
+        "confirmed": true
+      },
+      "871281365696606208": {
+        "display_name": "DatUnc",
+        "manager": "drew-hartman",
+        "confirmed": true
+      },
+      "1389810108095029248": {
+        "display_name": "GronkNation4Life",
+        "manager": "kyle-llano",
+        "confirmed": true
+      },
+      "1389823887721627648": {
+        "display_name": "RyansHero",
+        "manager": "jacob-maddox",
+        "confirmed": true
+      },
+      "305020923713433600": {
+        "display_name": "nickyc1110",
+        "manager": "nick-cardillo",
+        "confirmed": true
+      },
+      "1390168089462571009": {
+        "display_name": "EastLansingNatureBoy",
+        "manager": "taylor-alvarado",
+        "confirmed": true
+      },
+      "741714202825228288": {
+        "display_name": "MagicSkolBussss",
+        "manager": "mike-hemstreet",
+        "confirmed": true
+      },
+      "1391476251960578048": {
+        "display_name": "BJK96",
+        "manager": "bradley-kochheiser",
+        "confirmed": true
+      },
+      "731327801717792768": {
+        "display_name": "SukmyDitkasbro",
+        "manager": "brian-mulvihill",
+        "confirmed": true
+      }
+    },
+    "_comment_team_names": "Sleeper team names come from user metadata; these two users never set one, so their Sleeper display names are used. Edit freely.",
+    "team_names": {
+      "2026": {
+        "741714202825228288": "MagicSkolBussss",
+        "1390168089462571009": "EastLansingNatureBoy"
+      }
+    },
+    "_comment_seat_successions": "Display-only lineage for the Sleeper league: who filled a seat vacated by a departing manager. Stats never transfer; every stat stays with the person.",
+    "seat_successions": [
+      {
+        "year": 2026,
+        "manager": "mike-hemstreet",
+        "from": "parker-williams",
+        "seat": 10,
+        "note": "Parker never made it to Sleeper; Mike filled the 10th slot."
+      }
+    ]
+  }
+}

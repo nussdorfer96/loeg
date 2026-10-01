@@ -1,0 +1,153 @@
+{
+  "_readme": "Hand-written league lore. Add entries to 'entries'. Fields: id (unique slug), title, season (number or null), week (optional), category (one of: trade, waiver, injury, game, draft, controversy, tradition, other), managers (list of manager ids from managers.json), body (plain text or simple markdown: **bold**, *italic*, [link](url)), source ('league' for member-submitted stories). Auto-generated, data-backed entries are added by the build and marked source='data'; they don't live in this file. Optional: 'featured': true pins an entry to the top of the Lore page and shows it as a callout on its season page and on the pages of the managers listed. Saga entries can add 'style': 'saga', 'subtitle', 'teaser' (short text for season-page callouts), 'chapters' ([{h, body}]) and 'boxscores' ([{season, week, manager}], rendered from real box-score data). Lore is curated: only entries in this file appear on the Lore page (plus the auto-built Championships section).",
+  "entries": [
+    {
+      "id": "the-betrayal",
+      "title": "The Betrayal",
+      "subtitle": "Part I: The Deception",
+      "style": "saga",
+      "featured": true,
+      "season": 2025,
+      "week": 14,
+      "category": "controversy",
+      "managers": [
+        "jacob-maddox",
+        "ryan-nussdorfer",
+        "drew-hartman"
+      ],
+      "teaser": "2025, week 14. Jacob Maddox started one player, scored 9.4, and the league has never been the same. The Commissioner died that day. The Dictator was born.",
+      "body": "The night Jacob Maddox benched his entire roster, and the Commissioner fell.",
+      "chapters": [
+        {
+          "h": "Cold open",
+          "body": "Final score: **Drew Hartman 129.15, Jacob Maddox 9.4.**\n\nThe lowest score in league history. The biggest margin of defeat in league history, **119.75 points**. It wasn't an accident, a bye-week disaster or a forgotten lineup. According to league legend, it was a message."
+        },
+        {
+          "h": "The race",
+          "body": "Week 14 of 2025 was the last week of the regular season. Six playoff spots. Going in: Nick Cardillo, Bradley Kochheiser, Parker Williams and Jacob Maddox all sat at **8-5**. Taylor Alvarado, Kyle Llano and Drew Hartman were **7-6**. And in 8th place, at **6-7**, the Commissioner: Ryan Nussdorfer, running **THE Dictator** with the third-most points in the league (1,687.85).\n\nThe math was cruel but simple. Ryan had to beat Nick Cardillo, and he needed Drew Hartman to lose. With the rest of the week playing out as it did, that would have left Ryan, Drew and Kyle Llano at 7-7, with Ryan holding the points edge for the last seed. Drew's opponent that week: Jacob Maddox."
+        },
+        {
+          "h": "The Deception",
+          "body": "Jacob had already clinched a playoff spot; win or lose, he was in. So he set a lineup with **exactly one starter**: Bijan Robinson in the FLEX spot. Every other slot sat empty, and the rest of the roster rotted on the bench: **Josh Allen (39.35)**, Zay Flowers (21.6), Jameson Williams (17.3), Kenneth Gainwell (16.2), Jaylen Warren (15.2) and the rest. That's **166.75 points on the bench**.\n\nBijan scored **9.4**. Even a by-the-book lineup from that same bench would have put up **138.15**, enough to beat Drew's 129.15. The door to the playoffs, the one door Ryan needed held shut, swung wide open for Drew."
+        },
+        {
+          "h": "The fall",
+          "body": "Drew moved to **8-6** and grabbed the last playoff spot as the **#6 seed**. Jacob still went in as the **#5 seed**, beat Taylor 156.65-124.2, and fell to Nick Cardillo 174.55-151 one round short of the title match.\n\nRyan lost to Cardillo **118.9-111.3**, finished the regular season **6-8** and missed the playoffs, finishing **9th** despite the third-most points in the league (1,799.15).\n\n*The historian's footnote:* the legend blames Jacob, and Jacob did take away one of the two things Ryan needed. The ledger also notes that Ryan's own bench held **Lamar Jackson's 22.25 points** while Daniel Jones started at QB and scored **1.4**. Legends are rarely tidy."
+        },
+        {
+          "h": "The rise of the Dictator",
+          "body": "League legend marks it as the moment the Commish era ended: **the Commissioner died that day, and the Dictator was born.** The team had already been rebranded from **THE Commish** (2021-2024) to **THE Dictator** for 2025. Week 14 is when the name stopped being a joke.\n\nThe Dictator's rule now extends to the dynasty era. Through three weeks of 2026, Ryan's new team, Mr McGibblets, leads the league in scoring with **500.5 points**. Jacob's HulkSmash sits atop the standings at 5-1. The sequel writes itself."
+        }
+      ],
+      "boxscores": [
+        {
+          "season": 2025,
+          "week": 14,
+          "manager": "jacob-maddox",
+          "label": "Exhibit A: Jacob Maddox, week 14"
+        },
+        {
+          "season": 2025,
+          "week": 14,
+          "manager": "drew-hartman",
+          "label": "The beneficiary: Drew Hartman, week 14"
+        },
+        {
+          "season": 2025,
+          "week": 14,
+          "manager": "ryan-nussdorfer",
+          "label": "The fallen: Ryan Nussdorfer vs Nick Cardillo, week 14"
+        }
+      ],
+      "source": "league"
+    },
+    {
+      "id": "press-conferences",
+      "title": "Post-Game Press Conferences",
+      "subtitle": "The podium awaits",
+      "style": "presser",
+      "season": 2026,
+      "category": "tradition",
+      "featured": true,
+      "introduced": "2026 offseason",
+      "managers": [],
+      "body": "*Flashbulbs. A folding table. One microphone, set slightly too low. A banner that says LOEG behind a manager who would very much rather be anywhere else.*\n\nIntroduced in the **2026 offseason**, the Post-Game Press Conference is the league's newest tradition. Every week, the week's **biggest loser** steps up to the podium and takes questions from **the Media**.\n\nThe rules of the room:",
+      "rules": [
+        "The week's biggest loser takes questions from the Media.",
+        "They must answer **3 of them**.",
+        "On **video**.",
+        "Before **Thursday Night Football kickoff**."
+      ],
+      "signoff": "No further questions. Thank you, everybody.",
+      "source": "league"
+    },
+    {
+      "id": "hamlin-final-2022",
+      "title": "The Championship That Was Never Finished",
+      "season": 2022,
+      "week": 17,
+      "category": "game",
+      "featured": true,
+      "managers": [
+        "brian-mulvihill",
+        "matthew-vinson"
+      ],
+      "body": "The 2022 title game (NFL week 17, played January 2023) was Brian Mulvihill vs. Matthew Vinson, and it ran straight into the Bills-Bengals Monday night game on January 2, 2023, the night Damar Hamlin collapsed on the field. The NFL never resumed that game, so the league decided the title itself: the affected players were scored using their averages, with the outlying highs and lows removed to cut down the variance. Brian won and took the Belt.\n\n**What ESPN recorded:** a 108.4-82.5 final, with every player from the cancelled game credited 0 points. In the starting lineups that meant Joe Burrow for Brian, and Josh Allen, Ja'Marr Chase and Evan McPherson for Matthew. ESPN doesn't store the league's average-based adjusted scores. If anyone kept the adjusted numbers, add them here.",
+      "source": "league"
+    },
+    {
+      "id": "the-belt",
+      "title": "The Belt",
+      "season": 2021,
+      "category": "tradition",
+      "featured": true,
+      "managers": [
+        "bradley-kochheiser",
+        "jacob-maddox"
+      ],
+      "body": "Starting in 2021 the league plays for a WWE-style championship belt. Bradley Kochheiser was the first man to hold it. Jacob Maddox won the 2020 title before the Belt existed, which makes him the league's one and only **Belt-less Champion**\\*.\n\n*\\* Title fully valid. Belt not included.*",
+      "source": "league"
+    },
+    {
+      "id": "move-to-sleeper",
+      "title": "The Great Migration: ESPN redraft to Sleeper dynasty",
+      "season": 2026,
+      "category": "tradition",
+      "managers": [
+        "ryan-nussdorfer"
+      ],
+      "body": "After six ESPN redraft seasons (2020-2025), the league moved to Sleeper for 2026 and went dynasty: a 21-round startup draft, superflex lineups, taxi squads and tradeable future picks. (Commish: add the backstory of the move here.)",
+      "source": "league"
+    }
+  ],
+  "belt": {
+    "_comment": "The league's WWE-style championship belt. Champions before 'introduced' are listed as belt-less champions.",
+    "name": "The Belt",
+    "introduced": 2021
+  },
+  "press_conferences": {
+    "_comment": "Press Conference Archive. Add one object per presser, newest last: {\"season\": 2026, \"week\": 1, \"manager\": \"ryan-nussdorfer\", \"video\": \"https://...\" (optional), \"note\": \"optional one-liner\"}. The 'scheduled to take the podium' list is computed automatically: the manager with the biggest losing margin that week (this rule reproduces every confirmed presser). Archive entries are the confirmed record and override the computed pick.",
+    "introduced_season": 2026,
+    "archive": [
+      {
+        "season": 2026,
+        "week": 1,
+        "manager": "bradley-kochheiser",
+        "confirmed": true
+      },
+      {
+        "season": 2026,
+        "week": 2,
+        "manager": "taylor-alvarado",
+        "confirmed": true
+      },
+      {
+        "season": 2026,
+        "week": 3,
+        "manager": "nick-cardillo",
+        "confirmed": true
+      }
+    ],
+    "rule": "biggest losing margin"
+  }
+}
