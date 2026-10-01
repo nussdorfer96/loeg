@@ -201,6 +201,21 @@
       ],
       "body": "After six ESPN redraft seasons (2020-2025), the league moved to Sleeper for 2026 and went dynasty: a 21-round startup draft, superflex lineups, taxi squads and tradeable future picks. (Commish: add the backstory of the move here.)",
       "source": "league"
+    },
+    {
+      "id": "hello-thank-you",
+      "title": "Hello, Thank You",
+      "subtitle": "First Season, First Title",
+      "season": null,
+      "category": "other",
+      "managers": [
+        "jacob-maddox",
+        "bradley-kochheiser",
+        "nick-cardillo"
+      ],
+      "teaser": "Three managers won the title in their first season in the league: Jacob Maddox (2020), Bradley Kochheiser (2021) and Nick Cardillo (2025). They walked in, said hello, and said thank you for the check and the trophy.",
+      "body": "Most managers spend their first season figuring out where the waiver button is. Three of them walked in, said hello, and said thank you for the check and the trophy.\n\n**[Jacob Maddox](managers/jacob-maddox.html), 2020.** Why So Serious went 8-5, came in as the #3 seed, and beat Ryan Nussdorfer's Password Is Taco **136.42-115.58** in the final. In fairness, 2020 was the league's first season, so everybody was a rookie. He was just the rookie who won it all. The Belt didn't arrive until 2021, so the title is his outright. [2020 final card](#final-2020)\n\n**[Bradley Kochheiser](managers/bradley-kochheiser.html), 2021.** Took over Jonah Hohner's seat, went 10-4 as the #1 seed with Nussy's Lil Chubb, and beat Ryan's THE Commish **157.36-143.44**. First season, first Belt: he was the first man ever to wear it. [2021 final card](#final-2021)\n\n**[Nick Cardillo](managers/nick-cardillo.html), 2025.** Took over Andrew Saur's seat, went 9-5 as the #1 seed with Wet Reckless, and beat Parker Williams' TC Tuggers **140.6-132.95**, lifting the Belt off reigning champ Brian Mulvihill in his rookie year. [2025 final card](#final-2025)\n\nTwo of those three title games came at Ryan Nussdorfer's expense. Welcome to the league.",
+      "source": "league"
     }
   ],
   "belt": {
