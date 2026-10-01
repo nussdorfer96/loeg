@@ -223,13 +223,7 @@ table.pickgrid td.traded{background:rgba(232,184,74,.18);color:var(--gold2);font
 .choke{border-left:4px solid #d9534f}
 /* ---------- mobile first tweaks (phones ~390px) ---------- */
 @media (max-width:820px){
-  nav.main{display:none}
-  header.site .wrap{min-height:50px;justify-content:center}
-  body{padding-bottom:calc(70px + env(safe-area-inset-bottom));font-size:16.5px}
-  .tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(15,20,32,.97);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:4px 2px calc(4px + env(safe-area-inset-bottom))}
-  .tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:54px;color:var(--muted);font-size:.68rem;border-radius:10px;text-decoration:none}
-  .tabbar a .i{font-size:1.3rem;line-height:1.2}
-  .tabbar a.on{color:var(--gold2);background:var(--panel2)}
+  body{font-size:16.5px}
   .wrap{padding:0 14px}
   .hero{padding:22px 0 8px}
   h2{font-size:1.3rem}
@@ -365,3 +359,30 @@ table.lineup.box td{vertical-align:top}
 .era-shine{font-size:1.05rem;margin:.6em 0}
 .era-nod{border-top:1px dashed rgba(255,255,255,.18);padding-top:.6em}
 .era-cite summary{cursor:pointer;font-weight:600;padding:.3em 0}
+
+/* ---------- navigation: 5 sections, bottom tab bar on phones, quick-jump search ---------- */
+.qs-btn{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);cursor:pointer;margin-left:8px;flex:0 0 auto}
+.qs-btn:hover{border-color:var(--gold)}
+.qs{position:fixed;inset:0;z-index:60;background:rgba(5,8,14,.7);backdrop-filter:blur(3px);display:flex;justify-content:center;align-items:flex-start;padding:calc(10px + env(safe-area-inset-top)) 10px 10px}
+.qs[hidden]{display:none}
+html.qs-on{overflow:hidden}
+.qs-box{width:100%;max-width:560px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px;box-shadow:0 10px 40px rgba(0,0,0,.5);max-height:calc(100vh - 40px);display:flex;flex-direction:column}
+.qs-row{display:flex;gap:8px}
+#qs-q{flex:1;padding:12px 14px;font-size:16px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--text)}
+.qs-x{width:46px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);font-size:1.1rem;cursor:pointer}
+.qs-out{overflow-y:auto;margin-top:8px;-webkit-overflow-scrolling:touch}
+.qs-h{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:10px 4px 4px}
+.qs-item{display:flex;gap:10px;align-items:center;padding:10px;border-radius:10px;color:var(--text);text-decoration:none;min-height:48px}
+.qs-item:hover,.qs-item:focus{background:var(--panel2);text-decoration:none}
+.qs-i{font-size:1.2rem;width:26px;text-align:center}
+@media (min-width:768px){header.site .wrap{flex-wrap:nowrap}}
+@media (max-width:767px){
+  nav.main{display:none}
+  header.site .wrap{min-height:52px;justify-content:space-between;flex-wrap:nowrap}
+  body{padding-bottom:calc(74px + env(safe-area-inset-bottom))}
+  .tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(15,20,32,.97);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:4px 4px calc(4px + env(safe-area-inset-bottom))}
+  .tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:58px;color:var(--muted);font-size:.74rem;font-weight:600;border-radius:12px;text-decoration:none;position:relative}
+  .tabbar a .i{font-size:1.45rem;line-height:1.15}
+  .tabbar a.on{color:var(--gold2);background:var(--panel2)}
+  .tabbar a.on::before{content:"";position:absolute;top:-4px;left:28%;right:28%;height:3px;border-radius:0 0 3px 3px;background:var(--gold)}
+}

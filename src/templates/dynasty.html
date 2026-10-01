@@ -1,4 +1,4 @@
-{% extends "base.html" %}{% from "macros.html" import award_card, mcard with context %}{% block body %}{% from "macros.html" import subnav with context %}{{ subnav('dynasty', sub) }}
+{% extends "base.html" %}{% from "macros.html" import award_card, mcard with context %}{% block body %}{% from "macros.html" import subnav with context %}{{ subnav('seasons', sub) }}
 {% set M = L.seasonMeta[S.year|string] %}
 <section class="hero"><div class="kicker">Sleeper · Dynasty · Superflex</div><h1>The Dynasty Era ({{ S.year }}–)</h1>
 <p class="lead">The league moved to Sleeper in {{ S.year }} and went dynasty: keep your roster forever, trade future picks, and live with your startup draft. {{ S.completedWeeks }} weeks in the books.</p>

@@ -180,7 +180,7 @@ def main():
     def rec(r):
         return f"{r['w']}-{r['l']}" + (f"-{r['t']}" if r.get('t') else '')
     built = datetime.datetime.now().strftime("%b %-d, %Y %-I:%M %p ET")
-    G = dict(L=L, seasons=seasons, mname=mname, f=f, ordinal=ordinal, team_name=team_name, team_name_id=team_name_id, seed_of=seed_of,
+    G = dict(NOINDEX=bool(os.environ.get("LOEG_NOINDEX")), L=L, seasons=seasons, mname=mname, f=f, ordinal=ordinal, team_name=team_name, team_name_id=team_name_id, seed_of=seed_of,
              playoff_rounds=playoff_rounds, weeks=weeks, draft_board=draft_board, top_players=top_players, trade_sides=trade_sides,
              awards_by_key=awards_by_key, rec=rec, rp=rp, F=F, TR=TR, race_svg=race_svg, grade_cls=grade_cls, pair_id=pair_id, bx=bx, box_of=box_of, box_for=box_for, game_log=game_log, riv=riv, sgn=sgn, award_counts=award_counts, rk=rk, tied=tied, initials=initials, ts=ts, md=md, cat_icon=cat_icon, built=built)
     G["SITE"] = SITE
@@ -205,7 +205,7 @@ def main():
     render("seasons_index.html", "seasons/index.html", "../", title="Seasons", nav="seasons")
     for y, S in seasons.items():
         render("season.html", f"seasons/{y}.html", "../", title=f"{y} Season", nav="seasons", S=S)
-    render("draft_order.html", "seasons/draft-order.html", "../", title="Draft Order Games", nav="seasons")
+    render("draft_order.html", "seasons/draft-order.html", "../", title="Draft Order Games", nav="lore")
     render("managers_index.html", "managers/index.html", "../", title="Managers", nav="managers")
     for mid, P in L["profiles"].items():
         render("manager.html", f"managers/{mid}.html", "../", title=P["name"], nav="managers", P=P)
@@ -229,7 +229,15 @@ def main():
         import json as _j
         ph = load(os.path.join(GEN, "players_history.json"), {})
         names = {m: mname(m) for m in MG}
+        _idx_players = [[v["n"], v.get("p", ""), k] for k, v in sorted(ph.items())]
         open(os.path.join(DIST, "static", "players.js"), "w").write("window.PH=" + _j.dumps(ph, separators=(",", ":")) + ";window.PHM=" + _j.dumps(names, separators=(",", ":")) + ";")
+    # Quick-jump search index (managers, seasons, players), loaded on demand by site.js
+    import json as _j2
+    idx = {"m": [[L["profiles"][m]["name"], f"managers/{m}.html", " ".join(sorted({t["name"] for t in L["profiles"][m]["teamNames"]} | ({L["profiles"][m]["nickname"]} if L["profiles"][m].get("nickname") else set()))), "Latest team: " + L["profiles"][m]["teamNames"][-1]["name"]] for m in L["managerOrder"]],
+           "s": [[str(y), f"seasons/{y}.html", (f"Champion: {mname(seasons[y]['champion'])}" if seasons[y].get("champion") else "In progress")] for y in sorted(L["years"], reverse=True)]
+                + ([["Dynasty overview", "dynasty.html", "Dynasty era"]] if dyn else []) + ([["Dynasty Tracker", "tracker.html", "Dynasty era"]] if F.get("dynasty") else []),
+           "p": locals().get("_idx_players", [])}
+    open(os.path.join(DIST, "static", "search.json"), "w").write(_j2.dumps(idx, separators=(",", ":"), ensure_ascii=False))
     # GitHub Pages serves 404.html at any depth, so it links from the site's absolute base path (from data/site.json url).
     from urllib.parse import urlparse
     for x in BOXES:

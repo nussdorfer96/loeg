@@ -1,5 +1,5 @@
 {% extends "base.html" %}{% from "macros.html" import subnav with context %}{% block body %}
-{{ subnav('dynasty', sub) }}
+{{ subnav('seasons', sub) }}
 <section class="hero"><div class="kicker">Sleeper · Dynasty</div><h1>Dynasty Tracker</h1>
 <p class="lead">Who owns whose future, how old every roster is, and every manager who's ever had a given player, across ESPN 2020-2025 and Sleeper.</p>
 <div class="toc"><a href="#lookup">Player lookup</a><a href="#picks">Future picks</a><a href="#ages">Roster ages</a></div></section>
@@ -25,12 +25,14 @@
 (function(){var q=document.getElementById('ph-q'),o=document.getElementById('ph-out');
 function n(s){return s.toLowerCase().replace(/[.'’]/g,'').replace(/\b(jr|sr|ii|iii|iv|v)\b/g,'').replace(/[^a-z ]/g,'').replace(/\s+/g,' ').trim();}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+var _pre=new URLSearchParams(location.search).get('q');
 q.addEventListener('input',function(){var v=n(q.value);if(v.length<2){o.innerHTML='';return;}
 var hits=Object.keys(PH).filter(function(k){return k.indexOf(v)>=0;}).sort(function(a,b){return (a.indexOf(v)-b.indexOf(v))||(a.length-b.length);}).slice(0,12);
 if(!hits.length){o.innerHTML='<p class="muted">No player by that name has been rostered or drafted in this league.</p>';return;}
 o.innerHTML=hits.map(function(k){var p=PH[k];var rows=p.h.slice().sort(function(a,b){return a[0]-b[0]||b[2]-a[2];});
 var ms={};rows.forEach(function(r){ms[r[1]]=1;});
 return '<div class="ph-card"><div class="ph-n"><b>'+esc(p.n)+'</b> <span class="muted small">'+esc(p.p)+' · '+Object.keys(ms).length+' manager(s)</span></div><table class="lineup"><tbody>'+rows.map(function(r){return '<tr><td class="slot">'+r[0]+'</td><td><a href="managers/'+r[1]+'.html">'+esc(PHM[r[1]]||r[1])+'</a>'+(r[4]?' <span class="pill">drafted '+r[4]+'</span>':'')+'</td><td class="num">'+r[2]+' wk</td><td class="num">'+r[3]+'</td></tr>';}).join('')+'</tbody></table></div>';}).join('');});
+if(_pre){q.value=_pre;q.dispatchEvent(new Event('input'));setTimeout(function(){q.scrollIntoView({block:'center'});},50);}
 })();
 </script>
 {% endblock %}

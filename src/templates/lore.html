@@ -68,5 +68,7 @@
 <h3 style="margin:.3em 0">{{ e.title }}{% if e.subtitle %}: <span class="lx-subt">{{ e.subtitle }}</span>{% endif %}</h3>{% if e.teaser %}<p class="lx-teaser">{{ e.teaser }}</p>{% endif %}</div><span class="lx-chev" aria-hidden="true"></span></summary><div class="lore-entry">{% if e.image %}<img class="lore-img" src="{{ e.image.src }}" alt="{{ e.image.alt }}" width="{{ e.image.width }}" height="{{ e.image.height }}" loading="lazy" decoding="async">{% endif %}<div>{{ md(e.body) }}</div>
 {% if e.managers %}<div class="small" style="margin-top:6px">{% for m in e.managers %}{{ ml(m) }}{% if not loop.last %} · {% endif %}{% endfor %}{% if e.season %} · <a href="seasons/{{ e.season }}.html">{{ e.season }} season</a>{% endif %}</div>{% endif %}
 </div></details>{% else %}<p class="muted">Nothing else yet.</p>{% endfor %}</div>
+<h2 id="draft-order">🎲 Draft Order Games</h2>
+<a class="card cta-card" href="seasons/draft-order.html"><div class="label">🎲 Tradition</div><b>Draft Order Games</b><div class="small muted">Every year the league competes for draft slots. See each year's game and the order it produced →</div></a>
 <div class="note" style="margin-top:20px">Lore is curated by the Commissioner. To add a story, open <code>data/lore.json</code>, copy an entry, give it a unique <code>id</code>, and rebuild. Categories: game, injury, controversy, tradition, draft, other. Only the Championships section is generated automatically each year.</div>
 {% endblock %}

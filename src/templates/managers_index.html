@@ -6,7 +6,6 @@
 <div class="grid g3">{% for mid in L.managerOrder if L.profiles[mid].loyalist %}{{ mcard(L.profiles[mid]) }}{% endfor %}</div>
 <h2>Active (2026)</h2>
 <div class="grid g3">{% for mid in L.managerOrder if L.profiles[mid].active and not L.profiles[mid].loyalist %}{{ mcard(L.profiles[mid]) }}{% endfor %}</div>
-<a class="card memorial-cta" href="../memoriam.html"><span class="big">🪦</span><span><b>In Memoriam</b><br><span class="small muted">Tombstones and epitaphs for the {{ L.fallen|length }} fallen owners.</span></span><span class="arrow">›</span></a>
 <h2>Former managers</h2>
 <div class="grid g3">{% for mid in L.managerOrder if not L.profiles[mid].active %}{{ mcard(L.profiles[mid]) }}{% endfor %}</div>
 <h2>All-time standings</h2>
@@ -14,4 +13,5 @@
 {% for mid in L.managerOrder %}{% set p = L.profiles[mid] %}<tr><td>{{ ml(mid) }}</td><td class="num">{{ p.years|length }}</td><td>{{ p.w }}-{{ p.l }}-{{ p.t }}</td><td class="num">{{ "%.3f"|format(p.pct) }}</td><td class="num">{{ f(p.pf) }}</td><td class="num">{{ f(p.pa) }}</td><td class="num">{{ f(p.ppg) }}</td><td class="num">{{ p.playoffApps|length }}</td><td>{{ p.playoffW }}-{{ p.playoffL }}</td><td class="num" data-v="{{ p.titles|length }}">{{ '🏆'*p.titles|length }}</td><td class="num">{{ p.avgFinish or '-' }}</td></tr>{% endfor %}
 </tbody></table></div>
 <p class="muted small">Regular-season head-to-head games on both platforms (Sleeper's weekly median games excluded). Playoff W-L counts winners-bracket games only.</p>
-{% endblock %}
+<div style="margin-top:18px"><a class="card memorial-cta" href="../memoriam.html"><span class="big">🪦</span><span><b>In Memoriam</b><br><span class="small muted">Tombstones and epitaphs for the {{ L.fallen|length }} fallen owners.</span></span><span class="arrow">›</span></a>
+</div>{% endblock %}

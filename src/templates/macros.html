@@ -17,8 +17,9 @@
 {%- endmacro -%}
 
 {%- macro subnav(group, cur) -%}
-{% set groups = {'records': [('records.html','📖 Records'),('luck.html','🍀 Schedule luck'),('trades.html','🤝 Trades'),('rivalries/index.html','⚔️ Rivalries'),('regrets.html','💔 Got away'),('drafts.html','📋 Draft trends'),('projections.html','📈 Projections')],
+{% set groups = {'records': [('records.html','📖 Records'),('luck.html','🍀 Schedule luck'),('trades.html','🤝 Trades'),('rivalries/index.html','⚔️ Rivalries'),('regrets.html','💔 Got away'),('drafts.html','📋 Draft trends'),('projections.html','📈 Projections'),('records.html#era-awards','🏛️ Era Awards')],
  'dynasty': [('dynasty.html','🏰 Overview'),('tracker.html','🔭 Tracker')]} %}
+{% if group == 'seasons' %}{% set ns = namespace(items=[('seasons/index.html','📅 All seasons')]) %}{% for y in L.years|reverse %}{% set ns.items = ns.items + [('seasons/' ~ y ~ '.html', y|string)] %}{% if seasons[y].platform == 'Sleeper' and loop.first %}{% set ns.items = ns.items + [('dynasty.html','🏰 Dynasty overview'),('tracker.html','🔭 Tracker')] %}{% endif %}{% endfor %}{% set _ = groups.update({'seasons': ns.items}) %}{% endif %}
 <nav class="subnav" aria-label="Section pages">{% for href, label in groups[group] %}<a href="{{ root }}{{ href }}" class="{{ 'on' if href==cur }}">{{ label }}</a>{% endfor %}</nav>
 {%- endmacro -%}
 {%- macro luck_table(rows, show_year=false, link=true, show_mgr=true) -%}

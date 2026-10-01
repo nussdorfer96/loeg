@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">{% if NOINDEX %}<meta name="robots" content="noindex,nofollow">{% endif %}
 <title>{% block title %}{{ title }}{% endblock %} · The League of Extraordinary Gentlemen</title>
 {% set og_title = SITE.title if nav == 'home' else (title ~ ' · ' ~ SITE.title) %}
 <meta name="description" content="{{ SITE.description }}">
@@ -18,17 +18,19 @@
 <link rel="apple-touch-icon" href="{{ root }}static/apple-touch-icon.png">
 <link rel="stylesheet" href="{{ root }}static/style.css">
 </head><body>
+{% set sec = {'dynasty':'seasons','memoriam':'managers'}.get(nav, nav) %}{% set SECTIONS = [('index.html','Home','🏠','home'),('seasons/index.html','Seasons','📅','seasons'),('managers/index.html','Managers','👥','managers'),('records.html','Records','📖','records'),('lore.html','Lore','📜','lore')] %}
 <header class="site"><div class="wrap">
 <a class="brand" href="{{ root }}index.html">🎩 LOEG <span>History Book</span></a>
-<nav class="main">
-{% for href, label, key in [('index.html','Home','home'),('seasons/index.html','Seasons','seasons'),('managers/index.html','Managers','managers'),('records.html','Record Book','records'),('dynasty.html','Dynasty Era','dynasty'),('lore.html','Lore','lore'),('memoriam.html','In Memoriam','memoriam')] %}
-<a href="{{ root }}{{ href }}" class="{{ 'on' if nav==key }}">{{ label }}</a>{% endfor %}
-</nav></div></header>
+<nav class="main" aria-label="Sections">
+{% for href, label, icon, key in SECTIONS %}<a href="{{ root }}{{ href }}" class="{{ 'on' if sec==key }}"{% if sec==key %} aria-current="page"{% endif %}>{{ label }}</a>{% endfor %}
+</nav>
+<button type="button" class="qs-btn" id="qs-open" aria-label="Search managers, seasons and players" data-root="{{ root }}"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+</div></header>
+<div class="qs" id="qs" hidden><div class="qs-box" role="dialog" aria-label="Quick jump"><div class="qs-row"><input id="qs-q" type="search" placeholder="Manager, season or player" autocomplete="off" aria-label="Search"><button type="button" class="qs-x" id="qs-close" aria-label="Close">✕</button></div><div class="qs-out" id="qs-out"><p class="muted small">Try “Brian”, “2024” or “Josh Allen”.</p></div></div></div>
 <main class="wrap">{% block body %}{% endblock %}</main>
 <footer class="site"><div class="wrap">The League of Extraordinary Gentlemen · Commissioner: Ryan Nussdorfer · ESPN league 645976 (2020-2025) · Sleeper dynasty (2026-) ·
 Built {{ built }} from league data. Every number on this site comes from ESPN/Sleeper data; stats belong to the person who managed that week, never the team slot.</div></footer>
 <nav class="tabbar" aria-label="Sections">
-{% for href, label, icon, key in [('index.html','Home','🏠','home'),('seasons/index.html','Seasons','📅','seasons'),('managers/index.html','Managers','👥','managers'),('records.html','Records','📖','records'),('dynasty.html','Dynasty','🏰','dynasty'),('lore.html','Lore','📜','lore')] %}
-<a href="{{ root }}{{ href }}" class="{{ 'on' if nav==key or (key=='managers' and nav=='memoriam') }}"><span class="i">{{ icon }}</span>{{ label }}</a>{% endfor %}
+{% for href, label, icon, key in SECTIONS %}<a href="{{ root }}{{ href }}" class="{{ 'on' if sec==key }}"{% if sec==key %} aria-current="page"{% endif %}><span class="i">{{ icon }}</span>{{ label }}</a>{% endfor %}
 </nav>
 <script src="{{ root }}static/site.js"></script></body></html>

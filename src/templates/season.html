@@ -2,7 +2,7 @@
 {% set M = L.seasonMeta[S.year|string] %}{% set FS = F.seasons[S.year|string] %}
 <section class="hero"><div class="kicker">{{ S.platform }} · {{ S.format }} · Season {{ S.year }}</div>
 <h1>The {{ S.year }} Season</h1>
-<div class="season-nav">{% for y in L.years %}<a href="{{ y }}.html" class="{{ 'on' if y==S.year }}">{{ y }}</a>{% endfor %}</div>
+{% from "macros.html" import subnav with context %}{{ subnav('seasons', 'seasons/' ~ S.year ~ '.html') }}
 {% set B = (L.beltLineage|selectattr('year','equalto',S.year)|list) %}
 {% if S.champion %}<p class="lead">🥇 {% if S.year < L.belt.introduced %}Champion{% else %}Belt winner{% endif %}: <b>{{ ml(S.champion) }}</b> ({{ team_name(S, S.champion) }}) · 🥈 Runner-up: {{ ml(S.runnerUp) }} ({{ team_name(S, S.runnerUp) }})</p>
 {% else %}<p class="lead">In progress: {{ S.completedWeeks }} weeks complete. Full dynasty coverage lives on the <a href="../dynasty.html">Dynasty Era</a> page.</p>{% endif %}
