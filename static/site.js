@@ -56,3 +56,28 @@ document.querySelectorAll('.race').forEach(function(r){
     var b=e.target.closest&&e.target.closest('[data-lx]');if(b){var o=b.dataset.lx==='open';document.querySelectorAll('details.lx').forEach(function(d){d.open=o;});}
   });
 })();
+
+// Quick-jump search (managers, seasons, players); index loaded on first open
+(function(){
+  var btn=document.getElementById('qs-open'),box=document.getElementById('qs');if(!btn||!box)return;
+  var q=document.getElementById('qs-q'),out=document.getElementById('qs-out'),root=btn.dataset.root||'',IDX=null;
+  function n(s){return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[.'’]/g,'').replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function open_(){box.hidden=false;document.documentElement.classList.add('qs-on');setTimeout(function(){q.focus();},30);
+    if(!IDX)fetch(root+'static/search.json').then(function(r){return r.json();}).then(function(d){IDX=d;run();}).catch(function(){out.innerHTML='<p class="muted small">Search index unavailable.</p>';});}
+  function close_(){box.hidden=true;document.documentElement.classList.remove('qs-on');}
+  function score(name,extra,v){var a=n(name),i=a.indexOf(v);if(i===0)return 0;if(i>0)return a.charAt(i-1)===' '?1:2;if(extra&&n(extra).indexOf(v)>=0)return 3;return -1;}
+  function run(){var v=n(q.value);if(!IDX)return;if(v.length<1){out.innerHTML='<p class="muted small">Try “Brian”, “2024” or “Josh Allen”.</p>';return;}
+    var groups=[['Managers','m','👥'],['Seasons','s','📅'],['Players','p','🏈']],html='';
+    groups.forEach(function(g){var rows=(IDX[g[1]]||[]).map(function(r){var sc=score(r[0],g[1]==='p'?'':r[2],v);return [sc,r];}).filter(function(x){return x[0]>=0&&(g[1]!=='p'||v.length>=2);})
+      .sort(function(a,b){return a[0]-b[0]||a[1][0].length-b[1][0].length;}).slice(0,g[1]==='p'?8:6);
+      if(!rows.length)return;html+='<div class="qs-h">'+g[0]+'</div>';
+      rows.forEach(function(x){var r=x[1],href=g[1]==='p'?root+'tracker.html?q='+encodeURIComponent(r[0]):root+r[1],sub=g[1]==='p'?r[1]+' · league history':(r[3]||r[2]);
+        html+='<a class="qs-item" href="'+href+'"><span class="qs-i">'+g[2]+'</span><span><b>'+esc(r[0])+'</b><br><span class="muted small">'+esc(sub)+'</span></span></a>';});});
+    out.innerHTML=html||'<p class="muted small">No matches.</p>';}
+  btn.addEventListener('click',open_);document.getElementById('qs-close').addEventListener('click',close_);
+  box.addEventListener('click',function(e){if(e.target===box)close_();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!box.hidden)close_();if(e.key==='/'&&box.hidden&&!/input|textarea/i.test((e.target.tagName||''))){e.preventDefault();open_();}});
+  q.addEventListener('input',run);
+  q.addEventListener('keydown',function(e){if(e.key==='Enter'){var a=out.querySelector('a.qs-item');if(a){location.href=a.href;}}});
+})();
