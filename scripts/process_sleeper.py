@@ -42,7 +42,7 @@ def process(year=2026):
             "starters": r.get("starters") or [], "seed": None, "finalRank": None, "tookOverFrom": None,
         }
 
-    games, lineups, player_pts, lbw = [], {}, collections.defaultdict(dict), {}
+    games, lineups, player_pts, lbw, sbw = [], {}, collections.defaultdict(dict), {}, {}
     for wk in range(1, done_weeks + 1):
         ms = load(os.path.join(D, f"matchups_{wk}.json"), []) or []
         if not ms or all((m.get("points") or 0) == 0 for m in ms):
@@ -59,6 +59,7 @@ def process(year=2026):
             L["bench"] += bench; L["weeks"] += 1
             for pid, pts in zip(m.get("starters") or [], m.get("starters_points") or []):
                 L["started"][pid] += pts; L["games"].append({"week": wk, "playerId": pid, "pts": pts})
+            sbw.setdefault(str(wk), {})[str(m["roster_id"])] = list(m.get("starters") or [])
             for pid, pts in (m.get("players_points") or {}).items():
                 player_pts[pid][wk] = pts
             lbw.setdefault(str(wk), {})[str(m["roster_id"])] = [[pid, "ST" if pid in started else ("TX" if pid in stash else "BE"), r2(pts)] for pid, pts in (m.get("players_points") or {}).items()]
@@ -187,6 +188,7 @@ def process(year=2026):
         "transactions": transactions, "tradedPicks": traded, "players": players,
         "playerWeekly": {pid: {str(k): v for k, v in w.items()} for pid, w in player_pts.items()},
         "lineupsByWeek": lbw,
+        "startersByWeek": sbw,   # starters in roster_positions order (for slot labels in box scores)
         "lineups": {str(rid): {"bench": r2(L["bench"]), "weeksCovered": L["weeks"],
                                "started": {k: r2(v) for k, v in L["started"].most_common(25)},
                                "topGames": sorted(L["games"], key=lambda x: -x["pts"])[:10]} for rid, L in lineups.items()},

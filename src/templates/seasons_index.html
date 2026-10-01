@@ -4,4 +4,5 @@
 <div class="grid g3">{% for y in L.years|reverse %}{% set S = seasons[y] %}<a class="card mgr-card" href="{{ y }}.html"><div class="label">{{ S.platform }} · {{ S.format }}</div><div class="nm">{{ y }}</div>
 {% if S.champion %}<div>🏆 {{ mname(S.champion) }} <span class="muted small">({{ team_name(S, S.champion) }})</span></div><div class="small muted">🥈 {{ mname(S.runnerUp) }} · regular-season leader: {{ mname((S.teams|sort(attribute='seed'))[0].manager) }}</div>
 {% else %}<div class="muted">In progress · week {{ S.completedWeeks }} complete</div>{% endif %}</a>{% endfor %}</div>
+<h2>📋 Every game, every week</h2><div class="season-nav">{% for y in L.years %}<a href="../box/{{ y }}/index.html">{{ y }}</a>{% endfor %}</div>
 {% endblock %}

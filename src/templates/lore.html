@@ -14,7 +14,7 @@
 <article class="saga" id="{{ e.id }}">
 <div class="saga-head"><div class="kicker">{{ e.season }} · Week {{ e.week }} · A league legend</div><h2>{{ e.title }}</h2>{% if e.subtitle %}<div class="sub">{{ e.subtitle }}</div>{% endif %}<p class="logline">{{ e.body }}</p></div>
 {% for c in e.chapters %}<section class="saga-ch"><div class="num">{{ loop.index }}</div><h3>{{ c.h }}</h3>{{ md(c.body) }}</section>
-{% if c.h == 'The Deception' and e.boxscores %}<div class="exhibits">{% for bx in e.boxscores %}<div class="exhibit"><div class="label">{{ bx.label }}</div>{{ lineup_tbl(bx.lineup) }}</div>{% endfor %}</div>{% endif %}
+{% if c.h == 'The Deception' and e.boxscores %}<div class="exhibits">{% for bx in e.boxscores %}<div class="exhibit"><div class="label">{{ bx.label }}</div>{{ lineup_tbl(bx.lineup) }}{% set u = box_for(bx.season, bx.week, bx.manager) %}{% if u %}<div class="small"><a href="{{ u }}">Full box score →</a></div>{% endif %}</div>{% endfor %}</div>{% endif %}
 {% endfor %}
 <div class="small" style="margin-top:10px">Starring {% for m in e.managers %}{{ ml(m) }}{% if not loop.last %} · {% endif %}{% endfor %} · <a href="seasons/{{ e.season }}.html">2025 season page</a></div>
 </article>{% endfor %}
@@ -50,7 +50,7 @@
 <details class="lineups"><summary>Starting lineups</summary><div class="two">
 <div><div class="label">🥇 {{ mname(c.winner.manager) }}</div>{{ lineup_tbl(c.winner.lineup, c.mvp) }}</div>
 <div><div class="label">{{ mname(c.loser.manager) }}</div>{{ lineup_tbl(c.loser.lineup) }}</div></div></details>
-<div class="small"><a href="seasons/{{ c.year }}.html#playoffs">{{ c.year }} bracket →</a></div>
+<div class="small"><a href="{{ bx(c.year, c.week, c.winner.manager, c.loser.manager) }}"><b>📊 Full box score →</b></a> · <a href="seasons/{{ c.year }}.html#playoffs">{{ c.year }} bracket</a></div>
 </article>{% endfor %}
 <p class="muted small">* {{ mname(L.beltLineage[0].manager) }} won the {{ L.beltLineage[0].year }} title before the Belt was introduced in {{ L.belt.introduced }}.</p>
 

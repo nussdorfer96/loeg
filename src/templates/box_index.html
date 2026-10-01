@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block body %}
+<section class="hero"><div class="kicker">{{ S.platform }} · {{ S.year }}</div><h1>{{ S.year }}: All Games</h1>
+<p class="lead">Every matchup, week by week. Tap a game for the full box score.</p>
+<div class="season-nav">{% for y in L.years %}<a href="../{{ y }}/index.html" class="{{ 'on' if y==S.year }}">{{ y }}</a>{% endfor %}</div>
+<p class="small"><a href="../../seasons/{{ S.year }}.html">← {{ S.year }} season page</a></p></section>
+{% for wk, gs in games|groupby('week') %}<h3 id="w{{ wk }}">Week {{ wk }}{% if gs[0].kind != 'regular' %} · <span class="muted small">{{ gs|map(attribute='round')|unique|join(' / ') }}</span>{% endif %}</h3>
+<div class="games">{% for x in gs|sort(attribute='kind', reverse=true) %}<a class="mu {{ 'final' if x.final }}" href="{{ x.url|replace('box/' ~ S.year ~ '/','') }}">{% for s in x.sides %}<div class="{{ 'w' if s.won else 'l' }}"><span>{{ mname(s.manager) }} <span class="muted small">{% if loop.first and x.kind != 'regular' %}{{ x.round }}{% endif %}</span></span><span>{{ f(s.score) }}</span></div>{% endfor %}</a>{% endfor %}</div>{% endfor %}
+{% endblock %}

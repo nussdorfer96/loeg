@@ -18,8 +18,9 @@
 <p class="muted small">Official record = head-to-head + the weekly game against the league median. Max PF = Sleeper's optimal-lineup points.</p>
 
 <h2 id="matchups">Matchups</h2>
+<p class="small">Tap a matchup for the box score · <a href="box/{{ S.year }}/index.html">All {{ S.year }} games →</a></p>
 <div class="weeks">{% for wk, gs in weeks(S) %}<details open><summary>Week {{ wk }}</summary><div class="games">
-{% for g in gs %}<div class="mu"><div class="{{ 'w' if g.winner=='home' else 'l' }}"><span>{{ team_name_id(S, g.home.teamId) }} <span class="muted small">{{ mname(g.home.manager).split(' ')[0] }}</span></span><span>{{ f(g.home.score) }}</span></div><div class="{{ 'w' if g.winner=='away' else 'l' }}"><span>{{ team_name_id(S, g.away.teamId) }} <span class="muted small">{{ mname(g.away.manager).split(' ')[0] }}</span></span><span>{{ f(g.away.score) }}</span></div></div>{% endfor %}
+{% for g in gs %}<a class="mu" href="{{ bx(S.year, g.week, g.home.manager, g.away.manager) }}"><div class="{{ 'w' if g.winner=='home' else 'l' }}"><span>{{ team_name_id(S, g.home.teamId) }} <span class="muted small">{{ mname(g.home.manager).split(' ')[0] }}</span></span><span>{{ f(g.home.score) }}</span></div><div class="{{ 'w' if g.winner=='away' else 'l' }}"><span>{{ team_name_id(S, g.away.teamId) }} <span class="muted small">{{ mname(g.away.manager).split(' ')[0] }}</span></span><span>{{ f(g.away.score) }}</span></div></a>{% endfor %}
 </div></details>{% endfor %}</div>
 
 <h2 id="trades">Trades &amp; Traded Picks</h2>

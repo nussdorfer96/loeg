@@ -219,6 +219,7 @@ def process(year):
     arch_files = find_archive_files(year)
     lineups = {}   # week -> teamId -> list of {playerId, slot, pts}
     proj = {}      # week -> teamId -> {playerId: ESPN projected points (statSourceId 1)}
+    nflteam = {}   # week -> playerId -> NFL team id that week (from the actual stat line)
     tx = {}
     for wk, path in arch_files.items():
         d = load(path, {})
@@ -240,6 +241,9 @@ def process(year):
                     ent.append({"playerId": pid, "slot": e.get("lineupSlotId"), "pts": r2(ppe.get("appliedStatTotal", 0))})
                     pj = next((st.get("appliedTotal") for st in pl.get("stats", []) or []
                                if st.get("statSourceId") == 1 and st.get("scoringPeriodId") == wk and st.get("statSplitTypeId") == 1), None)
+                    act = next((st for st in pl.get("stats", []) or [] if st.get("statSourceId") == 0 and st.get("scoringPeriodId") == wk and st.get("statSplitTypeId") == 1), None)
+                    tm_id = (act or {}).get("proTeamId") or pl.get("proTeamId")
+                    if tm_id and wk >= 1: nflteam.setdefault(wk, {})[str(pid)] = tm_id
                     if pj is not None and wk >= 1:
                         proj.setdefault(wk, {}).setdefault(sd["teamId"], {})[str(pid)] = r2(pj)
                 if wk >= 1:
@@ -324,6 +328,7 @@ def process(year):
         "lineupsByWeek": {str(wk): {str(tid): [[str(x["playerId"]), x["slot"], x["pts"]] for x in ent] for tid, ent in tm.items()} for wk, tm in lineups.items()},
         "projByWeek": {str(wk): {str(t): v for t, v in tm.items()} for wk, tm in proj.items()},
         "adp": adp,
+        "nflTeamByWeek": {str(wk): v for wk, v in nflteam.items()},
         "lineups": {str(tid): {"bench": r2(L["bench"]), "weeksCovered": L["weeksCovered"],
                                "started": {str(k): r2(v) for k, v in L["started"].most_common(25)},
                                "topGames": sorted(L["games"], key=lambda x: -x["pts"])[:10]}

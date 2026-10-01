@@ -3,6 +3,7 @@ import os, shutil, datetime, collections, re, html
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from markupsafe import Markup, escape
 from common import *
+import boxscores
 
 SRC = os.path.join(ROOT, "src"); DIST = os.path.join(ROOT, "dist")
 
@@ -15,6 +16,23 @@ def main():
     F = load(os.path.join(GEN, "features.json"))
     SITE = load(os.path.join(DATA, "site.json"), {"title": "LOEG History Book", "description": "", "url": ""})
     TR = {t["id"]: t for t in F["trades"]}
+    BOXES = boxscores.build(seasons, L["lore"])
+    BOXMAP = {(x["year"], x["week"], frozenset(s["manager"] for s in x["sides"])): x for x in BOXES}
+    GLOG = collections.defaultdict(list)
+    for x in BOXES:
+        for s in x["sides"]: GLOG[s["manager"]].append(x)
+    def box_of(y, wk, a, c): return BOXMAP.get((int(y), int(wk), frozenset([a, c])))
+    def bx(y, wk, a, c):
+        x = box_of(y, wk, a, c)
+        return x["url"] if x else ""
+    BYMW = {(x["year"], x["week"], s["manager"]): x for x in BOXES for s in x["sides"]}
+    def box_for(y, wk, m):
+        x = BYMW.get((int(y), int(wk), m))
+        return x["url"] if x else ""
+    def game_log(mid):
+        out = collections.OrderedDict()
+        for x in sorted(GLOG.get(mid, []), key=lambda x: (x["year"], x["week"])): out.setdefault(x["year"], []).append(x)
+        return out
     PALETTE = ["#e8b84a", "#4ea1ff", "#ff6b6b", "#5bd18b", "#c38bff", "#ff9f43", "#3dd6d0", "#ff7ac6", "#a3b18a", "#f4f1de", "#8d99ae", "#b5838d"]
 
     def race_svg(rc):
@@ -140,7 +158,7 @@ def main():
     built = datetime.datetime.now().strftime("%b %-d, %Y %-I:%M %p ET")
     G = dict(L=L, seasons=seasons, mname=mname, f=f, ordinal=ordinal, team_name=team_name, team_name_id=team_name_id, seed_of=seed_of,
              playoff_rounds=playoff_rounds, weeks=weeks, draft_board=draft_board, top_players=top_players, trade_sides=trade_sides,
-             awards_by_key=awards_by_key, rec=rec, rp=rp, F=F, TR=TR, race_svg=race_svg, grade_cls=grade_cls, pair_id=pair_id, riv=riv, sgn=sgn, award_counts=award_counts, initials=initials, ts=ts, md=md, cat_icon=cat_icon, built=built)
+             awards_by_key=awards_by_key, rec=rec, rp=rp, F=F, TR=TR, race_svg=race_svg, grade_cls=grade_cls, pair_id=pair_id, bx=bx, box_of=box_of, box_for=box_for, game_log=game_log, riv=riv, sgn=sgn, award_counts=award_counts, initials=initials, ts=ts, md=md, cat_icon=cat_icon, built=built)
     G["SITE"] = SITE
     env.globals.update(G)
 
@@ -190,6 +208,12 @@ def main():
         open(os.path.join(DIST, "static", "players.js"), "w").write("window.PH=" + _j.dumps(ph, separators=(",", ":")) + ";window.PHM=" + _j.dumps(names, separators=(",", ":")) + ";")
     # GitHub Pages serves 404.html at any depth, so it links from the site's absolute base path (from data/site.json url).
     from urllib.parse import urlparse
+    for x in BOXES:
+        render("box.html", x["url"], "../../", title=f"{x['year']} Week {x['week']}: {mname(x['sides'][0]['manager'])} vs {mname(x['sides'][1]['manager'])}", nav="seasons", B=x, S=seasons[x["year"]])
+    for y in L["years"]:
+        render("box_index.html", f"box/{y}/index.html", "../../", title=f"{y} All Games", nav="seasons", S=seasons[y],
+               games=[x for x in BOXES if x["year"] == y])
+    print("box scores:", len(BOXES))
     render("404.html", "404.html", (urlparse(SITE.get("url") or "").path or ""), title="Page not found", nav="")
     open(os.path.join(DIST, ".nojekyll"), "w").write("")
     print("site built ->", DIST, sum(len(fs) for _, _, fs in os.walk(DIST)), "files")

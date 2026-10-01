@@ -296,3 +296,27 @@ ol.draft-order .pk{flex:0 0 30px;height:30px;border-radius:8px;background:var(--
 ol.draft-order li:first-child .pk{background:var(--gold);color:#1a1405}
 ol.draft-order .who{flex:1;min-width:150px}ol.draft-order .pl{flex-basis:100%;padding-left:40px;margin-top:-4px}
 details.order summary{cursor:pointer;color:var(--gold2);font-weight:600;padding:8px 0;min-height:24px}
+/* box scores */
+a.mu{display:block;text-decoration:none;color:inherit}
+a.mu:hover,a.mu:active{border-color:var(--gold)}
+a.mu .w span:last-child:after,a.mu .l span:last-child:after{content:" ›";color:var(--muted)}
+.crumbs{margin:10px 0 4px;color:var(--muted)}
+.box-head{margin:6px 0 10px}
+.box-head .kicker{text-align:center;color:var(--gold2);letter-spacing:.12em;text-transform:uppercase;font-size:.72rem;font-weight:700;margin:6px 0}
+.box-score{display:flex;align-items:stretch;gap:8px;margin:8px 0}
+.box-score .bs{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center;position:relative}
+.box-score .bs.w{border-color:#7a6020;background:linear-gradient(180deg,#221d10,var(--panel))}
+.box-score .res{position:absolute;top:6px;left:8px;font-weight:900;font-size:.8rem;color:var(--muted)}.box-score .w .res{color:#5bd18b}.box-score .l .res{color:#ff7b7b}
+.box-score .who{font-weight:700;margin-top:6px}.box-score .tm{font-size:.78rem;color:var(--muted)}
+.box-score .pts{font-family:Georgia,serif;font-size:2rem;font-weight:800}.box-score .w .pts{color:var(--gold2)}
+.box-score .vs{align-self:center;color:var(--muted);font-size:.8rem}
+.box-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.box-side{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px}
+.box-side h3{margin:.2em 0 .5em;font-size:1.02rem}
+table.lineup.box td{vertical-align:top}
+.box-meta{display:flex;flex-direction:column;gap:3px;margin:8px 0}
+.box-nav{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px}
+.box-nav a{padding:8px 0;min-height:36px;display:inline-flex;align-items:center}
+.weeknav{border-top:1px solid var(--line);margin-top:16px;padding-top:6px}
+.boxlink{white-space:nowrap}
+@media (max-width:820px){.box-cols{grid-template-columns:1fr}.box-score .pts{font-size:1.6rem}}

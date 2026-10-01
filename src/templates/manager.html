@@ -15,7 +15,7 @@
 <div class="tape-item"><div class="label">Playoff trips</div><div class="v">{% if comp %}{{ P.playoffApps|length }}/{{ comp|length }}{% else %}-{% endif %}</div><div class="s">{{ P.playoffW }}-{{ P.playoffL }} in playoff games</div></div>
 <div class="tape-item"><div class="label">Best finish</div><div class="v">{{ BK.tape[3].value }}</div><div class="s">{{ BK.tape[3].sub }}</div></div>
 </div>
-<div class="toc"><a href="#book">The Book</a><a href="#h2h">Head-to-head</a>{% if FM.rivalries %}<a href="#rivals">Rivalries</a>{% endif %}<a href="#luck">Schedule luck</a>{% if FM.draft %}<a href="#draft-habits">Draft habits</a>{% endif %}{% if FM.tradeRecord %}<a href="#trades">Trades</a>{% endif %}{% if FM.regrets %}<a href="#regrets">Got away</a>{% endif %}</div>
+<div class="toc"><a href="#book">The Book</a><a href="#gamelog">Game log</a><a href="#h2h">Head-to-head</a>{% if FM.rivalries %}<a href="#rivals">Rivalries</a>{% endif %}<a href="#luck">Schedule luck</a>{% if FM.draft %}<a href="#draft-habits">Draft habits</a>{% endif %}{% if FM.tradeRecord %}<a href="#trades">Trades</a>{% endif %}{% if FM.regrets %}<a href="#regrets">Got away</a>{% endif %}</div>
 <h2 id="book">The Book on {{ P.name.split(' ')[0] }}</h2>
 <p class="tagline">{{ BK.tagline }}</p>
 {% if BK.signature %}<blockquote class="pull"><div class="label">⭐ {{ BK.signature.title }}</div>{% if BK.signature.text %}<div class="q">{{ md(BK.signature.text) }}</div>{% endif %}{% for l in BK.signature.lore or [] %}<div class="small">📌 Also forever in the lore: <a href="../lore.html#{{ l.id }}">{{ l.title }}</a></div>{% endfor %}</blockquote>{% endif %}
@@ -39,6 +39,10 @@
 
 {% if P.awards %}<h2>Trophy Case</h2><div class="grid g3">{% for a in P.awards if a.key in ['mvp','waiver','steal','bust','lucky','unlucky','pf','tophigh','game','bench','moves','trader','heartbreak','toplow','pa'] %}{{ award_card(a, true) }}{% endfor %}</div>{% endif %}
 
+{% set GL = game_log(P.id) %}{% if GL %}<h2 id="gamelog">📒 Game Log</h2>
+<p class="small muted">Every game {{ P.name.split(' ')[0] }} played. Tap a score for the box score.</p>
+{% for y, gs in GL.items() %}<details class="glog" {{ 'open' if loop.last }}><summary>{{ y }} <span class="muted small">· {{ gs|selectattr('sides')|list|length }} games</span></summary><div class="tbl-wrap"><table class="lineup"><tbody>
+{% for x in gs %}{% set me = x.sides[0] if x.sides[0].manager == P.id else x.sides[1] %}{% set op = x.sides[1] if x.sides[0].manager == P.id else x.sides[0] %}<tr><td class="slot">Wk {{ x.week }}</td><td>{% if x.kind != 'regular' %}<span class="pill {{ 'gold' if x.kind=='playoff' }}">{{ x.round }}</span> {% endif %}vs {{ mname(op.manager) }}</td><td class="num {{ 'pos' if me.won else 'neg' }}"><a class="boxlink" href="../{{ x.url }}">{{ 'W' if me.won else 'L' }} {{ f(me.score) }}-{{ f(op.score) }} ›</a></td></tr>{% endfor %}</tbody></table></div></details>{% endfor %}{% endif %}
 <h2 id="h2h">Head-to-Head</h2>
 <div class="tbl-wrap"><table class="sortable"><thead><tr><th>Opponent</th><th class="num">Games</th><th>Reg. season</th><th>Playoffs</th><th class="num">Overall</th><th class="num">PF</th><th class="num">PA</th></tr></thead><tbody>
 {% for h in P.h2h %}{% set ow = h.w + h.pw %}{% set ol = h.l + h.pl %}<tr><td>{{ ml(h.opp) }}{% if riv(P.id, h.opp) %} <a class="small" href="../rivalries/{{ pair_id(P.id, h.opp) }}.html" title="Rivalry page">⚔️</a>{% endif %}</td><td class="num">{{ h.games }}</td><td>{{ h.w }}-{{ h.l }}{% if h.t %}-{{ h.t }}{% endif %}</td><td>{{ h.pw }}-{{ h.pl }}</td><td class="num {{ 'win' if ow > ol else 'loss' if ol > ow }}" data-v="{{ ow - ol }}">{{ ow }}-{{ ol }}</td><td class="num">{{ f(h.pf) }}</td><td class="num">{{ f(h.pa) }}</td></tr>{% endfor %}

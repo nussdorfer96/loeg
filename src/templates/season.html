@@ -6,7 +6,7 @@
 {% set B = (L.beltLineage|selectattr('year','equalto',S.year)|list) %}
 {% if S.champion %}<p class="lead">🥇 {% if S.year < L.belt.introduced %}Champion (Belt-less*){% else %}Belt winner{% endif %}: <b>{{ ml(S.champion) }}</b> ({{ team_name(S, S.champion) }}) · 🥈 Runner-up: {{ ml(S.runnerUp) }} ({{ team_name(S, S.runnerUp) }})</p>
 {% else %}<p class="lead">In progress: {{ S.completedWeeks }} weeks complete. Full dynasty coverage lives on the <a href="../dynasty.html">Dynasty Era</a> page.</p>{% endif %}
-<div class="toc"><a href="#story">Story</a><a href="#awards">Awards</a><a href="#standings">Standings</a>{% if S.champion %}<a href="#playoffs">Playoffs</a>{% endif %}<a href="#leaders">Leaders</a><a href="#draft">Draft</a><a href="#notable">Notable games</a>{% if FS.race %}<a href="#race">Race chart</a>{% endif %}<a href="#luck">Schedule luck</a>{% if FS.regrets %}<a href="#regrets">Got away</a>{% endif %}{% if FS.trades %}<a href="#trades">Trades</a>{% endif %}{% if FS.proj %}<a href="#proj">Projections</a>{% endif %}<a href="#weeks">Weekly results</a>{% if S.transactions %}<a href="#tx">Transactions</a>{% endif %}</div>
+<div class="toc"><a href="#story">Story</a><a href="#awards">Awards</a><a href="#standings">Standings</a>{% if S.champion %}<a href="#playoffs">Playoffs</a>{% endif %}<a href="#leaders">Leaders</a><a href="#draft">Draft</a><a href="#notable">Notable games</a>{% if FS.race %}<a href="#race">Race chart</a>{% endif %}<a href="#luck">Schedule luck</a>{% if FS.regrets %}<a href="#regrets">Got away</a>{% endif %}{% if FS.trades %}<a href="#trades">Trades</a>{% endif %}{% if FS.proj %}<a href="#proj">Projections</a>{% endif %}<a href="#weeks">Weekly results</a><a href="{{ root }}box/{{ S.year }}/index.html">All games</a>{% if S.transactions %}<a href="#tx">Transactions</a>{% endif %}</div>
 </section>
 
 <h2 id="story">The Season Story</h2>
@@ -46,7 +46,7 @@
 <div class="grid g2">
 <div class="card"><div class="label">Beat ESPN by the most</div>{% set r = PJ.rows[0] %}<b>{{ ml(r.manager) }}</b>: {{ sgn(r.perGame) }} per game ({{ f(r.act) }} actual vs {{ f(r.proj) }} projected)</div>
 <div class="card"><div class="label">Fell short the most</div>{% set r = PJ.rows[-1] %}<b>{{ ml(r.manager) }}</b>: {{ sgn(r.perGame) }} per game ({{ f(r.act) }} actual vs {{ f(r.proj) }} projected)</div>
-{% if PJ.chokes %}{% set g = PJ.chokes[0] %}<div class="card choke"><div class="label">😱 Choke of the year</div>Week {{ g.week }}: <b>{{ ml(g.fav) }}</b> was projected to beat {{ ml(g.dog) }} by {{ f(g.projEdge) }} and lost {{ f(g.dogScore) }}-{{ f(g.favScore) }}.</div>{% endif %}
+{% if PJ.chokes %}{% set g = PJ.chokes[0] %}<div class="card choke"><div class="label">😱 Choke of the year</div>Week {{ g.week }}: <b>{{ ml(g.fav) }}</b> was projected to beat {{ ml(g.dog) }} by {{ f(g.projEdge) }} and lost <a href="{{ root }}{{ bx(g.year, g.week, g.fav, g.dog) }}">{{ f(g.dogScore) }}-{{ f(g.favScore) }}</a>.</div>{% endif %}
 <div class="card"><div class="label">Upsets</div>The projected favorite lost {{ PJ.upsets }} of {{ PJ.nGames }} games ({{ (100*PJ.upsets/PJ.nGames)|round|int }}%).</div></div>
 <p class="small"><a href="../projections.html">Projection hall of fame →</a></p>{% endif %}
 
@@ -55,10 +55,10 @@
 <div class="bracket">
 {% for wk, gs in playoff_rounds(S) %}<div class="round"><h4>Week {{ wk }}{% if loop.last %} · Championship{% elif loop.revindex==2 %} · Semifinals{% else %} · Round {{ loop.index }}{% endif %}</h4>
 {% for g in gs %}{% if g.bye %}<div class="mu"><div class="w"><span>({{ seed_of(S, g.home.teamId) }}) {{ mname(g.home.manager) }}</span><span class="muted">bye</span></div></div>
-{% else %}{% set hw = g.winner=='home' %}<div class="mu {{ 'final' if g.isFinal }}"><div class="{{ 'w' if hw else 'l' }}"><span>({{ seed_of(S, g.home.teamId) }}) {{ mname(g.home.manager) }}</span><span>{{ f(g.home.score) }}</span></div><div class="{{ 'l' if hw else 'w' }}"><span>({{ seed_of(S, g.away.teamId) }}) {{ mname(g.away.manager) }}</span><span>{{ f(g.away.score) }}</span></div></div>{% endif %}{% endfor %}
+{% else %}{% set hw = g.winner=='home' %}<a class="mu {{ 'final' if g.isFinal }}" href="{{ root }}{{ bx(S.year, g.week, g.home.manager, g.away.manager) }}"><div class="{{ 'w' if hw else 'l' }}"><span>({{ seed_of(S, g.home.teamId) }}) {{ mname(g.home.manager) }}</span><span>{{ f(g.home.score) }}</span></div><div class="{{ 'l' if hw else 'w' }}"><span>({{ seed_of(S, g.away.teamId) }}) {{ mname(g.away.manager) }}</span><span>{{ f(g.away.score) }}</span></div></a>{% endif %}{% endfor %}
 </div>{% endfor %}</div>
 <details class="small" style="margin-top:8px"><summary class="muted">Consolation ladder results</summary><div class="games">
-{% for g in S.games if g.kind=='consolation' and g.away %}<div class="mu"><div class="{{ 'w' if g.winner=='home' else 'l' }}"><span>Wk {{ g.week }} · {{ mname(g.home.manager) }}</span><span>{{ f(g.home.score) }}</span></div><div class="{{ 'w' if g.winner=='away' else 'l' }}"><span>{{ mname(g.away.manager) }}</span><span>{{ f(g.away.score) }}</span></div></div>{% endfor %}
+{% for g in S.games if g.kind=='consolation' and g.away %}<a class="mu" href="{{ root }}{{ bx(S.year, g.week, g.home.manager, g.away.manager) }}"><div class="{{ 'w' if g.winner=='home' else 'l' }}"><span>Wk {{ g.week }} · {{ mname(g.home.manager) }}</span><span>{{ f(g.home.score) }}</span></div><div class="{{ 'w' if g.winner=='away' else 'l' }}"><span>{{ mname(g.away.manager) }}</span><span>{{ f(g.away.score) }}</span></div></a>{% endfor %}
 </div></details>
 {% endif %}
 
@@ -89,12 +89,13 @@
 <h2 id="notable">Notable Games</h2>
 {% set N = M.notable %}{% if N %}<div class="grid g3">
 {% for key, label, icon in [('highest','Highest score','🔥'),('blowout','Biggest blowout','💣'),('closest','Closest game','😬'),('worstLoss','Worst loss (highest score in a defeat)','💔'),('lowest','Lowest score','🧊'),('luckiestWin','Ugliest win','🍀')] %}{% set g = N[key] %}
-<div class="card"><div class="label">{{ icon }} {{ label }}</div><div class="h" style="margin:6px 0"><b>{{ mname(g.w.manager) }}</b> {{ f(g.w.score) }} – {{ f(g.l.score) }} {{ mname(g.l.manager) }}</div><div class="small muted">Week {{ g.week }}{% if g.kind=='playoff' %} (playoffs){% endif %} · margin {{ f(g.margin) }} · {{ g.w.team }} vs {{ g.l.team }}</div></div>{% endfor %}
+<a class="card riv-card" href="{{ root }}{{ bx(S.year, g.week, g.w.manager, g.l.manager) }}"><div class="label">{{ icon }} {{ label }}</div><div class="h" style="margin:6px 0"><b>{{ mname(g.w.manager) }}</b> {{ f(g.w.score) }} – {{ f(g.l.score) }} {{ mname(g.l.manager) }}</div><div class="small muted">Week {{ g.week }}{% if g.kind=='playoff' %} (playoffs){% endif %} · margin {{ f(g.margin) }} · {{ g.w.team }} vs {{ g.l.team }}</div><div class="small">Box score ›</div></a>{% endfor %}
 </div>{% endif %}
 
 <h2 id="weeks">Weekly Results</h2>
+<p class="small">Tap any game for its box score · <a href="{{ root }}box/{{ S.year }}/index.html">📋 All {{ S.year }} games, week by week →</a></p>
 <div class="weeks">{% for wk, gs in weeks(S) %}<details {{ 'open' if loop.last and not S.champion }}><summary>Week {{ wk }}{% if gs[0].kind=='playoff' %} · Playoffs{% elif gs[0].kind=='consolation' %} · Playoffs/consolation{% endif %}</summary><div class="games">
-{% for g in gs if g.away %}<div class="mu"><div class="{{ 'w' if g.winner=='home' else 'l' }}"><span>{{ mname(g.home.manager) }} <span class="muted small">{% if g.kind!='regular' %}{{ 'P' if g.kind=='playoff' else 'C' }}{% endif %}</span></span><span>{{ f(g.home.score) }}</span></div><div class="{{ 'w' if g.winner=='away' else 'l' }}"><span>{{ mname(g.away.manager) }}</span><span>{{ f(g.away.score) }}</span></div></div>{% endfor %}
+{% for g in gs if g.away %}<a class="mu" href="{{ root }}{{ bx(S.year, g.week, g.home.manager, g.away.manager) }}"><div class="{{ 'w' if g.winner=='home' else 'l' }}"><span>{{ mname(g.home.manager) }} <span class="muted small">{% if g.kind!='regular' %}{{ 'P' if g.kind=='playoff' else 'C' }}{% endif %}</span></span><span>{{ f(g.home.score) }}</span></div><div class="{{ 'w' if g.winner=='away' else 'l' }}"><span>{{ mname(g.away.manager) }}</span><span>{{ f(g.away.score) }}</span></div></a>{% endfor %}
 </div></details>{% endfor %}</div>
 
 {% if S.transactions %}
