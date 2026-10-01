@@ -1,13 +1,6 @@
 {% extends "base.html" %}{% block body %}
 <section class="hero" style="text-align:center"><div class="kicker">404 · Fumble</div><h1>That page got dropped to waivers.</h1>
 <p class="lead">Whatever you were looking for isn't on the roster. It may have been traded, cut, or never existed.</p>
-<p><a class="pill gold" id="home404" href="index.html" style="font-size:1rem;padding:10px 16px">🏠 Back to the History Book</a></p></section>
-<script>
-// GitHub Pages serves 404.html at any depth; repoint relative links at the site root.
-(function(){var p=location.pathname.split('/').filter(Boolean),base='/';
-if(location.hostname.slice(-10)==='github.io'&&p.length>1)base='/'+p[0]+'/';
-if(location.protocol==='file:')return;
-document.querySelectorAll('a[href],link[href],script[src]').forEach(function(el){var a=el.hasAttribute('href')?'href':'src',v=el.getAttribute(a);
-if(v&&!/^(https?:|data:|#|\/|mailto:)/.test(v))el.setAttribute(a,base+v);});})();
-</script>
+<p><a class="pill gold" id="home404" href="{{ root }}index.html" style="font-size:1rem;padding:10px 16px">🏠 Back to the History Book</a></p></section>
+
 {% endblock %}

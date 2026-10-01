@@ -7,6 +7,9 @@ def ids(p):
         t = open(p, encoding="utf-8").read()
         ids_cache[p] = set(re.findall(r'\bid="([^"]+)"', t))
     return ids_cache[p]
+from urllib.parse import urlparse
+SITE = json.load(open(os.path.join(os.path.dirname(DIST), "data", "site.json")))
+BASE = urlparse(SITE.get("url") or "").path or None   # e.g. /loeg/ (used by 404.html)
 bad = []; n = 0
 for root, _, fs in os.walk(DIST):
     for fn in fs:
@@ -18,7 +21,9 @@ for root, _, fs in os.walk(DIST):
             if re.match(r"^(https?:|mailto:|data:|javascript:)", u): continue
             n += 1
             path, _, frag = u.partition("#")
-            tgt = os.path.normpath(os.path.join(root, path)) if path else p
+            if BASE and path.startswith(BASE): tgt = os.path.normpath(os.path.join(DIST, path[len(BASE):]))
+            elif path.startswith("/"): bad.append((os.path.relpath(p, DIST), u + " (absolute path)")); continue
+            else: tgt = os.path.normpath(os.path.join(root, path)) if path else p
             if not os.path.isfile(tgt): bad.append((os.path.relpath(p, DIST), u)); continue
             if frag and tgt.endswith(".html") and frag not in ids(tgt): bad.append((os.path.relpath(p, DIST), u + " (missing anchor)"))
 # links generated client-side by the player lookup

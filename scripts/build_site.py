@@ -188,7 +188,9 @@ def main():
         ph = load(os.path.join(GEN, "players_history.json"), {})
         names = {m: mname(m) for m in MG}
         open(os.path.join(DIST, "static", "players.js"), "w").write("window.PH=" + _j.dumps(ph, separators=(",", ":")) + ";window.PHM=" + _j.dumps(names, separators=(",", ":")) + ";")
-    render("404.html", "404.html", "", title="Page not found", nav="")
+    # GitHub Pages serves 404.html at any depth, so it links from the site's absolute base path (from data/site.json url).
+    from urllib.parse import urlparse
+    render("404.html", "404.html", (urlparse(SITE.get("url") or "").path or ""), title="Page not found", nav="")
     open(os.path.join(DIST, ".nojekyll"), "w").write("")
     print("site built ->", DIST, sum(len(fs) for _, _, fs in os.walk(DIST)), "files")
 
