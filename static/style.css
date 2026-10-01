@@ -444,3 +444,18 @@ html.qs-on{overflow:hidden}
 .rsec{padding:8px 14px;margin:10px 0}.rsec h3{font-size:1.05rem}
 .dr-list{list-style:none;margin:8px 0;padding:0}.dr-list>li{border-top:1px solid var(--line);padding:8px 0}.dr-list>li:first-child{border-top:0}
 .dr-lab{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted,#9aa0b4)}.dr-ent{margin-top:2px}.dr-v{color:var(--gold2);font-size:1.1rem;margin-right:4px}.dr-ent .boxlink{font-size:.85rem;white-space:nowrap}
+
+/* Dynasty: weekly roast */
+.lx.roast-box{padding:10px 14px;margin:0 0 14px;border:1px solid #a3401c;background:radial-gradient(420px 160px at 90% -30%,rgba(255,110,40,.28),transparent 70%),linear-gradient(180deg,#2a1610,#171a24);box-shadow:0 0 0 1px rgba(255,120,50,.12),0 6px 22px rgba(255,90,30,.12)}
+.roast-box .roast-kick{color:#ff9a5a}
+.roast-box h3{color:#ffd9a8}
+.roast-drop{margin:10px 0 6px;padding:8px 10px;border-radius:10px;background:rgba(255,120,50,.12);border:1px dashed #a3401c;color:#ffd0a0;font-weight:600;font-size:.9rem}
+.roast-intro{margin:.4em 0 .8em;font-style:italic;color:var(--muted)}
+.roast-list{display:grid;gap:10px}
+.roast-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.roast-h{display:flex;gap:8px;align-items:center;line-height:1.3}
+.roast-h .rec{color:var(--ink);white-space:nowrap}
+.roast-n{flex:0 0 26px;height:26px;display:grid;place-items:center;border-radius:8px;background:#3a1a10;border:1px solid #a3401c;color:#ffb27a;font:700 .85rem Georgia,serif}
+.roast-r{margin:.5em 0;font-size:.95rem;line-height:1.55}
+.roast-w{margin:.4em 0;padding:8px 10px;background:var(--panel2);border-radius:10px;font-size:.88rem}
+.roast-p{margin:.4em 0 0;font-size:.9rem;color:#ffb27a}
