@@ -141,7 +141,8 @@
         "width": 800,
         "height": 1067
       },
-      "featured": true
+      "featured": true,
+      "pin_top": true
     },
     {
       "id": "hamlin-final-2022",

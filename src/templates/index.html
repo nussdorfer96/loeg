@@ -28,7 +28,7 @@
 <div class="card"><div class="label">Longest losing streak</div><div class="stat">{{ L.records.lossStreaks[0].length }}</div><div class="small">{% for r in tied(L.records.lossStreaks, 'length') %}{{ ml(r.manager) }}{% if not loop.last %} &amp; {% endif %}{% endfor %}</div></div>
 </div>
 
-{% set feat = L.lore|selectattr('featured')|list %}{% if feat %}<h2>📌 Featured Lore</h2><div class="grid g2">{% for e in feat %}<a class="card mgr-card" href="lore.html#{{ e.id }}"><div class="label">{{ e.season }} · {{ e.category }}</div><div class="nm">{{ e.title }}{% if e.subtitle and e.style != 'saga' %}: {{ e.subtitle }}{% endif %}</div><div class="small muted">{{ (e.teaser or e.body)|replace('**','')|replace('*','')|truncate(180) }}</div></a>{% endfor %}</div>{% endif %}
+{% set feat0 = L.lore|selectattr('featured')|list %}{% set feat = (feat0|selectattr('pin_top')|list) + (feat0|rejectattr('pin_top')|list) %}{% if feat %}<h2>📌 Featured Lore</h2><div class="grid g2">{% for e in feat %}<a class="card mgr-card" href="lore.html#{{ e.id }}"><div class="label">{{ e.season }} · {{ e.category }}</div><div class="nm">{{ e.title }}{% if e.subtitle and e.style != 'saga' %}: {{ e.subtitle }}{% endif %}</div><div class="small muted">{{ (e.teaser or e.body)|replace('**','')|replace('*','')|truncate(180) }}</div></a>{% endfor %}</div>{% endif %}
 <h2>📜 The Story of the League</h2>
 <div class="story">
 {% for sec in L.leagueStory %}<h3>{{ sec.h }}</h3>{% for p in sec.p %}<p class="{{ 'dropcap' if loop.first and loop.index0==0 and sec==L.leagueStory[0] }}">{{ p }}</p>{% endfor %}{% endfor %}
