@@ -31,7 +31,7 @@
 <h3>{{ A.icon }} {{ A.title }}</h3>
 <p class="era-emcee"><em>The lights come down. The emcee steps to the mic.</em> "Ladies and gentlemen, for six seasons of ESPN redraft, one manager stood above the rest. Please welcome to the stage…"</p>
 <div class="era-win">{{ ml(A.winner) }}</div>
-<p class="era-emcee"><em>As he makes the walk, the emcee reads the résumé:</em></p>
+<p class="era-emcee"><em>The emcee reads off the résumé:</em></p>
 <ol class="era-roll">{% for r in A.roll %}<li>{{ r }}</li>{% endfor %}</ol>
 <p class="era-shine"><b>This is his moment to shine.</b></p>
 <ul class="era-list"><li><span class="era-tag">Runner-up</span> {{ ml(A.runnerUp) }} <span class="muted">({{ A.runnerUpText }})</span></li>
