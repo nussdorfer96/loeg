@@ -66,8 +66,8 @@
 <div class="grid g2">
 <div><h3>Regular-season team scoring</h3><div class="tbl-wrap"><table><thead><tr><th>#</th><th>Manager</th><th class="num">PF</th><th class="num">PPG</th></tr></thead><tbody>
 {% for T in S.teams|sort(attribute='pf', reverse=true) %}<tr><td>{{ loop.index }}</td><td>{{ ml(T.manager) }}</td><td class="num">{{ f(T.pf) }}</td><td class="num">{{ f((T.pf/((T.w+T.l+T.t) or 1))|round(2)) }}</td></tr>{% endfor %}</tbody></table></div></div>
-<div><h3>Top fantasy players</h3><div class="tbl-wrap"><table><thead><tr><th>Player</th><th>Pos</th><th class="num">Pts</th><th>Drafted by</th><th>Ended on</th></tr></thead><tbody>
-{% for p in top_players(S) %}<tr><td>{{ p.name }}</td><td>{{ p.pos }}</td><td class="num">{{ f(p.pts) }}</td><td>{% if p.drafted %}{{ ml(p.drafted) }} <span class="muted small">{{ p.slot }}</span>{% else %}<span class="muted">undrafted</span>{% endif %}</td><td>{% if p.owner %}{{ ml(p.owner) }}{% else %}<span class="muted">-</span>{% endif %}</td></tr>{% endfor %}
+<div><h3>Top fantasy players</h3><div class="tbl-wrap"><table><thead><tr><th>Player</th><th>Pos</th><th class="num">Pts</th><th class="num">PPG</th><th>Drafted by</th><th>Ended on</th></tr></thead><tbody>
+{% for p in top_players(S) %}<tr><td>{{ p.name }}</td><td>{{ p.pos }}</td><td class="num">{{ f(p.pts) }}</td><td class="num">{{ ppg(S.year, p.pid) }}</td><td>{% if p.drafted %}{{ ml(p.drafted) }} <span class="muted small">{{ p.slot }}</span>{% else %}<span class="muted">undrafted</span>{% endif %}</td><td>{% if p.owner %}{{ ml(p.owner) }}{% else %}<span class="muted">-</span>{% endif %}</td></tr>{% endfor %}
 </tbody></table></div><p class="muted small">{% if S.platform=='ESPN' %}League scoring, weeks 1-{{ S.lastWeek }}, computed from ESPN's weekly stat lines.{% else %}Points scored while rostered in this league.{% endif %}</p></div>
 </div>
 
@@ -77,13 +77,13 @@
 <p class="muted small">Round 1 highlighted in gold. <span class="pill green">green outline</span> = top-5 value picks, <span class="pill red">red outline</span> = biggest early-round busts, judged by points above positional replacement vs. draft slot. Hover a cell for details.</p>
 <div class="tbl-wrap" style="padding:8px"><div class="draftboard" style="grid-template-columns:40px repeat({{ B.cols|length }},1fr)">
 <div class="cell hdr"></div>{% for tid in B.cols %}<div class="cell hdr">{{ mname(B.mgr[tid]).split(' ')[0] }}</div>{% endfor %}
-{% for r in B.rounds %}<div class="cell hdr">R{{ r }}</div>{% for tid in B.cols %}{% set p = B.grid.get((r,tid)) %}<div class="cell {{ (p.pos|replace('/','')) if p }} {{ 'r1' if r==1 }} {{ p.tag if p and p.tag }}" title="{% if p %}#{{ p.overall }} {{ p.name }} ({{ p.pos }}) · {{ f(p.points) }} pts{% if p.posRank %} · {{ p.pos }}{{ p.posRank }}{% endif %}{% endif %}">{% if p %}<b>{{ p.name }}</b>{{ p.pos }} · {{ f(p.points) }}{% endif %}</div>{% endfor %}{% endfor %}
+{% for r in B.rounds %}<div class="cell hdr">R{{ r }}</div>{% for tid in B.cols %}{% set p = B.grid.get((r,tid)) %}<div class="cell {{ (p.pos|replace('/','')) if p }} {{ 'r1' if r==1 }} {{ p.tag if p and p.tag }}" title="{% if p %}#{{ p.overall }} {{ p.name }} ({{ p.pos }}) · {{ f(p.points) }} pts · {{ ppg(S.year, p.playerId, short=true) }}{% if p.posRank %} · {{ p.pos }}{{ p.posRank }}{% endif %}{% endif %}">{% if p %}<b>{{ p.name }}</b>{{ p.pos }} · {{ ppg(S.year, p.playerId, fallback=p.points, short=true) }}{% endif %}</div>{% endfor %}{% endfor %}
 </div></div>
 {% if S.platform=='ESPN' %}
-<div class="grid g2"><div><h3>💎 Best picks</h3><div class="tbl-wrap"><table><thead><tr><th>Pick</th><th>Player</th><th>Manager</th><th class="num">Pts</th><th>Finish</th></tr></thead><tbody>
-{% for p in S.draft if p.tag=='steal' %}<tr><td>{{ rp(p) }} <span class="muted small">#{{ p.overall }}</span></td><td>{{ p.name }} <span class="muted">{{ p.pos }}</span></td><td>{{ ml(p.manager) }}</td><td class="num">{{ f(p.points) }}</td><td>{{ p.pos }}{{ p.posRank }}</td></tr>{% endfor %}</tbody></table></div></div>
-<div><h3>💀 Worst picks</h3><div class="tbl-wrap"><table><thead><tr><th>Pick</th><th>Player</th><th>Manager</th><th class="num">Pts</th><th>Finish</th></tr></thead><tbody>
-{% for p in S.draft|selectattr('tag','equalto','bust')|sort(attribute='valueDelta') %}<tr><td>{{ rp(p) }} <span class="muted small">#{{ p.overall }}</span></td><td>{{ p.name }} <span class="muted">{{ p.pos }}</span></td><td>{{ ml(p.manager) }}</td><td class="num">{{ f(p.points) }}</td><td>{{ p.pos }}{{ p.posRank or '-' }}</td></tr>{% endfor %}</tbody></table></div></div></div>
+<div class="grid g2"><div><h3>💎 Best picks</h3><div class="tbl-wrap"><table><thead><tr><th>Pick</th><th>Player</th><th>Manager</th><th class="num">PPG</th><th>Finish</th></tr></thead><tbody>
+{% for p in S.draft if p.tag=='steal' %}<tr><td>{{ rp(p) }} <span class="muted small">#{{ p.overall }}</span></td><td>{{ p.name }} <span class="muted">{{ p.pos }}</span></td><td>{{ ml(p.manager) }}</td><td class="num">{{ ppg(S.year, p.playerId, fallback=p.points) }}</td><td>{{ p.pos }}{{ p.posRank }}</td></tr>{% endfor %}</tbody></table></div></div>
+<div><h3>💀 Worst picks</h3><div class="tbl-wrap"><table><thead><tr><th>Pick</th><th>Player</th><th>Manager</th><th class="num">PPG</th><th>Finish</th></tr></thead><tbody>
+{% for p in S.draft|selectattr('tag','equalto','bust')|sort(attribute='valueDelta') %}<tr><td>{{ rp(p) }} <span class="muted small">#{{ p.overall }}</span></td><td>{{ p.name }} <span class="muted">{{ p.pos }}</span></td><td>{{ ml(p.manager) }}</td><td class="num">{{ ppg(S.year, p.playerId, fallback=p.points) }}</td><td>{{ p.pos }}{{ p.posRank or '-' }}</td></tr>{% endfor %}</tbody></table></div></div></div>
 {% endif %}
 
 <h2 id="notable">Notable Games</h2>

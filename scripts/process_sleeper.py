@@ -5,6 +5,25 @@ from common import *
 MANAGERS = load(os.path.join(DATA, "managers.json"))
 
 
+
+def games_played(D, player_pts, done_weeks):
+    """Games each player actually played in completed weeks: Sleeper's weekly 'gp' stat (bye/inactive weeks don't count).
+    Only weeks with a league scoring record count, so PPG = league points / those games.
+    Falls back to weeks with nonzero points when the stats file for a week is missing."""
+    out = {}
+    gpw = {w: load(os.path.join(D, f"gp_{w}.json")) for w in range(1, (done_weeks or 0) + 1)}
+    for pid, w in player_pts.items():
+        n = 0
+        for wk in range(1, (done_weeks or 0) + 1):
+            if wk not in w: continue   # no league scoring record that week (e.g. not yet on a roster in this league)
+            g = gpw.get(wk)
+            if g:
+                n += 1 if g.get(str(pid)) else 0
+            elif w.get(wk):
+                n += 1
+        out[pid] = n
+    return out
+
 def process(year=2026):
     D = os.path.join(RAW, "sleeper") if year == 2026 else os.path.join(RAW, "sleeper", str(year))
     league = load(os.path.join(D, "sleeper_league.json"))
@@ -188,6 +207,7 @@ def process(year=2026):
         "drafts": drafts, "draft": drafts[0]["picks"] if drafts else [], "rosters": roster_out,
         "transactions": transactions, "tradedPicks": traded, "players": players,
         "playerWeekly": {pid: {str(k): v for k, v in w.items()} for pid, w in player_pts.items()},
+        "gamesPlayed": games_played(D, player_pts, done_weeks),
         "lineupsByWeek": lbw,
         "startersByWeek": sbw,   # starters in roster_positions order (for slot labels in box scores)
         "lineups": {str(rid): {"bench": r2(L["bench"]), "weeksCovered": L["weeks"],

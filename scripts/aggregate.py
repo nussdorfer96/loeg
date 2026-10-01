@@ -89,6 +89,14 @@ def _holders(cands, best):
     return out
 
 
+def _pg(s, p, inner=False):
+    """' (14.2 PPG over 15 games)' for a drafted player's season, from weekly lines (games actually played)."""
+    w = (s.get("playerWeekly") or {}).get(str(p.get("playerId")))
+    if not w: return ""
+    gp = len(w); txt = f"{sum(w.values()) / gp:.1f} PPG over {gp} games"
+    return f", {txt}" if inner else f" ({txt})"
+
+
 def season_awards(s):
     """Superlatives for a season. Lineup-based awards use weekly box scores when available.
     Ties: every award carries 'holders' (all managers tied at exactly the same value); 'manager' is the first holder."""
@@ -178,12 +186,12 @@ def season_awards(s):
             _h = _holders([(p["valueDelta"], p["manager"], f"{p['name']} ({p['pos']})") for p in [steal] + [p for p in draft if p.get("valueDelta") is not None and p.get("valueRank", 99) <= 40]], steal["valueDelta"])
             A.append({"key": "steal", "holders": _h, "title": "Draft Steal", "icon": "💎", "manager": steal["manager"],
                       "headline": f"{steal['name']} ({steal['pos']})", "value": steal["points"], "unit": "pts",
-                      "pick": rp(steal), "detail": f"Pick {rp(steal)} (#{steal['overall']} overall) → finished {steal['pos']}{steal['posRank']} with {fmt(steal['points'])} points."})
+                      "pick": rp(steal), "detail": f"Pick {rp(steal)} (#{steal['overall']} overall) → finished {steal['pos']}{steal['posRank']} with {fmt(steal['points'])} points{_pg(s, steal)}."})
         if bust:
             _h = _holders([(p["valueDelta"], p["manager"], f"{p['name']} ({p['pos']})") for p in [bust] + [p for p in draft if p.get("valueDelta") is not None and p["round"] <= 3]], bust["valueDelta"])
             A.append({"key": "bust", "holders": _h, "title": "Draft Bust", "icon": "💀", "manager": bust["manager"],
                       "headline": f"{bust['name']} ({bust['pos']})", "value": bust["points"], "unit": "pts",
-                      "pick": rp(bust), "detail": f"Pick {rp(bust)} (#{bust['overall']} overall) → only {fmt(bust['points'])} points" + (f" ({bust['pos']}{bust['posRank']})" if bust.get("posRank") else "") + "."})
+                      "pick": rp(bust), "detail": f"Pick {rp(bust)} (#{bust['overall']} overall) → only {fmt(bust['points'])} points" + (f" ({bust['pos']}{bust['posRank']}" + _pg(s, bust, inner=True) + ")" if bust.get("posRank") else _pg(s, bust)) + "."})
 
     if bench and (full or s["platform"] == "Sleeper"):
         tid, b = max(bench.items(), key=lambda kv: kv[1])

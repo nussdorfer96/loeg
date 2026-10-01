@@ -16,6 +16,12 @@ for w in $(seq 1 18); do
   curl -sf $B/league/$L/matchups/$w -o "$D/matchups_$w.json"
   curl -sf $B/league/$L/transactions/$w -o "$D/transactions_$w.json"
 done
+# Games played per player per week (gp from Sleeper's weekly stats; compacted, the raw file is ~2 MB/week)
+for w in $(seq 1 18); do
+  curl -sf "https://api.sleeper.app/stats/nfl/$S/$w?season_type=regular" -o "$D/.stats_tmp.json" || continue
+  python3 -c "import json,sys;d=json.load(open(sys.argv[1]));json.dump({str(x['player_id']):x.get('stats',{}).get('gp',0) for x in d if (x.get('stats') or {}).get('gp')},open(sys.argv[2],'w'))" "$D/.stats_tmp.json" "$D/gp_$w.json"
+done
+rm -f "$D/.stats_tmp.json"
 for id in $(python3 -c "import json;print(' '.join(d['draft_id'] for d in json.load(open('$D/drafts.json'))))"); do
   curl -sf $B/draft/$id -o "$D/draft_$id.json"; curl -sf $B/draft/$id/picks -o "$D/draft_${id}_picks.json"
 done

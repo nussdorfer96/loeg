@@ -82,8 +82,8 @@
 <h3>Position mix by round ({{ D.drafts }} ESPN drafts)</h3>
 <div class="mix">{% for b in ['R1','R2','R3-4','R5-8','R9+'] %}{% set c = D.mix[b] %}{% set tot = c.values()|sum %}<div class="mix-row"><span class="bl">{{ b }}</span><span class="stack">{% for p in ['QB','RB','WR','TE','K','D/ST'] %}{% if c.get(p) %}<i class="pos-{{ p|replace('/','') }}" style="flex:{{ c[p] }}" title="{{ p }}: {{ c[p] }}">{{ c[p] }} {{ p }}</i>{% endif %}{% endfor %}</span></div>{% endfor %}</div>
 <div class="grid g2">
-<div class="card"><div class="label">💎 Best picks (value vs finish)</div><ul>{% for p in D.best %}<li>{{ p.year }} · {{ rp(p) }}: <b>{{ p.name }}</b> ({{ p.pos }}{{ p.posRank }}, {{ f(p.points) }} pts) <span class="pos">+{{ p.valueDelta }}</span></li>{% endfor %}</ul></div>
-<div class="card"><div class="label">💀 Biggest reaches (R1-5)</div><ul>{% for p in D.worst %}<li>{{ p.year }} · {{ rp(p) }}: <b>{{ p.name }}</b> ({{ p.pos }}{{ p.posRank or '-' }}, {{ f(p.points) }} pts) <span class="neg">{{ p.valueDelta }}</span></li>{% endfor %}</ul></div></div>
+<div class="card"><div class="label">💎 Best picks (value vs finish)</div><ul>{% for p in D.best %}<li>{{ p.year }} · {{ rp(p) }}: <b>{{ p.name }}</b> ({{ p.pos }}{{ p.posRank }}, {{ ppg(p.year, name=p.name, fallback=p.points, short=true) }}) <span class="pos">+{{ p.valueDelta }}</span></li>{% endfor %}</ul></div>
+<div class="card"><div class="label">💀 Biggest reaches (R1-5)</div><ul>{% for p in D.worst %}<li>{{ p.year }} · {{ rp(p) }}: <b>{{ p.name }}</b> ({{ p.pos }}{{ p.posRank or '-' }}, {{ ppg(p.year, name=p.name, fallback=p.points, short=true) }}) <span class="neg">{{ p.valueDelta }}</span></li>{% endfor %}</ul></div></div>
 <p class="small"><a href="../drafts.html">League draft trends →</a></p>{% endif %}
 
 {% if FM.tradeRecord %}{% set T = FM.tradeRecord %}<h2 id="trades">🤝 Trades</h2>
@@ -98,14 +98,14 @@
 <div><h2>Favorite Players</h2>{% if P.favorites %}<div class="tbl-wrap"><table><thead><tr><th>Player</th><th>Pos</th><th class="num">Seasons</th><th>Years</th><th class="num">Times drafted</th></tr></thead><tbody>
 {% for x in P.favorites %}<tr><td>{{ x.name }}</td><td>{{ x.pos }}</td><td class="num">{{ x.count }}</td><td class="small">{{ x.seasons|join(', ') }}</td><td class="num">{{ x.drafted }}</td></tr>{% endfor %}
 </tbody></table></div><p class="muted small">Players drafted by or on the season-ending roster{% if True %} (plus weekly lineups where archived){% endif %} in 2+ seasons. K/DST excluded.</p>{% else %}<p class="muted">Not enough seasons yet to have favorites.</p>{% endif %}</div>
-<div><h2>First-Round Picks</h2>{% if P.firstRounders %}<div class="tbl-wrap"><table><thead><tr><th>Year</th><th>Pick</th><th>Player</th><th class="num">Pts</th></tr></thead><tbody>
-{% for p in P.firstRounders %}<tr><td>{{ p.year }}</td><td>{{ rp(p) if p.pick is defined else "#" ~ p.overall }}</td><td>{{ p.name }} <span class="muted">{{ p.pos }}</span></td><td class="num">{{ f(p.points) }}{% if p.posRank %} <span class="muted small">{{ p.pos }}{{ p.posRank }}</span>{% endif %}</td></tr>{% endfor %}
+<div><h2>First-Round Picks</h2>{% if P.firstRounders %}<div class="tbl-wrap"><table><thead><tr><th>Year</th><th>Pick</th><th>Player</th><th class="num">PPG</th></tr></thead><tbody>
+{% for p in P.firstRounders %}<tr><td>{{ p.year }}</td><td>{{ rp(p) if p.pick is defined else "#" ~ p.overall }}</td><td>{{ p.name }} <span class="muted">{{ p.pos }}</span></td><td class="num">{{ ppg(p.year, p.playerId, fallback=p.points) }}{% if p.posRank %} <span class="muted small">{{ p.pos }}{{ p.posRank }}</span>{% endif %}</td></tr>{% endfor %}
 </tbody></table></div>{% endif %}</div>
 </div>
 {% if P.bestPicks or P.worstPicks %}<div class="grid g2">
-<div><h3>💎 Best draft picks (ESPN era)</h3><div class="tbl-wrap"><table><thead><tr><th>Year</th><th>Pick</th><th>Player</th><th class="num">Pts</th><th>Finish</th></tr></thead><tbody>
-{% for p in P.bestPicks %}<tr><td>{{ p.year }}</td><td>{{ rp(p) }} <span class="muted small">#{{ p.overall }}</span></td><td>{{ p.name }} <span class="muted">{{ p.pos }}</span></td><td class="num">{{ f(p.points) }}</td><td>{{ p.pos }}{{ p.posRank }}</td></tr>{% endfor %}</tbody></table></div></div>
-<div><h3>💀 Worst draft picks (rounds 1-5)</h3><div class="tbl-wrap"><table><thead><tr><th>Year</th><th>Pick</th><th>Player</th><th class="num">Pts</th><th>Finish</th></tr></thead><tbody>
-{% for p in P.worstPicks %}<tr><td>{{ p.year }}</td><td>{{ rp(p) }} <span class="muted small">#{{ p.overall }}</span></td><td>{{ p.name }} <span class="muted">{{ p.pos }}</span></td><td class="num">{{ f(p.points) }}</td><td>{{ p.pos }}{{ p.posRank or '-' }}</td></tr>{% endfor %}</tbody></table></div></div>
+<div><h3>💎 Best draft picks (ESPN era)</h3><div class="tbl-wrap"><table><thead><tr><th>Year</th><th>Pick</th><th>Player</th><th class="num">PPG</th><th>Finish</th></tr></thead><tbody>
+{% for p in P.bestPicks %}<tr><td>{{ p.year }}</td><td>{{ rp(p) }} <span class="muted small">#{{ p.overall }}</span></td><td>{{ p.name }} <span class="muted">{{ p.pos }}</span></td><td class="num">{{ ppg(p.year, p.playerId, fallback=p.points) }}</td><td>{{ p.pos }}{{ p.posRank }}</td></tr>{% endfor %}</tbody></table></div></div>
+<div><h3>💀 Worst draft picks (rounds 1-5)</h3><div class="tbl-wrap"><table><thead><tr><th>Year</th><th>Pick</th><th>Player</th><th class="num">PPG</th><th>Finish</th></tr></thead><tbody>
+{% for p in P.worstPicks %}<tr><td>{{ p.year }}</td><td>{{ rp(p) }} <span class="muted small">#{{ p.overall }}</span></td><td>{{ p.name }} <span class="muted">{{ p.pos }}</span></td><td class="num">{{ ppg(p.year, p.playerId, fallback=p.points) }}</td><td>{{ p.pos }}{{ p.posRank or '-' }}</td></tr>{% endfor %}</tbody></table></div></div>
 </div><p class="muted small">Pick value = where the player was drafted among QB/RB/WR/TE vs. where he finished in points above positional replacement.</p>{% endif %}
 <!--collapse-end-->{% endblock %}

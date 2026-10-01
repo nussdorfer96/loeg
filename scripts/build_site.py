@@ -157,7 +157,7 @@ def main():
         for pid, v in sorted(pts.items(), key=lambda kv: -kv[1])[:n]:
             p = S["players"].get(pid, {"name": pid, "pos": "?"})
             d = drafted.get(pid)
-            out.append({"name": p["name"], "pos": p["pos"], "pts": round(v, 2), "drafted": d and d["manager"], "round": d and d["round"], "slot": d and rp(d), "owner": owner.get(pid)})
+            out.append({"pid": pid, "name": p["name"], "pos": p["pos"], "pts": round(v, 2), "drafted": d and d["manager"], "round": d and d["round"], "slot": d and rp(d), "owner": owner.get(pid)})
         return out
     def trade_sides(t):
         sides = collections.defaultdict(list)
@@ -225,6 +225,35 @@ def main():
              awards_by_key=awards_by_key, rec=rec, rp=rp, F=F, TR=TR, race_svg=race_svg, grade_cls=grade_cls, pair_id=pair_id, bx=bx, box_of=box_of, box_for=box_for, game_log=game_log, riv=riv, sgn=sgn, award_counts=award_counts, rk=rk, tied=tied, initials=initials, ts=ts, md=md, cat_icon=cat_icon, built=built)
     G["SITE"] = SITE
     env.globals.update(G)
+
+    def pstat(year, pid=None, name=None):
+        """Per-game line for a player-season: league points / games actually played (byes and inactive weeks excluded)."""
+        S_ = seasons.get(int(year)) if year is not None else None
+        if not S_: return None
+        if pid is None and name:
+            pid = next((p["playerId"] for p in (S_.get("draft") or []) if p.get("name") == name), None)
+            if pid is None:
+                pid = next((k for k, v in (S_.get("players") or {}).items() if v.get("name") == name), None)
+        if pid is None: return None
+        w = (S_.get("playerWeekly") or {}).get(str(pid))
+        if not w: return None
+        if S_["platform"] == "Sleeper":
+            done = S_.get("completedWeeks") or 0
+            pts = sum(v for k, v in w.items() if int(k) <= done)
+            gp = (S_.get("gamesPlayed") or {}).get(str(pid), 0)
+        else:
+            pts = sum(w.values()); gp = len(w)
+        if not gp: return {"ppg": None, "gp": 0, "pts": round(pts, 2)}
+        return {"ppg": round(pts / gp, 1), "gp": gp, "pts": round(pts, 2)}
+
+    def ppg(year, pid=None, name=None, fallback=None, short=False):
+        st = pstat(year, pid, name)
+        if not st or st["ppg"] is None:
+            if st and st["gp"] == 0: return Markup('<span class="muted">0 GP</span>')
+            return Markup(f"{f(fallback)} pts") if fallback is not None else Markup("-")
+        if short: return Markup(f'{st["ppg"]:.1f} PPG')
+        return Markup(f'{st["ppg"]:.1f} PPG <span class="muted small">· {st["gp"]} GP</span>')
+    env.globals.update(pstat=pstat, ppg=ppg)
     # Power rankings: weekly JSONs saved by scripts/power_rankings.py in data/power_rankings_history (never recomputed here)
     import glob as _g, json as _pj
     PRH = [_pj.load(open(x)) for x in sorted(_g.glob(os.path.join(DATA, "power_rankings_history", f"{max(L['years'])}_w*.json")))]
