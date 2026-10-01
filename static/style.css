@@ -321,7 +321,8 @@ table.lineup.box td{vertical-align:top}
 .boxlink{white-space:nowrap}
 @media (max-width:820px){.box-cols{grid-template-columns:1fr}.box-score .pts{font-size:1.6rem}}
 
-.lore-img{display:block;width:100%;max-width:420px;height:auto;border-radius:14px;margin:10px 0;box-shadow:0 4px 18px rgba(0,0,0,.35)}
+.lore-img{display:block;width:180px;max-width:56%;height:auto;border-radius:14px;margin:10px auto;box-shadow:0 4px 18px rgba(0,0,0,.35)}
+@media(min-width:700px){.lore-img{width:220px;max-width:220px}}
 /* Lore: collapsible entries */
 .lx{scroll-margin-top:72px}
 .lx>summary.lx-sum{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;min-height:48px;-webkit-tap-highlight-color:transparent}
