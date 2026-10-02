@@ -1,21 +1,21 @@
 {
-  "_readme": "Draft Order Games: the commissioner makes the league compete for draft order every year. Fill in one entry per year: 'competition' (short name), 'description' (how it was played), 'winner' (a manager id from data/managers.json, e.g. 'ryan-nussdorfer', or null) and optional 'notes'. The actual draft order is pulled automatically from the ESPN/Sleeper draft data; don't type it here. Rebuild with: python3 scripts/build_all.py. Optional 'video': {src, poster, type, width, height, caption} plays inline on the year's card (poster sized like the Lore photos); files live in src/static/media/draft-order/.",
+  "_readme": "Draft Order Games: the commissioner makes the league compete for draft order every year. Fill in one entry per year (years with an empty 'competition' are hidden on the page): 'competition' (short name), 'description' (how it was played), 'winner' (a manager id from data/managers.json, e.g. 'ryan-nussdorfer', or null) and optional 'notes'. The actual draft order is pulled automatically from the ESPN/Sleeper draft data; don't type it here. Rebuild with: python3 scripts/build_all.py. Optional 'video': {src, poster, type, width, height, caption} plays inline on the year's card (poster sized like the Lore photos); files live in src/static/media/draft-order/.",
   "years": {
     "2020": {
-      "competition": "Commissioner to fill in",
-      "description": "Commissioner to fill in: what was the game, and how did it set the draft order?",
+      "competition": "",
+      "description": "",
       "winner": null,
       "notes": ""
     },
     "2021": {
-      "competition": "Commissioner to fill in",
-      "description": "Commissioner to fill in: what was the game, and how did it set the draft order?",
+      "competition": "",
+      "description": "",
       "winner": null,
       "notes": ""
     },
     "2022": {
-      "competition": "Commissioner to fill in",
-      "description": "Commissioner to fill in: what was the game, and how did it set the draft order?",
+      "competition": "The Shotgun Challenge",
+      "description": "The year the Commissioner turned the draft order into an event. Showing up wasn't enough: theatrics were encouraged and flair was rewarded, robes included.",
       "winner": null,
       "notes": "",
       "video": {
@@ -28,26 +28,26 @@
       }
     },
     "2023": {
-      "competition": "Commissioner to fill in",
-      "description": "Commissioner to fill in: what was the game, and how did it set the draft order?",
+      "competition": "The NBA Finals Walkout",
+      "description": "Dress to the nines like you're walking into the arena for Game 7.",
       "winner": null,
       "notes": ""
     },
     "2024": {
-      "competition": "Commissioner to fill in",
-      "description": "Commissioner to fill in: what was the game, and how did it set the draft order?",
+      "competition": "The Steak Tutorial",
+      "description": "Cook your best steak and film the tutorial.",
       "winner": null,
       "notes": ""
     },
     "2025": {
-      "competition": "Commissioner to fill in",
-      "description": "Commissioner to fill in: what was the game, and how did it set the draft order?",
+      "competition": "First Come, First Served",
+      "description": "No judges and no theatrics, just reflexes. The first to text back in the group chat got the pick. It wasn't a test of fantasy knowledge, it was a test of who can't put his phone down.",
       "winner": null,
       "notes": ""
     },
     "2026": {
-      "competition": "Commissioner to fill in",
-      "description": "Commissioner to fill in: what was the game, and how did it set the draft order?",
+      "competition": "NFL Player Scattergories",
+      "description": "One phone call, no warning, and 60 seconds to write down every NFL player you can think of. Any name someone else also wrote got crossed off, so only the unique names scored.",
       "winner": null,
       "notes": ""
     }

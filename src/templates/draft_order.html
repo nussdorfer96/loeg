@@ -1,10 +1,9 @@
 {% extends "base.html" %}{% block body %}
 <section class="hero"><div class="kicker">🎲 Earn your slot</div><h1>Draft Order Games</h1>
 <p class="lead">Nobody here gets a random draft slot. Every year the Commissioner makes the league compete for draft order. Below is each year's game and the first-round order it produced. The order comes straight from the ESPN and Sleeper draft data.</p>
-<div class="season-nav">{% for d in L.draftOrder|reverse %}<a href="#y{{ d.year }}">{{ d.year }}</a>{% endfor %}</div></section>
-{% set ns_ = namespace(tbd=false) %}{% for d in L.draftOrder %}{% if (not d.competition) or d.competition.startswith('Commissioner to fill in') or not d.winner %}{% set ns_.tbd = true %}{% endif %}{% endfor %}
-{% if ns_.tbd %}<p class="tbd small dog-tbd">🎲 The story of each year's game (what was played and who won): Commissioner to fill in.</p>{% endif %}
-{% for d in L.draftOrder|reverse %}
+{% set ns_ = namespace(shown=[]) %}{% for d in L.draftOrder|reverse %}{% if d.competition and not d.competition.startswith('Commissioner to fill in') %}{% set ns_.shown = ns_.shown + [d] %}{% endif %}{% endfor %}{% set shown = ns_.shown %}
+<div class="season-nav">{% for d in shown %}<a href="#y{{ d.year }}">{{ d.year }}</a>{% endfor %}</div></section>
+{% for d in shown %}
 <article class="card dog" id="y{{ d.year }}">
 <div class="label">{{ d.year }} · {{ d.platform }} · {{ d.draftKind }} draft</div>
 {% set tbd = (not d.competition) or d.competition.startswith('Commissioner to fill in') %}
@@ -13,8 +12,8 @@
 {% if d.winner %}<div class="small">🏅 Winner: <b>{{ ml(d.winner) }}</b></div>{% endif %}
 {% if d.notes %}<p class="small">{{ d.notes }}</p>{% endif %}
 {% if d.video %}{% set v = d.video %}<figure class="dog-video"><video class="dog-vid" controls playsinline preload="none" poster="{{ root }}{{ v.poster }}" width="800" height="1067"{% if d.competition and not tbd %} aria-label="{{ d.year }} {{ d.competition }} video"{% else %} aria-label="{{ d.year }} draft order game video"{% endif %}><source src="{{ root }}{{ v.src }}" type="{{ v.type or 'video/mp4' }}"><a href="{{ root }}{{ v.src }}">Watch the {{ d.year }} video</a></video>{% if v.caption %}<figcaption class="small muted">{{ v.caption }}</figcaption>{% endif %}</figure>{% endif %}
-<details class="order" {{ 'open' if loop.first }}><summary>Resulting draft order</summary>
-<ol class="draft-order">{% for o in d.order %}<li><span class="pk">{{ o.pick }}</span><span class="who">{{ ml(o.manager) }}<span class="small muted"> · {{ o.team }}</span></span><span class="small muted pl">took {{ o.player }} ({{ o.pos }})</span></li>{% endfor %}</ol></details>
+<details class="order"><summary>First-round order</summary>
+<ol class="draft-order">{% for o in d.order|selectattr('pick','le',10) %}<li><span class="pk">{{ o.pick }}</span><span class="who">{{ ml(o.manager) }}</span></li>{% endfor %}</ol></details>
 <div class="small"><a href="{{ d.year }}.html#draft">{{ d.year }} draft board →</a></div>
 </article>{% endfor %}
 {# Commissioner: fill in each year's game in data/draft_order_games.json (competition, description, winner as a manager id like ryan-nussdorfer, optional notes) and rebuild. Draft orders update themselves from the draft data. #}

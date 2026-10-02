@@ -72,7 +72,7 @@
 </div>
 
 <h2 id="draft">Draft Board</h2>
-<p class="small"><a href="draft-order.html#y{{ S.year }}">🎲 How the {{ S.year }} draft order was decided →</a></p>
+{% set dg = L.draftOrder|selectattr('year','equalto',S.year)|first %}{% if dg and dg.competition and not dg.competition.startswith('Commissioner to fill in') %}<p class="small"><a href="draft-order.html#y{{ S.year }}">🎲 How the {{ S.year }} draft order was decided →</a></p>{% endif %}
 {% set B = draft_board(S) %}
 <p class="muted small">Round 1 highlighted in gold. <span class="pill green">green outline</span> = top-5 value picks, <span class="pill red">red outline</span> = biggest early-round busts, judged by points above positional replacement vs. draft slot. Hover a cell for details.</p>
 <div class="tbl-wrap" style="padding:8px"><div class="draftboard" style="grid-template-columns:40px repeat({{ B.cols|length }},1fr)">
