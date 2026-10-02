@@ -459,3 +459,8 @@ html.qs-on{overflow:hidden}
 .roast-r{margin:.5em 0;font-size:.95rem;line-height:1.55}
 .roast-w{margin:.4em 0;padding:8px 10px;background:var(--panel2);border-radius:10px;font-size:.88rem}
 .roast-p{margin:.4em 0 0;font-size:.9rem;color:#ffb27a}
+/* Draft Order Games video: poster matches the Lore photo size (.lore-img: 180px / 220px desktop, 800x1067); expands to the clip's shape once playing */
+.dog-video{margin:10px 0}.dog-video figcaption{text-align:center;margin-top:4px}
+.dog-vid{display:block;width:180px;max-width:56%;height:auto;aspect-ratio:800/1067;object-fit:cover;border-radius:14px;margin:10px auto;box-shadow:0 4px 18px rgba(0,0,0,.35);background:#000}
+@media(min-width:700px){.dog-vid{width:220px;max-width:220px}}
+.dog-vid.playing{width:min(100%,360px);max-width:100%;aspect-ratio:720/1276;object-fit:contain}
