@@ -463,4 +463,5 @@ html.qs-on{overflow:hidden}
 .dog-video{margin:10px 0}.dog-video figcaption{text-align:center;margin-top:4px}
 .dog-vid{display:block;width:180px;max-width:56%;height:auto;aspect-ratio:800/1067;object-fit:cover;border-radius:14px;margin:10px auto;box-shadow:0 4px 18px rgba(0,0,0,.35);background:#000}
 @media(min-width:700px){.dog-vid{width:220px;max-width:220px}}
-.dog-vid.playing{width:min(100%,360px);max-width:100%;aspect-ratio:720/1276;object-fit:contain}
+.dog-vid.playing{width:min(100%,360px);max-width:100%;aspect-ratio:var(--ar,720/1276);object-fit:contain}
+.dog-vid.dog-vid-wide.playing{width:100%}

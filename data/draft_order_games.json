@@ -49,7 +49,15 @@
       "competition": "NFL Player Scattergories",
       "description": "One phone call, no warning, and 60 seconds to write down every NFL player you can think of. Any name someone else also wrote got crossed off, so only the unique names scored.",
       "winner": null,
-      "notes": ""
+      "notes": "",
+      "video": {
+        "src": "static/media/draft-order/2026-scattergories.mp4",
+        "poster": "static/media/draft-order/2026-scattergories-poster.jpg",
+        "type": "video/mp4",
+        "width": 1920,
+        "height": 1080,
+        "caption": ""
+      }
     }
   }
 }
