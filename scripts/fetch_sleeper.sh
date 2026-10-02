@@ -21,7 +21,7 @@ for w in $(seq 1 18); do
   curl -sf "https://api.sleeper.app/stats/nfl/$S/$w?season_type=regular" -o "$D/.stats_tmp.json" || continue
   python3 -c "import json,sys;d=json.load(open(sys.argv[1]));json.dump({str(x['player_id']):x.get('stats',{}).get('gp',0) for x in d if (x.get('stats') or {}).get('gp')},open(sys.argv[2],'w'))" "$D/.stats_tmp.json" "$D/gp_$w.json"
   # compact box-score stat lines (used for Dynasty Era record stat lines)
-  python3 -c "import json,sys;K=('pass_cmp','pass_att','pass_yd','pass_td','pass_int','rush_att','rush_yd','rush_td','rec','rec_tgt','rec_yd','rec_td','fum_lost');d=json.load(open(sys.argv[1]));json.dump({str(x['player_id']):{k:x['stats'][k] for k in K if x['stats'].get(k)} for x in d if (x.get('stats') or {}).get('gp')},open(sys.argv[2],'w'),separators=(',',':'))" "$D/.stats_tmp.json" "$D/statline_$w.json"
+  python3 -c "import json,sys;K=('pass_cmp','pass_att','pass_yd','pass_td','pass_int','rush_att','rush_yd','rush_td','rec','rec_tgt','rec_yd','rec_td','fum_lost');d=json.load(open(sys.argv[1]));json.dump({str(x['player_id']):dict({k:x['stats'][k] for k in K if x['stats'].get(k)},**({'tm':x['team']} if x.get('team') else {})) for x in d if (x.get('stats') or {}).get('gp')},open(sys.argv[2],'w'),separators=(',',':'))" "$D/.stats_tmp.json" "$D/statline_$w.json"
 done
 rm -f "$D/.stats_tmp.json"
 for id in $(python3 -c "import json;print(' '.join(d['draft_id'] for d in json.load(open('$D/drafts.json'))))"); do

@@ -194,6 +194,12 @@ def process(year=2026):
     order = sorted(teams.values(), key=lambda T: (-T["officialW"], -T["pf"]))
     for i, T in enumerate(order):
         T["standing"] = i + 1
+    # NFL team per player per week, from Sleeper's weekly stats (statline_W.json 'tm', saved by fetch_sleeper.sh)
+    nfl_by_week = {}
+    for w in range(1, 19):
+        st = load(os.path.join(D, f"statline_{w}.json"), {}) or {}
+        tw = {pid: v["tm"] for pid, v in st.items() if isinstance(v, dict) and v.get("tm")}
+        if tw: nfl_by_week[str(w)] = tw
     players = {}
     for pid in set(list(player_pts.keys()) + [p["playerId"] for d in drafts for p in d["picks"]]):
         players[pid] = pinfo(pid)
@@ -206,6 +212,7 @@ def process(year=2026):
         "teams": order, "games": games, "champion": None, "runnerUp": None,
         "drafts": drafts, "draft": drafts[0]["picks"] if drafts else [], "rosters": roster_out,
         "transactions": transactions, "tradedPicks": traded, "players": players,
+        "nflTeamByWeek": nfl_by_week,
         "playerWeekly": {pid: {str(k): v for k, v in w.items()} for pid, w in player_pts.items()},
         "gamesPlayed": games_played(D, player_pts, done_weeks),
         "lineupsByWeek": lbw,

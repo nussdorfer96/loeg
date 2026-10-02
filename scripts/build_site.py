@@ -4,6 +4,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from markupsafe import Markup, escape
 from common import *
 import boxscores
+import aggregate as _agg
 
 SRC = os.path.join(ROOT, "src"); DIST = os.path.join(ROOT, "dist")
 
@@ -220,7 +221,15 @@ def main():
     def rec(r):
         return f"{r['w']}-{r['l']}" + (f"-{r['t']}" if r.get('t') else '')
     built = datetime.datetime.now().strftime("%b %-d, %Y %-I:%M %p ET")
-    G = dict(NOINDEX=bool(os.environ.get("LOEG_NOINDEX")), L=L, seasons=seasons, mname=mname, f=f, ordinal=ordinal, team_name=team_name, team_name_id=team_name_id, seed_of=seed_of,
+    _sl = [y for y, x in seasons.items() if x.get("platform") == "Sleeper"]
+    _agg.CURRENT_SLEEPER_YEAR[0] = max(_sl) if _sl else None
+    def nfl(year, pid, week=None):
+        """NFL team for that season (or that week): never today's team for a past season."""
+        x = seasons.get(int(year)) if year is not None else None
+        return (_agg.nfl_of(x, pid, week) or "") if x else ""
+    def nflchip(t):
+        return Markup(f' <span class="nfl">{escape(t)}</span>') if t else ""
+    G = dict(nfl=nfl, nflchip=nflchip, NOINDEX=bool(os.environ.get("LOEG_NOINDEX")), L=L, seasons=seasons, mname=mname, f=f, ordinal=ordinal, team_name=team_name, team_name_id=team_name_id, seed_of=seed_of,
              playoff_rounds=playoff_rounds, weeks=weeks, draft_board=draft_board, top_players=top_players, trade_sides=trade_sides,
              awards_by_key=awards_by_key, rec=rec, rp=rp, F=F, TR=TR, race_svg=race_svg, grade_cls=grade_cls, pair_id=pair_id, bx=bx, box_of=box_of, box_for=box_for, game_log=game_log, riv=riv, sgn=sgn, award_counts=award_counts, rk=rk, tied=tied, initials=initials, ts=ts, md=md, cat_icon=cat_icon, built=built)
     G["SITE"] = SITE

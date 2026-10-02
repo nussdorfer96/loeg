@@ -128,12 +128,16 @@ def process(year):
         if (p.get("id", 0) < 0 and pos != 16) or (p.get("fullName") or "").endswith(" TQB"):
             continue  # skip ESPN "team QB" pseudo-players
         players[p["id"]] = {"name": p.get("fullName"), "pos": POS.get(pos, "?"), "proTeamId": p.get("proTeamId")}
-        wpts = {}
+        wpts = {}; last_tm = (0, None)
         for s in p.get("stats", []) or []:
             if s.get("statSourceId") == 0 and s.get("statSplitTypeId") == 1 and s.get("seasonId") == year and s.get("stats"):
                 sp = s["scoringPeriodId"]
                 if 1 <= sp <= last_week:
                     wpts[sp] = round(pts(s["stats"], pos), 2)
+                    if s.get("proTeamId") and sp >= last_tm[0]: last_tm = (sp, s["proTeamId"])
+        # team he finished THIS season with (last game's team); fall back to the season file's proTeamId
+        tm = last_tm[1] or p.get("proTeamId")
+        if NFL_ABBR.get(tm): players[p["id"]]["nfl"] = NFL_ABBR[tm]
         if wpts:
             weekly[p["id"]] = wpts
     # roster/draft embedded player info fills gaps

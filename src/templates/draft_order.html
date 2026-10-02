@@ -13,7 +13,7 @@
 {% if d.notes %}<p class="small">{{ d.notes }}</p>{% endif %}
 {% if d.video %}{% set v = d.video %}<figure class="dog-video"><video class="dog-vid{{ ' dog-vid-wide' if (v.width or 0) > (v.height or 0) }}"{% if v.width and v.height %} style="--ar:{{ v.width }}/{{ v.height }}"{% endif %} controls playsinline preload="none" poster="{{ root }}{{ v.poster }}" width="800" height="1067"{% if d.competition and not tbd %} aria-label="{{ d.year }} {{ d.competition }} video"{% else %} aria-label="{{ d.year }} draft order game video"{% endif %}><source src="{{ root }}{{ v.src }}" type="{{ v.type or 'video/mp4' }}"><a href="{{ root }}{{ v.src }}">Watch the {{ d.year }} video</a></video>{% if v.caption %}<figcaption class="small muted">{{ v.caption }}</figcaption>{% endif %}</figure>{% endif %}
 <details class="order"><summary>First-round order</summary>
-<ol class="draft-order">{% for o in d.order|selectattr('pick','le',10) %}<li><span class="pk">{{ o.pick }}</span><span class="who">{{ ml(o.manager) }}{% if o.player %} - {{ o.player }}{% endif %}</span></li>{% endfor %}</ol></details>
+<ol class="draft-order">{% for o in d.order|selectattr('pick','le',10) %}<li><span class="pk">{{ o.pick }}</span><span class="who">{{ ml(o.manager) }}{% if o.player %} - {{ o.player }}{% if o.nfl %} <span class="nfl">{{ o.nfl }}</span>{% endif %}{% endif %}</span></li>{% endfor %}</ol></details>
 <div class="small"><a href="{{ d.year }}.html#draft">{{ d.year }} draft board →</a></div>
 </article>{% endfor %}
 {# Commissioner: fill in each year's game in data/draft_order_games.json (competition, description, winner as a manager id like ryan-nussdorfer, optional notes) and rebuild. Draft orders update themselves from the draft data. #}
