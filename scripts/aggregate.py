@@ -784,7 +784,7 @@ def draft_order(seasons, years):
         kind = next((d.get("kind") for d in (s.get("drafts") or []) if d.get("picks")), None) or ("redraft" if s["platform"] == "ESPN" else "startup")
         out.append({"year": y, "platform": s["platform"], "draftKind": kind, "order": order,
                     "competition": c.get("competition") or "", "description": c.get("description") or "", "winner": c.get("winner"),
-                    "notes": c.get("notes") or ""})
+                    "notes": c.get("notes") or "", "video": c.get("video")})
     return out
 
 

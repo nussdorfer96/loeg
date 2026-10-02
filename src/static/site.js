@@ -81,3 +81,6 @@ document.querySelectorAll('.race').forEach(function(r){
   q.addEventListener('input',run);
   q.addEventListener('keydown',function(e){if(e.key==='Enter'){var a=out.querySelector('a.qs-item');if(a){location.href=a.href;}}});
 })();
+
+// Draft Order Games: let an inline video grow from the Lore-photo-size poster to its own shape while playing
+document.addEventListener('play',function(e){var v=e.target;if(v&&v.classList&&v.classList.contains('dog-vid'))v.classList.add('playing');},true);

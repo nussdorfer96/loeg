@@ -1,5 +1,5 @@
 {
-  "_readme": "Draft Order Games: the commissioner makes the league compete for draft order every year. Fill in one entry per year: 'competition' (short name), 'description' (how it was played), 'winner' (a manager id from data/managers.json, e.g. 'ryan-nussdorfer', or null) and optional 'notes'. The actual draft order is pulled automatically from the ESPN/Sleeper draft data; don't type it here. Rebuild with: python3 scripts/build_all.py",
+  "_readme": "Draft Order Games: the commissioner makes the league compete for draft order every year. Fill in one entry per year: 'competition' (short name), 'description' (how it was played), 'winner' (a manager id from data/managers.json, e.g. 'ryan-nussdorfer', or null) and optional 'notes'. The actual draft order is pulled automatically from the ESPN/Sleeper draft data; don't type it here. Rebuild with: python3 scripts/build_all.py. Optional 'video': {src, poster, type, width, height, caption} plays inline on the year's card (poster sized like the Lore photos); files live in src/static/media/draft-order/.",
   "years": {
     "2020": {
       "competition": "Commissioner to fill in",
@@ -17,7 +17,15 @@
       "competition": "Commissioner to fill in",
       "description": "Commissioner to fill in: what was the game, and how did it set the draft order?",
       "winner": null,
-      "notes": ""
+      "notes": "",
+      "video": {
+        "src": "static/media/draft-order/2022-shotgun.mp4",
+        "poster": "static/media/draft-order/2022-shotgun-poster.jpg",
+        "type": "video/mp4",
+        "width": 720,
+        "height": 1276,
+        "caption": ""
+      }
     },
     "2023": {
       "competition": "Commissioner to fill in",

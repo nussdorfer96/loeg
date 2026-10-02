@@ -12,6 +12,7 @@
 {% if d.description and not d.description.startswith('Commissioner to fill in') %}<p>{{ d.description }}</p>{% endif %}
 {% if d.winner %}<div class="small">🏅 Winner: <b>{{ ml(d.winner) }}</b></div>{% endif %}
 {% if d.notes %}<p class="small">{{ d.notes }}</p>{% endif %}
+{% if d.video %}{% set v = d.video %}<figure class="dog-video"><video class="dog-vid" controls playsinline preload="none" poster="{{ root }}{{ v.poster }}" width="800" height="1067"{% if d.competition and not tbd %} aria-label="{{ d.year }} {{ d.competition }} video"{% else %} aria-label="{{ d.year }} draft order game video"{% endif %}><source src="{{ root }}{{ v.src }}" type="{{ v.type or 'video/mp4' }}"><a href="{{ root }}{{ v.src }}">Watch the {{ d.year }} video</a></video>{% if v.caption %}<figcaption class="small muted">{{ v.caption }}</figcaption>{% endif %}</figure>{% endif %}
 <details class="order" {{ 'open' if loop.first }}><summary>Resulting draft order</summary>
 <ol class="draft-order">{% for o in d.order %}<li><span class="pk">{{ o.pick }}</span><span class="who">{{ ml(o.manager) }}<span class="small muted"> · {{ o.team }}</span></span><span class="small muted pl">took {{ o.player }} ({{ o.pos }})</span></li>{% endfor %}</ol></details>
 <div class="small"><a href="{{ d.year }}.html#draft">{{ d.year }} draft board →</a></div>
