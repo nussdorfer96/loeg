@@ -12,7 +12,7 @@
    5,
    6
   ],
-  "generated": "2026-10-21 08:15",
+  "generated": "2026-10-21 08:58",
   "settings": {
    "lineup": [
     "QB",
@@ -150,7 +150,7 @@
    "pick_value": 10560,
    "dynasty_value": 69882,
    "ktc_value": 105884,
-   "ktc_rank": 3,
+   "ktc_rank": 4,
    "value_age": 24.9,
    "top_assets": [
     [
@@ -390,10 +390,10 @@
    ],
    "missing_value": [],
    "actual_z": 1.961,
-   "proj_z": 0.506,
-   "winnow_z": 1.234,
-   "dynasty_z": 0.915,
-   "overall_z": 1.075,
+   "proj_z": 0.437,
+   "winnow_z": 1.199,
+   "dynasty_z": 0.917,
+   "overall_z": 1.058,
    "seed": 1,
    "manager_id": "jacob-maddox",
    "winnow_rank": 1,
@@ -861,10 +861,10 @@
    ],
    "missing_value": [],
    "actual_z": 0.207,
-   "proj_z": -0.373,
-   "winnow_z": -0.083,
-   "dynasty_z": 1.861,
-   "overall_z": 0.889,
+   "proj_z": -0.281,
+   "winnow_z": -0.037,
+   "dynasty_z": 1.864,
+   "overall_z": 0.913,
    "seed": 6,
    "manager_id": "ryan-nussdorfer",
    "winnow_rank": 7,
@@ -1190,10 +1190,10 @@
    ],
    "missing_value": [],
    "actual_z": 0.185,
-   "proj_z": -0.22,
-   "winnow_z": -0.017,
-   "dynasty_z": 1.204,
-   "overall_z": 0.593,
+   "proj_z": -0.258,
+   "winnow_z": -0.036,
+   "dynasty_z": 1.206,
+   "overall_z": 0.585,
    "seed": 5,
    "manager_id": "bradley-kochheiser",
    "winnow_rank": 6,
@@ -1289,7 +1289,7 @@
    "pick_value": 8910,
    "dynasty_value": 67314,
    "ktc_value": 104982,
-   "ktc_rank": 5,
+   "ktc_rank": 6,
    "value_age": 25.5,
    "top_assets": [
     [
@@ -1476,10 +1476,10 @@
    ],
    "missing_value": [],
    "actual_z": 0.679,
-   "proj_z": 0.755,
-   "winnow_z": 0.717,
-   "dynasty_z": 0.427,
-   "overall_z": 0.572,
+   "proj_z": 0.619,
+   "winnow_z": 0.649,
+   "dynasty_z": 0.428,
+   "overall_z": 0.539,
    "seed": 2,
    "manager_id": "brian-mulvihill",
    "winnow_rank": 2,
@@ -1575,7 +1575,7 @@
    "pick_value": 10560,
    "dynasty_value": 62322,
    "ktc_value": 99162,
-   "ktc_rank": 7,
+   "ktc_rank": 8,
    "value_age": 28.1,
    "top_assets": [
     [
@@ -1751,301 +1751,22 @@
    ],
    "missing_value": [],
    "actual_z": -0.283,
-   "proj_z": 1.022,
-   "winnow_z": 0.369,
-   "dynasty_z": -0.522,
-   "overall_z": -0.076,
+   "proj_z": 0.852,
+   "winnow_z": 0.284,
+   "dynasty_z": -0.523,
+   "overall_z": -0.119,
    "seed": 7,
    "manager_id": "kyle-llano",
-   "winnow_rank": 4,
+   "winnow_rank": 5,
    "dynasty_rank": 6,
    "pf_rank": 7,
-   "proj_rank": 2,
-   "status": "Contender",
-   "blurb": "Week 6: beat Ryan (135.30-125.70) and missed the median, led by D'Andre Swift (23.0). Up 2 from #7. Now 5-7 with 870.0 PF (#7); Win-Now #4, Dynasty #6. Latest pickup: added Khalil Shakir (dropped BAL). Injury watch: De'Von Achane (IR), Rashee Rice (Out).",
+   "proj_rank": 3,
+   "status": "Middle",
+   "blurb": "Week 6: beat Ryan (135.30-125.70) and missed the median, led by D'Andre Swift (23.0). Up 2 from #7. Now 5-7 with 870.0 PF (#7); Win-Now #5, Dynasty #6. Latest pickup: added Khalil Shakir (dropped BAL). Injury watch: De'Von Achane (IR), Rashee Rice (Out).",
    "blurb_source": "auto"
   },
   {
    "rank": 6,
-   "prev_rank": 5,
-   "roster_id": 2,
-   "owner": "Nicholas Kasik",
-   "team": "BaldBy22",
-   "display_name": "BaldyBy22",
-   "record": "5-7",
-   "w": 5,
-   "l": 7,
-   "ti": 0,
-   "pf": 855.65,
-   "pa": 798.2,
-   "max_pf": 966.8,
-   "weekly": [
-    177.65,
-    85.55,
-    145.9,
-    214.75,
-    141.75,
-    90.05
-   ],
-   "ap_w": 23,
-   "ap_l": 31,
-   "win_pct": 0.4166666666666667,
-   "allplay_pct": 0.42592592592592593,
-   "proj_next": 151.26,
-   "proj_ros": 1182.6100000000001,
-   "proj_ros_ppg": 147.82625000000002,
-   "proj_lineup": [
-    [
-     "QB",
-     "Joe Burrow",
-     20.1
-    ],
-    [
-     "RB",
-     "Bijan Robinson",
-     22.8
-    ],
-    [
-     "RB",
-     "Javonte Williams",
-     17.7
-    ],
-    [
-     "WR",
-     "Zay Flowers",
-     20.0
-    ],
-    [
-     "WR",
-     "Nico Collins",
-     17.1
-    ],
-    [
-     "TE",
-     "Tyler Warren",
-     10.7
-    ],
-    [
-     "K",
-     "Matt Gay",
-     7.7
-    ],
-    [
-     "DEF",
-     "NYJ",
-     8.6
-    ],
-    [
-     "FLEX",
-     "Jameson Williams",
-     12.1
-    ],
-    [
-     "SUPER_FLEX",
-     "Tanner McKee",
-     14.3
-    ]
-   ],
-   "player_value": 51330,
-   "pick_value": 10560,
-   "dynasty_value": 61890,
-   "ktc_value": 95107,
-   "ktc_rank": 9,
-   "value_age": 26.9,
-   "top_assets": [
-    [
-     "Bijan Robinson",
-     "RB",
-     10077,
-     24.7
-    ],
-    [
-     "Joe Burrow",
-     "QB",
-     6225,
-     29.9
-    ],
-    [
-     "Zay Flowers",
-     "WR",
-     4660,
-     26.1
-    ],
-    [
-     "Nico Collins",
-     "WR",
-     4477,
-     27.6
-    ],
-    [
-     "Tyler Warren",
-     "TE",
-     4025,
-     24.4
-    ]
-   ],
-   "injuries": [
-    [
-     "Tyler Warren",
-     "Out"
-    ],
-    [
-     "David Montgomery",
-     "Out"
-    ]
-   ],
-   "picks": [
-    {
-     "season": "2027",
-     "round": 1,
-     "from": 2,
-     "from_owner": "Nicholas Kasik",
-     "value": 3060
-    },
-    {
-     "season": "2027",
-     "round": 2,
-     "from": 2,
-     "from_owner": "Nicholas Kasik",
-     "value": 1650
-    },
-    {
-     "season": "2027",
-     "round": 3,
-     "from": 2,
-     "from_owner": "Nicholas Kasik",
-     "value": 1135
-    },
-    {
-     "season": "2028",
-     "round": 1,
-     "from": 2,
-     "from_owner": "Nicholas Kasik",
-     "value": 2263
-    },
-    {
-     "season": "2028",
-     "round": 2,
-     "from": 2,
-     "from_owner": "Nicholas Kasik",
-     "value": 1400
-    },
-    {
-     "season": "2028",
-     "round": 3,
-     "from": 2,
-     "from_owner": "Nicholas Kasik",
-     "value": 1052
-    }
-   ],
-   "moves": [
-    {
-     "week": 1,
-     "type": "free_agent",
-     "add": [],
-     "add_skill": [],
-     "drop": [
-      "Jalen Nailor"
-     ]
-    },
-    {
-     "week": 1,
-     "type": "free_agent",
-     "add": [],
-     "add_skill": [],
-     "drop": [
-      "Alec Pierce"
-     ]
-    },
-    {
-     "week": 2,
-     "type": "waiver",
-     "add": [
-      "Aaron Jones"
-     ],
-     "add_skill": [
-      "Aaron Jones"
-     ],
-     "drop": [
-      "Kenny Gainwell"
-     ]
-    },
-    {
-     "week": 3,
-     "type": "waiver",
-     "add": [
-      "Matt Gay"
-     ],
-     "add_skill": [],
-     "drop": [
-      "Jake Bates"
-     ]
-    },
-    {
-     "week": 4,
-     "type": "waiver",
-     "add": [
-      "JAX"
-     ],
-     "add_skill": [],
-     "drop": [
-      "Quentin Johnston"
-     ]
-    },
-    {
-     "week": 5,
-     "type": "waiver",
-     "add": [
-      "MarShawn Lloyd"
-     ],
-     "add_skill": [
-      "MarShawn Lloyd"
-     ],
-     "drop": [
-      "AJ Barner"
-     ]
-    },
-    {
-     "week": 6,
-     "type": "waiver",
-     "add": [
-      "Tanner McKee"
-     ],
-     "add_skill": [
-      "Tanner McKee"
-     ],
-     "drop": []
-    },
-    {
-     "week": 7,
-     "type": "free_agent",
-     "add": [
-      "NYJ"
-     ],
-     "add_skill": [],
-     "drop": [
-      "JAX"
-     ]
-    }
-   ],
-   "missing_value": [],
-   "actual_z": -0.542,
-   "proj_z": 0.89,
-   "winnow_z": 0.174,
-   "dynasty_z": -0.604,
-   "overall_z": -0.215,
-   "seed": 8,
-   "manager_id": "nicholas-kasik",
-   "winnow_rank": 5,
-   "dynasty_rank": 8,
-   "pf_rank": 8,
-   "proj_rank": 3,
-   "status": "Middle",
-   "blurb": "Week 6: lost to Brian (90.05-158.20) and missed the median, the week's lowest score, led by Daniel Jones (13.4). Down 1 from #5. Now 5-7 with 855.6 PF (#8); Win-Now #5, Dynasty #8. Latest pickup: claimed Tanner McKee. Injury watch: Tyler Warren (Out), David Montgomery (Out).",
-   "blurb_source": "auto"
-  },
-  {
-   "rank": 7,
    "prev_rank": 8,
    "roster_id": 3,
    "owner": "Drew Hartman",
@@ -2129,7 +1850,7 @@
    "pick_value": 15510,
    "dynasty_value": 63680,
    "ktc_value": 105663,
-   "ktc_rank": 4,
+   "ktc_rank": 5,
    "value_age": 26.5,
    "top_assets": [
     [
@@ -2452,10 +2173,10 @@
    ],
    "missing_value": [],
    "actual_z": 0.039,
-   "proj_z": -0.508,
-   "winnow_z": -0.234,
+   "proj_z": -0.422,
+   "winnow_z": -0.191,
    "dynasty_z": -0.264,
-   "overall_z": -0.249,
+   "overall_z": -0.228,
    "seed": 4,
    "manager_id": "drew-hartman",
    "winnow_rank": 8,
@@ -2463,11 +2184,11 @@
    "pf_rank": 5,
    "proj_rank": 7,
    "status": "Middle",
-   "blurb": "Week 6: beat Taylor (147.65-101.05) and cleared the median, led by Jayden Daniels (24.0). Up 1 from #8. Now 6-6 with 887.2 PF (#5); Win-Now #8, Dynasty #5. Traded TreVeyon Henderson to Mike for Ollie Gordon. Latest pickup: added Keenan Allen (dropped Adonai Mitchell). Injury watch: DJ Moore (Out).",
+   "blurb": "Week 6: beat Taylor (147.65-101.05) and cleared the median, led by Jayden Daniels (24.0). Up 2 from #8. Now 6-6 with 887.2 PF (#5); Win-Now #8, Dynasty #5. Traded TreVeyon Henderson to Mike for Ollie Gordon. Latest pickup: added Keenan Allen (dropped Adonai Mitchell). Injury watch: DJ Moore (Out).",
    "blurb_source": "auto"
   },
   {
-   "rank": 8,
+   "rank": 7,
    "prev_rank": 6,
    "roster_id": 8,
    "owner": "Mike Hemstreet",
@@ -2492,9 +2213,9 @@
    "ap_l": 25,
    "win_pct": 0.6666666666666666,
    "allplay_pct": 0.5370370370370371,
-   "proj_next": 146.28,
-   "proj_ros": 1189.03,
-   "proj_ros_ppg": 148.62875,
+   "proj_next": 147.56,
+   "proj_ros": 1190.8400000000001,
+   "proj_ros_ppg": 148.85500000000002,
    "proj_lineup": [
     [
      "QB",
@@ -2533,8 +2254,8 @@
     ],
     [
      "DEF",
-     "SF",
-     6.9
+     "PIT",
+     8.1
     ],
     [
      "FLEX",
@@ -2551,7 +2272,7 @@
    "pick_value": 8910,
    "dynasty_value": 58801,
    "ktc_value": 89242,
-   "ktc_rank": 10,
+   "ktc_rank": 9,
    "value_age": 28.8,
    "top_assets": [
     [
@@ -3081,22 +2802,298 @@
      "drop": [
       "Jameis Winston"
      ]
+    },
+    {
+     "week": 7,
+     "type": "free_agent",
+     "add": [
+      "PIT"
+     ],
+     "add_skill": [],
+     "drop": [
+      "SF"
+     ]
     }
    ],
    "missing_value": [],
    "actual_z": 0.481,
-   "proj_z": 0.868,
-   "winnow_z": 0.675,
-   "dynasty_z": -1.191,
-   "overall_z": -0.258,
+   "proj_z": 0.744,
+   "winnow_z": 0.612,
+   "dynasty_z": -1.193,
+   "overall_z": -0.29,
    "seed": 3,
    "manager_id": "mike-hemstreet",
    "winnow_rank": 3,
    "dynasty_rank": 9,
    "pf_rank": 6,
+   "proj_rank": 2,
+   "status": "Contender",
+   "blurb": "Week 6: beat Bradley (144.65-139.05) and cleared the median, led by Christian McCaffrey (30.7). Down 1 from #6. Now 8-4 with 887.0 PF (#6); Win-Now #3, Dynasty #9. Traded Ollie Gordon to Drew for TreVeyon Henderson. Latest pickup: added Tyler Huntley. Injury watch: Lamar Jackson (Out), Jalen Hurts (IR), Mike Evans (Out).",
+   "blurb_source": "auto"
+  },
+  {
+   "rank": 8,
+   "prev_rank": 5,
+   "roster_id": 2,
+   "owner": "Nicholas Kasik",
+   "team": "BaldBy22",
+   "display_name": "BaldyBy22",
+   "record": "5-7",
+   "w": 5,
+   "l": 7,
+   "ti": 0,
+   "pf": 855.65,
+   "pa": 798.2,
+   "max_pf": 966.8,
+   "weekly": [
+    177.65,
+    85.55,
+    145.9,
+    214.75,
+    141.75,
+    90.05
+   ],
+   "ap_w": 23,
+   "ap_l": 31,
+   "win_pct": 0.4166666666666667,
+   "allplay_pct": 0.42592592592592593,
+   "proj_next": 151.26,
+   "proj_ros": 1229.6899999999998,
+   "proj_ros_ppg": 153.71124999999998,
+   "proj_lineup": [
+    [
+     "QB",
+     "Joe Burrow",
+     20.1
+    ],
+    [
+     "RB",
+     "Bijan Robinson",
+     22.8
+    ],
+    [
+     "RB",
+     "Javonte Williams",
+     17.7
+    ],
+    [
+     "WR",
+     "Zay Flowers",
+     20.0
+    ],
+    [
+     "WR",
+     "Nico Collins",
+     17.1
+    ],
+    [
+     "TE",
+     "Tyler Warren",
+     10.7
+    ],
+    [
+     "K",
+     "Matt Gay",
+     7.7
+    ],
+    [
+     "DEF",
+     "NYJ",
+     8.6
+    ],
+    [
+     "FLEX",
+     "Jameson Williams",
+     12.1
+    ],
+    [
+     "SUPER_FLEX",
+     "Tanner McKee",
+     14.3
+    ]
+   ],
+   "player_value": 53214,
+   "pick_value": 5237,
+   "dynasty_value": 58451,
+   "ktc_value": 86682,
+   "ktc_rank": 10,
+   "value_age": 26.8,
+   "top_assets": [
+    [
+     "Bijan Robinson",
+     "RB",
+     10077,
+     24.7
+    ],
+    [
+     "Joe Burrow",
+     "QB",
+     6225,
+     29.9
+    ],
+    [
+     "Trevor Lawrence",
+     "QB",
+     5483,
+     27.0
+    ],
+    [
+     "Zay Flowers",
+     "WR",
+     4660,
+     26.1
+    ],
+    [
+     "Nico Collins",
+     "WR",
+     4477,
+     27.6
+    ]
+   ],
+   "injuries": [
+    [
+     "Tyler Warren",
+     "Out"
+    ],
+    [
+     "David Montgomery",
+     "Out"
+    ]
+   ],
+   "picks": [
+    {
+     "season": "2027",
+     "round": 2,
+     "from": 2,
+     "from_owner": "Nicholas Kasik",
+     "value": 1650
+    },
+    {
+     "season": "2027",
+     "round": 3,
+     "from": 2,
+     "from_owner": "Nicholas Kasik",
+     "value": 1135
+    },
+    {
+     "season": "2028",
+     "round": 2,
+     "from": 2,
+     "from_owner": "Nicholas Kasik",
+     "value": 1400
+    },
+    {
+     "season": "2028",
+     "round": 3,
+     "from": 2,
+     "from_owner": "Nicholas Kasik",
+     "value": 1052
+    }
+   ],
+   "moves": [
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Jalen Nailor"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Alec Pierce"
+     ]
+    },
+    {
+     "week": 2,
+     "type": "waiver",
+     "add": [
+      "Aaron Jones"
+     ],
+     "add_skill": [
+      "Aaron Jones"
+     ],
+     "drop": [
+      "Kenny Gainwell"
+     ]
+    },
+    {
+     "week": 3,
+     "type": "waiver",
+     "add": [
+      "Matt Gay"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Jake Bates"
+     ]
+    },
+    {
+     "week": 4,
+     "type": "waiver",
+     "add": [
+      "JAX"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Quentin Johnston"
+     ]
+    },
+    {
+     "week": 5,
+     "type": "waiver",
+     "add": [
+      "MarShawn Lloyd"
+     ],
+     "add_skill": [
+      "MarShawn Lloyd"
+     ],
+     "drop": [
+      "AJ Barner"
+     ]
+    },
+    {
+     "week": 6,
+     "type": "waiver",
+     "add": [
+      "Tanner McKee"
+     ],
+     "add_skill": [
+      "Tanner McKee"
+     ],
+     "drop": []
+    },
+    {
+     "week": 7,
+     "type": "free_agent",
+     "add": [
+      "NYJ"
+     ],
+     "add_skill": [],
+     "drop": [
+      "JAX"
+     ]
+    }
+   ],
+   "missing_value": [],
+   "actual_z": -0.542,
+   "proj_z": 1.218,
+   "winnow_z": 0.338,
+   "dynasty_z": -1.26,
+   "overall_z": -0.461,
+   "seed": 8,
+   "manager_id": "nicholas-kasik",
+   "winnow_rank": 4,
+   "dynasty_rank": 10,
+   "pf_rank": 8,
    "proj_rank": 1,
    "status": "Contender",
-   "blurb": "Week 6: beat Bradley (144.65-139.05) and cleared the median, led by Christian McCaffrey (30.7). Down 2 from #6. Now 8-4 with 887.0 PF (#6); Win-Now #3, Dynasty #9. Traded Ollie Gordon to Drew for TreVeyon Henderson. Latest pickup: added Tyler Huntley. Injury watch: Lamar Jackson (Out), Jalen Hurts (IR), Mike Evans (Out).",
+   "blurb": "Week 6: lost to Brian (90.05-158.20) and missed the median, the week's lowest score, led by Daniel Jones (13.4). Down 3 from #5. Now 5-7 with 855.6 PF (#8); Win-Now #4, Dynasty #10. Latest pickup: claimed Tanner McKee. Injury watch: Tyler Warren (Out), David Montgomery (Out).",
    "blurb_source": "auto"
   },
   {
@@ -3184,7 +3181,7 @@
    "pick_value": 8910,
    "dynasty_value": 62221,
    "ktc_value": 99660,
-   "ktc_rank": 6,
+   "ktc_rank": 7,
    "value_age": 26.6,
    "top_assets": [
     [
@@ -3464,10 +3461,10 @@
    ],
    "missing_value": [],
    "actual_z": -0.974,
-   "proj_z": -0.886,
-   "winnow_z": -0.93,
-   "dynasty_z": -0.541,
-   "overall_z": -0.736,
+   "proj_z": -0.698,
+   "winnow_z": -0.836,
+   "dynasty_z": -0.542,
+   "overall_z": -0.689,
    "seed": 9,
    "manager_id": "taylor-alvarado",
    "winnow_rank": 9,
@@ -3505,8 +3502,8 @@
    "win_pct": 0.25,
    "allplay_pct": 0.3148148148148148,
    "proj_next": 116.58,
-   "proj_ros": 1012.54,
-   "proj_ros_ppg": 126.5675,
+   "proj_ros": 965.17,
+   "proj_ros_ppg": 120.64625,
    "proj_lineup": [
     [
      "QB",
@@ -3559,11 +3556,11 @@
      15.6
     ]
    ],
-   "player_value": 47751,
-   "pick_value": 10560,
-   "dynasty_value": 58311,
-   "ktc_value": 97985,
-   "ktc_rank": 8,
+   "player_value": 45867,
+   "pick_value": 15883,
+   "dynasty_value": 61750,
+   "ktc_value": 106410,
+   "ktc_rank": 3,
    "value_age": 24.6,
    "top_assets": [
     [
@@ -3571,12 +3568,6 @@
      "QB",
      6652,
      24.1
-    ],
-    [
-     "Trevor Lawrence",
-     "QB",
-     5483,
-     27.0
     ],
     [
      "Tetairoa McMillan",
@@ -3589,6 +3580,12 @@
      "WR",
      3902,
      25.6
+    ],
+    [
+     "Justin Herbert",
+     "QB",
+     3599,
+     28.6
     ],
     [
      "Carnell Tate",
@@ -3619,6 +3616,13 @@
     {
      "season": "2027",
      "round": 1,
+     "from": 2,
+     "from_owner": "Nicholas Kasik",
+     "value": 3060
+    },
+    {
+     "season": "2027",
+     "round": 1,
      "from": 6,
      "from_owner": "Nick Cardillo",
      "value": 3060
@@ -3636,6 +3640,13 @@
      "from": 6,
      "from_owner": "Nick Cardillo",
      "value": 1135
+    },
+    {
+     "season": "2028",
+     "round": 1,
+     "from": 2,
+     "from_owner": "Nicholas Kasik",
+     "value": 2263
     },
     {
      "season": "2028",
@@ -3759,18 +3770,18 @@
    ],
    "missing_value": [],
    "actual_z": -1.754,
-   "proj_z": -2.054,
-   "winnow_z": -1.904,
-   "dynasty_z": -1.284,
-   "overall_z": -1.594,
+   "proj_z": -2.211,
+   "winnow_z": -1.982,
+   "dynasty_z": -0.632,
+   "overall_z": -1.307,
    "seed": 10,
    "manager_id": "nick-cardillo",
    "winnow_rank": 10,
-   "dynasty_rank": 10,
+   "dynasty_rank": 8,
    "pf_rank": 10,
    "proj_rank": 10,
    "status": "Rebuild",
-   "blurb": "Week 6: lost to Jacob (133.60-158.65) and missed the median, led by Trevor Lawrence (31.4). Holds at #10. Now 3-9 with 764.4 PF (#10); Win-Now #10, Dynasty #10. Injury watch: Kyle Monangai (Out), Travis Etienne (IR), Zach Charbonnet (PUP).",
+   "blurb": "Week 6: lost to Jacob (133.60-158.65) and missed the median, led by Trevor Lawrence (31.4). Holds at #10. Now 3-9 with 764.4 PF (#10); Win-Now #10, Dynasty #8. Injury watch: Kyle Monangai (Out), Travis Etienne (IR), Zach Charbonnet (PUP).",
    "blurb_source": "auto"
   }
  ]

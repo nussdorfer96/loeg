@@ -186,6 +186,23 @@ def main():
             "taxi": list(r.get("taxi") or []), "reserve": list(r.get("reserve") or []),
             "sleeper_record": f"{r['settings'].get('wins',0)}-{r['settings'].get('losses',0)}" + (f"-{r['settings']['ties']}" if r['settings'].get('ties') else ""),
         }
+    # PENDING-TRADE OVERRIDE (remove-safe): accepted trades not yet processed on Sleeper, applied only for the
+    # listed season/week. Delete the PENDING_TRADES entry once Sleeper processes the trade.
+    PENDING_TRADES = {("2026", 7): [  # Kasik (2) <-> Cardillo (6), accepted Oct 21 2026
+        {"players": {"6": "2", "2": "6"},  # Herbert (2->6), Lawrence (6->2), resolved by name below
+         "names": {"Justin Herbert": (2, 6), "Trevor Lawrence": (6, 2)},
+         "picks": [("2027", 1, 2, 2, 6), ("2028", 1, 2, 2, 6)]}]}  # (season, round, orig, from, to)
+    if not a.retro:
+        for pt in PENDING_TRADES.get((a.season, week), []):
+            for nm, (src, dst) in pt["names"].items():
+                pid = next(p for p in teams[src]["players"]
+                           if f"{players.get(p,{}).get('first_name','')} {players.get(p,{}).get('last_name','')}" == nm)
+                for k in ("players", "starters", "taxi", "reserve"):
+                    if pid in teams[src][k]: teams[src][k].remove(pid)
+                teams[dst]["players"].append(pid)
+            for s_, rd, orig, src, dst in pt["picks"]:
+                traded = [tp for tp in traded if not (str(tp["season"]) == s_ and int(tp["round"]) == rd and tp["roster_id"] == orig)]
+                traded.append({"season": s_, "round": rd, "roster_id": orig, "previous_owner_id": src, "owner_id": dst})
     if a.retro:
         # roster as actually carried in week N; undo pick trades from later legs
         for rid, T in teams.items():
