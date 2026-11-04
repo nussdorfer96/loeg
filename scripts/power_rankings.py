@@ -541,7 +541,8 @@ def auto_blurb(t, teams, week, median_game):
     tail = []
     inj = t.get("injuries") or []
     if inj:
-        tail.append(f"{_names([x[0] for x in inj[:3]])} {'are' if len(inj[:3]) > 1 else 'is'} out or on IR, which drags the projection")
+        lead = "Injuries are the story: " if len(inj) >= 3 else ""
+        tail.append(f"{lead}{_names([x[0] for x in inj[:3]])} {'are all' if len(inj) >= 3 else 'are' if len(inj) > 1 else 'is'} out or on IR, which drags the projection")
     lw = week - 1
     tr = [m for m in t.get("moves") or [] if m["type"] == "trade" and m["week"] >= lw - 1]
     if tr:
