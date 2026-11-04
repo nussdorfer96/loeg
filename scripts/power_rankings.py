@@ -468,46 +468,91 @@ def _ord(n):
     return f"{n}{'th' if 10 <= n % 100 <= 20 else {1: 'st', 2: 'nd', 3: 'rd'}.get(n % 10, 'th')}"
 
 
+def _names(xs):
+    xs = list(xs)
+    return xs[0] if len(xs) == 1 else ", ".join(xs[:-1]) + " and " + xs[-1]
+
+
+def _defenses_used(t):
+    """Distinct team defenses rostered this season, from Sleeper transactions (DEF ids are team codes)."""
+    isdef = lambda x: x.isupper() and 2 <= len(x) <= 3
+    seen = set()
+    for m in t.get("moves") or []:
+        if m["type"] == "trade":
+            continue
+        seen |= {x for x in m.get("add", []) + m.get("drop", []) if isdef(x)}
+    return len(seen)
+
+
 def auto_blurb(t, teams, week, median_game):
-    """Factual 1-3 sentence blurb built only from fetched data."""
-    def first(rid):
-        fn = teams[rid]["owner"].split()
-        dup = sum(1 for x in teams.values() if x["owner"].split()[0] == fn[0]) > 1
-        return f"{fn[0]} {fn[-1][0]}." if dup and len(fn) > 1 else fn[0]
+    """'Why they're ranked here' blurb: 2-4 sentences built only from this run's computed fields.
+    Recomputed every run, so trades, injuries and values refresh automatically. No scores, no rank-change recap."""
+    TT = list(teams.values()); n = len(TT)
+    w, d, pf, pj = t["winnow_rank"], t["dynasty_rank"], t["pf_rank"], t.get("proj_rank")
+    rank_of = lambda key, rev=True: 1 + sum(1 for x in TT if x.get(key) is not None and t.get(key) is not None
+                                              and (x[key] > t[key] if rev else x[key] < t[key]))
+    wp_r, ap_r = rank_of("win_pct"), rank_of("allplay_pct")
+    stars = [a[0] for a in (t.get("top_assets") or [])[:3]]
+    S = []
+    # 1. which half of the formula drives the rank
+    if w <= 2 and d <= 2:
+        S.append(f"Top of both halves of the formula: Win-Now #{w} and Dynasty #{d}.")
+    elif w >= n - 2 and d >= n - 2:
+        S.append(f"Nothing in the formula props this team up: Win-Now #{w}, Dynasty #{d}.")
+    elif d + 3 <= w and t["rank"] >= n - 2:
+        S.append(f"Dynasty #{d}" + (f", built on {_names(stars)}," if stars else "") + f" is the only thing keeping this team out of the basement; Win-Now ranks #{w}.")
+        stars = []
+    elif d + 3 <= w:
+        S.append(f"The roster carries this ranking: Dynasty #{d}" + (f", built on {_names(stars)}" if stars else "") + f", outweighs a Win-Now rank of only #{w}.")
+        stars = []
+    elif w + 3 <= d:
+        S.append(f"This is a win-now ranking: Win-Now #{w} is propping up a Dynasty value that ranks only #{d}.")
+    else:
+        S.append(f"Win-Now #{w} and Dynasty #{d} land this team right about here.")
+    # 2. results quality: record vs PF vs all-play vs projection
+    res = f"The {t['record']} record comes with the #{pf} points total and a {t['ap_w']}-{t['ap_l']} all-play mark"
+    if wp_r - ap_r >= 3:
+        res += ", so the record undersells the team"
+    elif ap_r - wp_r >= 3:
+        res += ", so the record flatters it"
+    elif ap_r >= n - 1:
+        res += ", so the record is earned"
+    if pj:
+        res += f"; the rest-of-season projection ranks #{pj}" + (", the best in the league" if pj == 1 else ", near the bottom" if pj >= n - 1 else "")
+    S.append(res + ".")
+    # 3. assets, age (only if top/bottom 2), picks (only if they separate the team)
+    bits = []
+    if stars:
+        bits.append(f"{_names(stars)} lead the roster value")
+    ages = sorted(x["value_age"] for x in TT if x.get("value_age"))
+    va = t.get("value_age")
+    if va and len(ages) >= 4:
+        if va <= ages[1]: bits.append("it's one of the two youngest cores in the league by value")
+        elif va >= ages[-2]: bits.append("it's one of the two oldest cores in the league by value")
+    pv = sorted(x.get("pick_value") or 0 for x in TT); med = pv[n // 2]
+    mine = t.get("pick_value") or 0
+    if med and mine >= med * 1.4 and mine >= pv[-2]:
+        bits.append(f"a stockpile of {len(t.get('picks') or [])} future picks adds dynasty value")
+    elif med and mine <= med * 0.65 and mine <= pv[1]:
+        bits.append(f"only {len(t.get('picks') or [])} future picks left after trading some away holds down the dynasty side")
+    if bits:
+        s3 = "; ".join(bits); S.append(s3[0].upper() + s3[1:] + ".")
+    # 4. what's changing it now: injuries to key assets, recent trades, defense churn
+    tail = []
+    inj = t.get("injuries") or []
+    if inj:
+        tail.append(f"{_names([x[0] for x in inj[:3]])} {'are' if len(inj[:3]) > 1 else 'is'} out or on IR, which drags the projection")
     lw = week - 1
-    parts = []
-    r = (t.get("results") or {}).get(lw)
-    if r:
-        bits = []
-        if "opp" in r:
-            o = teams[r["opp"]]["results"][lw]["pts"]
-            bits.append(("beat" if r["pts"] > o else "lost to" if r["pts"] < o else "tied") + f" {first(r['opp'])} ({r['pts']:.2f}-{o:.2f})")
-        if median_game:
-            bits.append("cleared the median" if r["pts"] > r["median"] else "missed the median")
-        lead = f"Week {lw}: " + " and ".join(bits) + ({1: ", the week's top score", 2: ", the week's 2nd-best score", len(teams): ", the week's lowest score",
-                                                       len(teams) - 1: ", the week's 2nd-lowest score"}.get(r.get("rank"), ""))
-        if r.get("top") and r["top"][1] > 0:
-            lead += f", led by {r['top'][0]} ({r['top'][1]:.1f})"
-        parts.append(lead + ".")
-    mv = ""
-    if t.get("prev_rank"):
-        d = t["prev_rank"] - t["rank"]
-        mv = f"Up {d} from #{t['prev_rank']}. " if d > 0 else f"Down {-d} from #{t['prev_rank']}. " if d < 0 else f"Holds at #{t['rank']}. "
-    parts.append(f"{mv}Now {t['record']} with {t['pf']:.1f} PF (#{t['pf_rank']}); Win-Now #{t['winnow_rank']}, Dynasty #{t['dynasty_rank']}.")
-    recent = [m for m in t["moves"] if m["week"] >= lw]
-    trades = [m for m in recent if m["type"] == "trade"]
-    if trades:
-        m = trades[-1]
-        parts.append(f"Traded {', '.join(m['gave']) or 'nothing'} to {', '.join(x.split()[0] for x in m['with'])} for {', '.join(m['got']) or 'nothing'}.")
-    adds = [(m, x) for m in recent if m["type"] != "trade" for x in m["add"]]
-    skill = [(m, x) for m, x in adds if x in m.get("add_skill", [])]
-    if skill:
-        m, x = skill[-1]
-        how = "claimed" if m["type"] == "waiver" else "added"
-        parts.append(f"Latest pickup: {how} {x}" + (f" (dropped {', '.join(m['drop'])})" if m["drop"] else "") + ".")
-    if t.get("injuries"):
-        parts.append("Injury watch: " + ", ".join(f"{n} ({s})" for n, s in t["injuries"][:3]) + ".")
-    return " ".join(parts)
+    tr = [m for m in t.get("moves") or [] if m["type"] == "trade" and m["week"] >= lw - 1]
+    if tr:
+        m = tr[-1]; got = [g for g in m["got"]][:3]
+        if got: tail.append(f"the Week {m['week']} trade for {_names(got)} is already priced in")
+    nd = _defenses_used(t)
+    if nd >= 8 and nd >= max(_defenses_used(x) for x in TT):
+        tail.insert(0, f"{nd} different defenses this season is the league high, and none of that is one of the inputs")
+    if tail and len(S) < 4:
+        s4 = "; ".join(tail[:2]); S.append(s4[0].upper() + s4[1:] + ".")
+    return " ".join(S[:4])
 
 
 def fmt_moves(t, limit=4):
