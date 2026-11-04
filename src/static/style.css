@@ -380,7 +380,7 @@ html.qs-on{overflow:hidden}
   nav.main{display:none}
   header.site .wrap{min-height:52px;justify-content:space-between;flex-wrap:nowrap}
   body{padding-bottom:calc(74px + env(safe-area-inset-bottom))}
-  .tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(15,20,32,.97);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:4px 4px calc(4px + env(safe-area-inset-bottom))}
+  .tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(15,20,32,.97);border-top:1px solid var(--line);transform:translateZ(0);-webkit-transform:translateZ(0);padding:4px 4px calc(4px + env(safe-area-inset-bottom))}
   .tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:58px;color:var(--muted);font-size:.74rem;font-weight:600;border-radius:12px;text-decoration:none;position:relative}
   .tabbar a .i{font-size:1.45rem;line-height:1.15}
   .tabbar a.on{color:var(--gold2);background:var(--panel2)}
