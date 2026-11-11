@@ -15,7 +15,7 @@
    8,
    9
   ],
-  "generated": "2026-11-11 05:24",
+  "generated": "2026-11-11 05:40",
   "settings": {
    "lineup": [
     "QB",
@@ -471,8 +471,8 @@
    "pf_rank": 1,
    "proj_rank": 1,
    "status": "Contender",
-   "blurb": "Top of both halves of the formula: Win-Now #1 and Dynasty #2. The 14-3-1 record comes with the #1 points total and a 61-19 all-play mark; the rest-of-season projection ranks #1, the best in the league. Jahmyr Gibbs, Malik Nabers and Matthew Golden lead the roster value; it's one of the two youngest cores in the league by value.",
-   "blurb_source": "auto"
+   "blurb": "Top of both halves of the formula: Win-Now #1 and Dynasty #2. The 14-3-1 record comes with the #1 points total and a 61-19 all-play mark; the rest-of-season projection ranks #1, the best in the league. Jahmyr Gibbs, Malik Nabers and Matthew Golden lead the roster value; it's one of the two youngest cores in the league by value. Malik Willis is on IR.",
+   "blurb_source": "hand-written"
   },
   {
    "rank": 2,
@@ -599,15 +599,7 @@
    "injuries": [
     [
      "Jeremiyah Love",
-     "Out"
-    ],
-    [
-     "Jordyn Tyson",
      "IR"
-    ],
-    [
-     "TreVeyon Henderson",
-     "Out"
     ]
    ],
    "picks": [
@@ -1176,8 +1168,8 @@
    "pf_rank": 2,
    "proj_rank": 5,
    "status": "Contender",
-   "blurb": "The roster carries this ranking: Dynasty #1, built on Ja'Marr Chase, Brock Bowers and Jordan Love, outweighs a Win-Now rank of only #4. The 9-9 record comes with the #2 points total and a 50-31 all-play mark; the rest-of-season projection ranks #5. Injuries are the story: Jeremiyah Love, Jordyn Tyson and TreVeyon Henderson are all out or on IR, which drags the projection; the Week 9 trade for Derrick Henry and 2027 R2 (Taylor's) is already priced in.",
-   "blurb_source": "auto"
+   "blurb": "The roster carries this ranking: Dynasty #1, built on Ja'Marr Chase, Brock Bowers and Jordan Love, outweighs a Win-Now rank of only #4. The 9-9 record comes with the #2 points total and a 50-31 all-play mark; the rest-of-season projection ranks #5. Injuries are the story: Jeremiyah Love, Davante Adams and Terrance Ferguson are all on IR, and TreVeyon Henderson is questionable; the Week 9 trade for Derrick Henry and 2027 R2 (Taylor's) is already priced in.",
+   "blurb_source": "hand-written"
   },
   {
    "rank": 3,
@@ -1491,8 +1483,8 @@
    "pf_rank": 4,
    "proj_rank": 3,
    "status": "Contender",
-   "blurb": "Win-Now #3 and Dynasty #5 land this team right about here. The 13-5 record comes with the #4 points total and a 40-41 all-play mark, so the record flatters it; the rest-of-season projection ranks #3. Jaxon Smith-Njigba, Caleb Williams and Kenneth Walker III lead the roster value.",
-   "blurb_source": "auto"
+   "blurb": "Win-Now #3 and Dynasty #5 land this team right about here. The 13-5 record comes with the #4 points total and a 40-41 all-play mark, so the record flatters it; the rest-of-season projection ranks #3. Jaxon Smith-Njigba, Caleb Williams and Kenneth Walker III lead the roster value. Terry McLaurin and Jacory Croskey-Merritt are on IR.",
+   "blurb_source": "hand-written"
   },
   {
    "rank": 4,
@@ -1618,15 +1610,7 @@
    ],
    "injuries": [
     [
-     "Breece Hall",
-     "Out"
-    ],
-    [
-     "Emeka Egbuka",
-     "Out"
-    ],
-    [
-     "Ty Simpson",
+     "Jaylen Waddle",
      "Out"
     ]
    ],
@@ -1873,8 +1857,8 @@
    "pf_rank": 7,
    "proj_rank": 7,
    "status": "Middle",
-   "blurb": "The roster carries this ranking: Dynasty #3, built on Josh Allen, CeeDee Lamb and Trey McBride, outweighs a Win-Now rank of only #6. The 7-10-1 record comes with the #7 points total and a 40-40 all-play mark; the rest-of-season projection ranks #7. Injuries are the story: Breece Hall, Emeka Egbuka and Ty Simpson are all out or on IR, which drags the projection.",
-   "blurb_source": "auto"
+   "blurb": "The roster carries this ranking: Dynasty #3, built on Josh Allen, CeeDee Lamb and Trey McBride, outweighs a Win-Now rank of only #6. The 7-10-1 record comes with the #7 points total and a 40-40 all-play mark; the rest-of-season projection ranks #7. Injuries are the story: RJ Harvey and Ricky Pearsall are on IR, and Jaylen Waddle is out with a concussion heading into Denver's bye.",
+   "blurb_source": "hand-written"
   },
   {
    "rank": 5,
@@ -2002,6 +1986,10 @@
     [
      "De'Von Achane",
      "IR"
+    ],
+    [
+     "Sam Darnold",
+     "Out"
     ]
    ],
    "picks": [
@@ -2160,8 +2148,8 @@
    "pf_rank": 6,
    "proj_rank": 4,
    "status": "Middle",
-   "blurb": "Win-Now #5 and Dynasty #6 land this team right about here. The 9-9 record comes with the #6 points total and a 42-39 all-play mark; the rest-of-season projection ranks #4. Amon-Ra St. Brown, Jonathan Taylor and Tee Higgins lead the roster value; it's one of the two oldest cores in the league by value. De'Von Achane is out or on IR, which drags the projection.",
-   "blurb_source": "auto"
+   "blurb": "Win-Now #5 and Dynasty #6 land this team right about here. The 9-9 record comes with the #6 points total and a 42-39 all-play mark; the rest-of-season projection ranks #4. Amon-Ra St. Brown, Jonathan Taylor and Tee Higgins lead the roster value; it's one of the two oldest cores in the league by value. De'Von Achane and Romeo Doubs are on IR, and Sam Darnold is out.",
+   "blurb_source": "hand-written"
   },
   {
    "rank": 6,
@@ -2285,12 +2273,7 @@
      26.2
     ]
    ],
-   "injuries": [
-    [
-     "David Montgomery",
-     "Out"
-    ]
-   ],
+   "injuries": [],
    "picks": [
     {
      "season": "2027",
@@ -2533,8 +2516,8 @@
    "pf_rank": 3,
    "proj_rank": 2,
    "status": "Contender",
-   "blurb": "This is a win-now ranking: Win-Now #2 is propping up a Dynasty value that ranks only #9. The 9-9 record comes with the #3 points total and a 42-39 all-play mark; the rest-of-season projection ranks #2. Bijan Robinson, Joe Burrow and Trevor Lawrence lead the roster value; only 3 future picks left after trading some away holds down the dynasty side. David Montgomery is out or on IR, which drags the projection.",
-   "blurb_source": "auto"
+   "blurb": "This is a win-now ranking: Win-Now #2 is propping up a Dynasty value that ranks only #9. The 9-9 record comes with the #3 points total and a 42-39 all-play mark; the rest-of-season projection ranks #2. Bijan Robinson, Joe Burrow and Trevor Lawrence lead the roster value; only 3 future picks left after trading some away holds down the dynasty side. David Montgomery is questionable and nearing a return; Michael Pittman Jr. is on IR.",
+   "blurb_source": "hand-written"
   },
   {
    "rank": 7,
@@ -2659,10 +2642,6 @@
     ]
    ],
    "injuries": [
-    [
-     "Carnell Tate",
-     "Out"
-    ],
     [
      "Travis Etienne Jr.",
      "IR"
@@ -2926,8 +2905,8 @@
    "pf_rank": 9,
    "proj_rank": 10,
    "status": "Rebuild",
-   "blurb": "The roster carries this ranking: Dynasty #4, built on Drake Maye, Luther Burden III and Tetairoa McMillan, outweighs a Win-Now rank of only #9. The 6-12 record comes with the #9 points total and a 29-52 all-play mark, so the record is earned; the rest-of-season projection ranks #10, near the bottom. It's one of the two youngest cores in the league by value; a stockpile of 12 future picks adds dynasty value. Injuries are the story: Carnell Tate, Travis Etienne Jr. and Kyle Monangai are all out or on IR, which drags the projection; the Week 8 trade for Baker Mayfield, 2027 R3 (Mike's) and 2028 R1 (Mike's) is already priced in.",
-   "blurb_source": "auto"
+   "blurb": "The roster carries this ranking: Dynasty #4, built on Drake Maye, Luther Burden III and Tetairoa McMillan, outweighs a Win-Now rank of only #9. The 6-12 record comes with the #9 points total and a 29-52 all-play mark, so the record is earned; the rest-of-season projection ranks #10, near the bottom. It's one of the two youngest cores in the league by value; a stockpile of 12 future picks adds dynasty value. Injuries are the story: Travis Etienne Jr., Alec Pierce, Jayden Higgins and Jonathon Brooks are on IR, and Kyle Monangai is out, while Carnell Tate is expected back in Week 10; the Week 8 trade for Baker Mayfield, 2027 R3 (Mike's) and 2028 R1 (Mike's) is already priced in.",
+   "blurb_source": "hand-written"
   },
   {
    "rank": 8,
@@ -3051,12 +3030,7 @@
      26.6
     ]
    ],
-   "injuries": [
-    [
-     "Mike Evans",
-     "Out"
-    ]
-   ],
+   "injuries": [],
    "picks": [
     {
      "season": "2027",
@@ -3436,8 +3410,8 @@
    "pf_rank": 8,
    "proj_rank": 6,
    "status": "Middle",
-   "blurb": "Win-Now #7 and Dynasty #8 land this team right about here. The 8-10 record comes with the #8 points total and a 37-44 all-play mark; the rest-of-season projection ranks #6. Jayden Daniels, Fernando Mendoza and Chase Brown lead the roster value. Mike Evans is out or on IR, which drags the projection; the Week 9 trade for Jameson Williams is already priced in.",
-   "blurb_source": "auto"
+   "blurb": "Win-Now #7 and Dynasty #8 land this team right about here. The 8-10 record comes with the #8 points total and a 37-44 all-play mark; the rest-of-season projection ranks #6. Jayden Daniels, Fernando Mendoza and Chase Brown lead the roster value. Mike Evans is questionable but not expected to play this week; the Week 9 trade for Jameson Williams is already priced in.",
+   "blurb_source": "hand-written"
   },
   {
    "rank": 9,
@@ -3564,6 +3538,10 @@
    "injuries": [
     [
      "Jaxson Dart",
+     "IR"
+    ],
+    [
+     "Michael Wilson",
      "IR"
     ]
    ],
@@ -3926,8 +3904,8 @@
    "pf_rank": 10,
    "proj_rank": 9,
    "status": "Rebuild",
-   "blurb": "Dynasty #7, built on Justin Jefferson, Brock Purdy and Ashton Jeanty, is the only thing keeping this team out of the basement; Win-Now ranks #10. The 4-14 record comes with the #10 points total and a 21-60 all-play mark, so the record is earned; the rest-of-season projection ranks #9, near the bottom. 11 different defenses this season is the league high, and none of that is one of the inputs; Jaxson Dart is out or on IR, which drags the projection.",
-   "blurb_source": "auto"
+   "blurb": "Dynasty #7, built on Justin Jefferson, Brock Purdy and Ashton Jeanty, is the only thing keeping this team out of the basement; Win-Now ranks #10. The 4-14 record comes with the #10 points total and a 21-60 all-play mark, so the record is earned; the rest-of-season projection ranks #9, near the bottom. Jaxson Dart and Michael Wilson are on IR; the Week 9 trade for Adonai Mitchell and 2027 R1 (Mike's) is already priced in.",
+   "blurb_source": "hand-written"
   },
   {
    "rank": 10,
@@ -4053,8 +4031,12 @@
    ],
    "injuries": [
     [
+     "Puka Nacua",
+     "Doubtful"
+    ],
+    [
      "Lamar Jackson",
-     "Out"
+     "IR"
     ],
     [
      "Jalen Hurts",
@@ -4065,7 +4047,7 @@
      "Out"
     ],
     [
-     "A.J. Brown",
+     "Josh Jacobs",
      "Out"
     ]
    ],
@@ -4704,8 +4686,8 @@
    "pf_rank": 5,
    "proj_rank": 8,
    "status": "Middle",
-   "blurb": "Nothing in the formula props this team up: Win-Now #8, Dynasty #10. The 10-8 record comes with the #5 points total and a 42-39 all-play mark; the rest-of-season projection ranks #8. Puka Nacua, Lamar Jackson and James Cook III lead the roster value; it's one of the two oldest cores in the league by value; only 0 future picks left after trading some away holds down the dynasty side. Injuries are the story: Lamar Jackson, Jalen Hurts and DeVonta Smith are all out or on IR, which drags the projection; the Week 8 trade for Justin Herbert is already priced in.",
-   "blurb_source": "auto"
+   "blurb": "Nothing in the formula props this team up: Win-Now #8, Dynasty #10. The 10-8 record comes with the #5 points total and a 42-39 all-play mark; the rest-of-season projection ranks #8. Puka Nacua, Lamar Jackson and James Cook III lead the roster value; it's one of the two oldest cores in the league by value; no future picks left after trading them away holds down the dynasty side. Injuries are the story: Lamar Jackson and Jalen Hurts are on IR, and DeVonta Smith and Josh Jacobs are out; Puka Nacua is doubtful. The Week 8 trade for Justin Herbert is already priced in.",
+   "blurb_source": "hand-written"
   }
  ]
 }

@@ -10,7 +10,7 @@ Weekly publish: bash scripts/publish_power_rankings.sh  (computes, then runs scr
 scripts/publish.sh never recomputes rankings; build_site.py renders the latest saved JSON.
 
 Inputs (all public, no auth):
-  Sleeper v1 API: league, users, rosters, matchups/{w}, transactions/{w}, traded_picks, state; players/nfl (cached 7 days)
+  Sleeper v1 API: league, users, rosters, matchups/{w}, transactions/{w}, traded_picks, state; players/nfl (always fetched fresh on live runs so injury status is current; --offline reuses the cache)
   Sleeper projections: https://api.sleeper.app/projections/nfl/{season}/{week} (weekly, scored with the league's own scoring_settings)
   Dynasty values: FantasyCalc API (primary; superflex/1QB, PPR and team count matched to league settings)
                   KeepTradeCut dynasty-rankings page (cross-check; superflex or 1QB values; name-matched)
@@ -158,7 +158,7 @@ def main():
     for w in range(1, week if a.retro else week + 1):
         for t in fetch(f"{API}/league/{L}/transactions/{w}", C(f"transactions_{w}.json"), 0, a.offline):
             t["_week"] = w; txs.append(t)
-    players = fetch(f"{API}/players/nfl", PLAYERS, 7 * 86400, a.offline)
+    players = fetch(f"{API}/players/nfl", PLAYERS, 0, a.offline)  # never reuse a stale injury cache on live runs
     S, sc = league["settings"], league["scoring_settings"]
     slots = [s for s in league["roster_positions"] if s not in ("BN", "IR", "TAXI")]
     sf = "SUPER_FLEX" in slots or slots.count("QB") > 1
