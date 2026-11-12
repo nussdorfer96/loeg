@@ -35,6 +35,14 @@ def r2(x):
     return None if x is None else round(float(x), 2)
 
 
+def wlt(w, l, t=0):
+    """Format a W-L-T record, omitting the ties slot when there are none."""
+    rec = f"{int(w or 0)}-{int(l or 0)}"
+    if t:
+        rec += f"-{int(t)}"
+    return rec
+
+
 def find_archive_files(year):
     """Return {week:int -> path} of weekly ESPN archive files for a season."""
     out = {}

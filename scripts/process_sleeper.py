@@ -55,7 +55,7 @@ def process(year=2026):
             "officialW": s.get("wins", 0), "officialL": s.get("losses", 0), "officialT": s.get("ties", 0),
             "pf": r2(s.get("fpts", 0) + s.get("fpts_decimal", 0) / 100), "pa": r2(s.get("fpts_against", 0) + s.get("fpts_against_decimal", 0) / 100),
             "maxPF": r2(s.get("ppts", 0) + s.get("ppts_decimal", 0) / 100),
-            "w": 0, "l": 0, "t": 0, "medW": 0, "medL": 0,
+            "w": 0, "l": 0, "t": 0, "medW": 0, "medL": 0, "medT": 0,
             "transactions": {"acquisitions": 0, "drops": 0, "trades": 0},
             "players": r.get("players") or [], "taxi": r.get("taxi") or [], "reserve": r.get("reserve") or [],
             "starters": r.get("starters") or [], "seed": None, "finalRank": None, "tookOverFrom": None,
@@ -103,7 +103,8 @@ def process(year=2026):
         for m in ms:
             T = teams[m["roster_id"]]
             if m["points"] > median: T["medW"] += 1
-            else: T["medL"] += 1
+            elif m["points"] < median: T["medL"] += 1
+            else: T["medT"] += 1
 
     # all-play luck
     byw = collections.defaultdict(list)
@@ -111,16 +112,18 @@ def process(year=2026):
         if g["kind"] == "regular":
             byw[g["week"]] += [(g["home"]["teamId"], g["home"]["score"]), (g["away"]["teamId"], g["away"]["score"])]
     for T in teams.values():
-        T["allPlayW"] = T["allPlayL"] = 0
+        T["allPlayW"] = T["allPlayL"] = T["allPlayT"] = 0
     for lst in byw.values():
         for tid, s in lst:
             teams[tid]["allPlayW"] += sum(1 for o, x in lst if o != tid and s > x)
             teams[tid]["allPlayL"] += sum(1 for o, x in lst if o != tid and s < x)
+            teams[tid]["allPlayT"] += sum(1 for o, x in lst if o != tid and s == x)
     for T in teams.values():
-        n = T["allPlayW"] + T["allPlayL"]; gp = T["w"] + T["l"] + T["t"]
-        T["expectedWins"] = r2(T["allPlayW"] / n * gp) if n else 0
-        T["luck"] = r2(T["w"] - T["expectedWins"])
-        T["luckX"] = (T["w"] - T["allPlayW"] / n * gp) if n else 0  # full precision, for ties
+        n = T["allPlayW"] + T["allPlayL"] + T["allPlayT"]; gp = T["w"] + T["l"] + T["t"]
+        apw = T["allPlayW"] + 0.5 * T["allPlayT"]
+        T["expectedWins"] = r2(apw / n * gp) if n else 0
+        T["luck"] = r2((T["w"] + 0.5 * T["t"]) - T["expectedWins"])
+        T["luckX"] = ((T["w"] + 0.5 * T["t"]) - apw / n * gp) if n else 0  # full precision, ties count as half a win
 
     # transactions
     txs = {}
@@ -190,8 +193,11 @@ def process(year=2026):
         roster_out[str(rid)] = lst
         del T["players"], T["taxi"], T["reserve"], T["starters"]
 
-    # current standings order: official wins, then PF
-    order = sorted(teams.values(), key=lambda T: (-T["officialW"], -T["pf"]))
+    # current standings order: official win% (tie = half a win), then PF — Sleeper's default
+    def official_pct(T):
+        g = T["officialW"] + T["officialL"] + T["officialT"]
+        return (T["officialW"] + 0.5 * T["officialT"]) / g if g else 0
+    order = sorted(teams.values(), key=lambda T: (-official_pct(T), -T["pf"]))
     for i, T in enumerate(order):
         T["standing"] = i + 1
     # NFL team per player per week, from Sleeper's weekly stats (statline_W.json 'tm', saved by fetch_sleeper.sh)

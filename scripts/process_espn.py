@@ -107,17 +107,19 @@ def process(year):
         if g["kind"] == "regular" and g["away"]:
             by_week[g["week"]] += [(g["home"]["teamId"], g["home"]["score"]), (g["away"]["teamId"], g["away"]["score"])]
     for T in teams.values():
-        T["allPlayW"] = T["allPlayL"] = 0
+        T["allPlayW"] = T["allPlayL"] = T["allPlayT"] = 0
     for wk, lst in by_week.items():
         for tid, s in lst:
             teams[tid]["allPlayW"] += sum(1 for o, os_ in lst if o != tid and s > os_)
             teams[tid]["allPlayL"] += sum(1 for o, os_ in lst if o != tid and s < os_)
+            teams[tid]["allPlayT"] += sum(1 for o, os_ in lst if o != tid and s == os_)
     for T in teams.values():
-        n = T["allPlayW"] + T["allPlayL"]
+        n = T["allPlayW"] + T["allPlayL"] + T["allPlayT"]
         gp = T["w"] + T["l"] + T["t"]
-        T["expectedWins"] = r2(T["allPlayW"] / n * gp) if n else 0
-        T["luck"] = r2(T["w"] - T["expectedWins"])
-        T["luckX"] = (T["w"] - T["allPlayW"] / n * gp) if n else 0  # full precision, for ties
+        apw = T["allPlayW"] + 0.5 * T["allPlayT"]
+        T["expectedWins"] = r2(apw / n * gp) if n else 0
+        T["luck"] = r2((T["w"] + 0.5 * T["t"]) - T["expectedWins"])
+        T["luckX"] = ((T["w"] + 0.5 * T["t"]) - apw / n * gp) if n else 0  # full precision, ties count as half a win
 
     # ---- players: names + weekly league-scoring points from public kona stats
     kona = load(os.path.join(RAW, "espn_players", f"kona_{year}.json"), [])

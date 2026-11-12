@@ -53,8 +53,11 @@ def race(S):
     if not gs: return None
     weeks = sorted(set(g["week"] for g in gs))
     mgrs = [T["manager"] for T in S["teams"]]
-    w = collections.Counter(); l = collections.Counter(); pf = collections.Counter()
+    w = collections.Counter(); l = collections.Counter(); ti = collections.Counter(); pf = collections.Counter()
     series = {m: [] for m in mgrs}; ranks = {m: [] for m in mgrs}
+    def winpct(m):
+        g = w[m] + l[m] + ti[m]
+        return (w[m] + 0.5 * ti[m]) / g if g else 0
     for wk in weeks:
         wg = [g for g in gs if g["week"] == wk]
         scores = {}
@@ -62,13 +65,15 @@ def race(S):
             for a, b in (("home", "away"), ("away", "home")):
                 m = g[a]["manager"]; scores[m] = g[a]["score"]; pf[m] += g[a]["score"]
                 if g["winner"] == a: w[m] += 1
+                elif g["winner"] == "tie": ti[m] += 1
                 else: l[m] += 1
         if S.get("medianGame"):
             med = statistics.median(scores.values())
             for m, sc in scores.items():
                 if sc > med: w[m] += 1
-                else: l[m] += 1
-        order = sorted(mgrs, key=lambda m: (-w[m], -pf[m]))
+                elif sc < med: l[m] += 1
+                else: ti[m] += 1
+        order = sorted(mgrs, key=lambda m: (-winpct(m), -pf[m]))
         for i, m in enumerate(order):
             series[m].append(w[m] - l[m]); ranks[m].append(i + 1)
     n = len(weeks); start = min(3, n - 1)
@@ -96,9 +101,10 @@ def luck(S):
         for g in [g for g in gs if g["week"] == wk]:
             for a in ("home", "away"):
                 sc[g[a]["manager"]] = g[a]["score"]
-                r = rows.setdefault(g[a]["manager"], {"w": 0, "l": 0, "apW": 0, "apL": 0, "apT": 0, "gp": 0, "pf": 0.0})
+                r = rows.setdefault(g[a]["manager"], {"w": 0, "l": 0, "t": 0, "apW": 0, "apL": 0, "apT": 0, "gp": 0, "pf": 0.0})
                 r["gp"] += 1; r["pf"] += g[a]["score"]
                 if g["winner"] == a: r["w"] += 1
+                elif g["winner"] == "tie": r["t"] += 1
                 else: r["l"] += 1
         for m, s in sc.items():
             for o, t in sc.items():
@@ -110,8 +116,9 @@ def luck(S):
         ap = r["apW"] + r["apL"] + r["apT"]
         pct = (r["apW"] + .5 * r["apT"]) / ap if ap else 0
         exp = round(pct * r["gp"], 2)
-        out.append(dict(r, manager=m, apPct=round(pct, 3), expW=exp, luck=round(r["w"] - exp, 2), pf=round(r["pf"], 2),
-                        expX=pct * r["gp"], luckX=r["w"] - pct * r["gp"]))
+        actual = r["w"] + 0.5 * r.get("t", 0)
+        out.append(dict(r, manager=m, apPct=round(pct, 3), expW=exp, luck=round(actual - exp, 2), pf=round(r["pf"], 2),
+                        expX=pct * r["gp"], luckX=actual - pct * r["gp"]))
     out.sort(key=lambda r: -r["luckX"])
     return out
 

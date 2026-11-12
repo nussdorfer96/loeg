@@ -377,7 +377,7 @@ def season_awards(s):
         lk = max(s["teams"], key=lambda T: T.get("luckX", T["luck"]))
         A.append({"key": "unlucky", "holders": _holders([(T.get("luckX", T["luck"]), T["manager"], T["teamName"]) for T in [unl] + s["teams"]], unl.get("luckX", unl["luck"])), "title": "Unluckiest Manager", "icon": "🌧️", "manager": unl["manager"],
                   "headline": unl["teamName"], "value": unl["luck"], "unit": "wins vs expected",
-                  "detail": f"Went {unl['w']}-{unl['l']}{'-'+str(unl['t']) if unl['t'] else ''} but an all-play record of {unl['allPlayW']}-{unl['allPlayL']} says {fmt(unl['expectedWins'])} wins were deserved. {fmt(unl['pa'])} points against."})
+                  "detail": f"Went {wlt(unl['w'], unl['l'], unl['t'])} but an all-play record of {wlt(unl['allPlayW'], unl['allPlayL'], unl.get('allPlayT'))} says {fmt(unl['expectedWins'])} wins were deserved. {fmt(unl['pa'])} points against."})
         A.append({"key": "lucky", "holders": _holders([(T.get("luckX", T["luck"]), T["manager"], T["teamName"]) for T in [lk] + s["teams"]], lk.get("luckX", lk["luck"])), "title": "Luckiest Manager", "icon": "🍀", "manager": lk["manager"],
                   "headline": lk["teamName"], "value": lk["luck"], "unit": "wins vs expected",
                   "detail": f"Went {lk['w']}-{lk['l']}{'-'+str(lk['t']) if lk['t'] else ''} on an all-play pace of {fmt(lk['expectedWins'])} wins (+{fmt(lk['luck'])}). Only {fmt(lk['pa'])} points against."})
@@ -463,8 +463,8 @@ def build():
                    "madePlayoffs": bool(done and T.get("seed") and T["seed"] <= s["playoffTeams"]),
                    "champion": s.get("champion") == T["manager"], "runnerUp": s.get("runnerUp") == T["manager"],
                    "tookOverFrom": T.get("tookOverFrom"), "transactions": T.get("transactions", {}),
-                   "officialRecord": f"{T['officialW']}-{T['officialL']}" if "officialW" in T else None,
-                   "medianRecord": f"{T['medW']}-{T['medL']}" if "medW" in T else None}
+                   "officialRecord": wlt(T['officialW'], T['officialL'], T.get('officialT')) if "officialW" in T else None,
+                   "medianRecord": wlt(T['medW'], T['medL'], T.get('medT')) if "medW" in T else None}
             gp = row["w"] + row["l"] + row["t"]
             row["pct"] = round((row["w"] + 0.5 * row["t"]) / gp, 3) if gp else 0
             row["pctX"] = ((row["w"] + 0.5 * row["t"]) / gp) if gp else 0
@@ -905,10 +905,10 @@ def season_story(s, nb, awards, mvps, gs):
     y = s["year"]; teams = s["teams"]
     if s["platform"] == "Sleeper":
         lead = teams[0]
-        P.append(f"Year one of the dynasty era. Through {s['completedWeeks']} completed weeks, {lead['teamName']} ({nm(lead['manager'])}) sits on top at {lead['officialW']}-{lead['officialL']} "
+        P.append(f"Year one of the dynasty era. Through {s['completedWeeks']} completed weeks, {lead['teamName']} ({nm(lead['manager'])}) sits on top at {wlt(lead['officialW'], lead['officialL'], lead.get('officialT'))} "
                  f"(head-to-head plus the weekly vs-the-median game), with {fmt(lead['pf'])} points scored.")
         hot = max(teams, key=lambda T: T["pf"]); cold = min(teams, key=lambda T: T["pf"])
-        P.append(f"The scoring leader so far is {hot['teamName']} at {fmt(hot['pf'])}; {cold['teamName']} ({nm(cold['manager'])}) has the fewest points ({fmt(cold['pf'])}) and the {cold['officialW']}-{cold['officialL']} record to match. Long season, plenty of time.")
+        P.append(f"The scoring leader so far is {hot['teamName']} at {fmt(hot['pf'])}; {cold['teamName']} ({nm(cold['manager'])}) has the fewest points ({fmt(cold['pf'])}) and the {wlt(cold['officialW'], cold['officialL'], cold.get('officialT'))} record to match. Long season, plenty of time.")
         if nb.get("highest"):
             h = nb["highest"]; P.append(f"Biggest week so far: {h['w']['team']} hung {fmt(h['w']['score'])} on {h['l']['team']} in week {h['week']}.")
         tr = [t for t in s["transactions"] if t["type"] == "TRADE"]
@@ -1137,7 +1137,7 @@ def league_story(seasons, champions, profiles, records, years):
 
 
 def _rec(r):
-    return f"{r['w']}-{r['l']}" + (f"-{r['t']}" if r.get("t") else "")
+    return wlt(r['w'], r['l'], r.get('t'))
 
 
 def _playoff_games(s, mid):
@@ -1362,7 +1362,7 @@ def season_chapters(story):
         elif p.startswith("Bringing up the rear"): k = "The basement"
         elif p.startswith("Trade log") or "trade market" in p: k = "Trades"
         else: k = "Moments"
-        p = re.sub(r"(?<![\w.])(\d{1,3}(?:\.\d+)?-\d{1,3}(?:\.\d+)?)(?![\w.])", r"**\1**", p)
+        p = re.sub(r"(?<![\w.])(\d{1,3}(?:\.\d+)?-\d{1,3}(?:\.\d+)?(?:-\d{1,3})?)(?![\w.])", r"**\1**", p)
         ch.setdefault(k, []).append(p)
     out = []
     for k, v in ch.items():

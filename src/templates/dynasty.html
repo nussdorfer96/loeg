@@ -31,7 +31,7 @@
 {% endif %}
 <div class="grid g4">
 <div class="card"><div class="label">Format</div><div class="h"><b>{{ S.teams|length }} teams · PPR · superflex</b></div><div class="small muted">{{ S.rosterPositions|reject('equalto','BN')|join(', ') }} + {{ S.rosterPositions|select('equalto','BN')|list|length }} bench</div></div>
-<div class="card"><div class="label">Standings Leader</div><div class="h"><b>{{ S.teams[0].teamName }}</b></div><div class="small">{{ ml(S.teams[0].manager) }} · {{ S.teams[0].officialW }}-{{ S.teams[0].officialL }}</div></div>
+<div class="card"><div class="label">Standings Leader</div><div class="h"><b>{{ S.teams[0].teamName }}</b></div><div class="small">{{ ml(S.teams[0].manager) }} · {{ wlt(S.teams[0].officialW, S.teams[0].officialL, S.teams[0].officialT) }}</div></div>
 <div class="card"><div class="label">Playoffs</div><div class="small">{{ S.playoffTeams }} teams, starting week {{ S.settings.playoff_week_start }} · trade deadline week {{ S.settings.trade_deadline }}</div></div>
 <div class="card"><div class="label">Extras</div><div class="small">{{ S.settings.taxi_slots }} taxi · {{ S.settings.reserve_slots }} IR · {{ {0: 'rolling waivers', 1: 'reverse-standings waivers'}.get(S.settings.waiver_type, 'traditional waivers') }} (claims clear after {{ S.settings.waiver_clear_days or 2 }} days)<br>Weekly game vs. league median: {{ 'yes' if S.medianGame else 'no' }}</div></div>
 </div>
@@ -39,7 +39,7 @@
 
 <h2 id="standings">Standings</h2>
 <div class="tbl-wrap"><table class="sortable"><thead><tr><th class="num">#</th><th>Team</th><th>Manager</th><th>Sleeper user</th><th>Official</th><th>H2H</th><th>vs Median</th><th class="num">PF</th><th class="num">PA</th><th class="num">Max PF</th><th class="num">Moves</th><th class="num">Trades</th></tr></thead><tbody>
-{% for T in S.teams %}<tr><td class="num">{{ T.standing }}</td><td>{{ T.teamName }}</td><td>{{ ml(T.manager) }}{% if not T.managerConfirmed %} <span class="pill warn">unconfirmed</span>{% endif %}</td><td class="muted">{{ T.sleeperUser }}</td><td><b>{{ T.officialW }}-{{ T.officialL }}</b></td><td>{{ T.w }}-{{ T.l }}</td><td>{{ T.medW }}-{{ T.medL }}</td><td class="num">{{ f(T.pf) }}</td><td class="num">{{ f(T.pa) }}</td><td class="num">{{ f(T.maxPF) }}</td><td class="num">{{ T.transactions.acquisitions }}</td><td class="num">{{ T.transactions.trades }}</td></tr>{% endfor %}
+{% for T in S.teams %}<tr><td class="num">{{ T.standing }}</td><td>{{ T.teamName }}</td><td>{{ ml(T.manager) }}{% if not T.managerConfirmed %} <span class="pill warn">unconfirmed</span>{% endif %}</td><td class="muted">{{ T.sleeperUser }}</td><td><b>{{ wlt(T.officialW, T.officialL, T.officialT) }}</b></td><td>{{ wlt(T.w, T.l, T.t) }}</td><td>{{ wlt(T.medW, T.medL, T.medT) }}</td><td class="num">{{ f(T.pf) }}</td><td class="num">{{ f(T.pa) }}</td><td class="num">{{ f(T.maxPF) }}</td><td class="num">{{ T.transactions.acquisitions }}</td><td class="num">{{ T.transactions.trades }}</td></tr>{% endfor %}
 </tbody></table></div>
 <p class="muted small">Official record = head-to-head + the weekly game against the league median. Max PF = Sleeper's optimal-lineup points.</p>
 

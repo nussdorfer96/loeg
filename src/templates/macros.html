@@ -24,7 +24,7 @@
 {%- endmacro -%}
 {%- macro luck_table(rows, show_year=false, link=true, show_mgr=true) -%}
 <div class="tbl-wrap"><table class="sortable"><thead><tr>{% if show_year %}<th>Year</th>{% endif %}{% if show_mgr %}<th>Manager</th>{% endif %}<th class="num">Luck</th><th class="num">Actual</th><th class="num">Exp. W</th><th class="num">All-play</th></tr></thead><tbody>
-{% for r in rows %}<tr>{% if show_year %}<td><a href="{{ root }}seasons/{{ r.year }}.html#luck">{{ r.year }}</a></td>{% endif %}{% if show_mgr %}<td>{{ ml(r.manager) if link else mname(r.manager) }}</td>{% endif %}<td class="num {{ 'pos' if r.luck>0 else 'neg' if r.luck<0 }}"><b>{{ sgn(r.luck) }}</b></td><td class="num">{{ r.w }}-{{ r.l }}</td><td class="num">{{ f(r.expW) }}</td><td class="num">{{ r.apW }}-{{ r.apL }}{% if r.apT %}-{{ r.apT }}{% endif %} <span class="muted small">({{ "%.3f"|format(r.apPct) }})</span></td></tr>{% endfor %}</tbody></table></div>
+{% for r in rows %}<tr>{% if show_year %}<td><a href="{{ root }}seasons/{{ r.year }}.html#luck">{{ r.year }}</a></td>{% endif %}{% if show_mgr %}<td>{{ ml(r.manager) if link else mname(r.manager) }}</td>{% endif %}<td class="num {{ 'pos' if r.luck>0 else 'neg' if r.luck<0 }}"><b>{{ sgn(r.luck) }}</b></td><td class="num">{{ wlt(r.w, r.l, r.t) }}</td><td class="num">{{ f(r.expW) }}</td><td class="num">{{ wlt(r.apW, r.apL, r.apT) }} <span class="muted small">({{ "%.3f"|format(r.apPct) }})</span></td></tr>{% endfor %}</tbody></table></div>
 {%- endmacro -%}
 {%- macro trade_card(t, root='') -%}
 <div class="card trade" id="t-{{ t.id }}"><div class="label">{{ t.year }} · Week {{ t.week }}{% if t.winner %} · Winner: {{ mname(t.winner) }} (+{{ f(t.margin) }}){% else %} · Push{% endif %}</div>
@@ -43,7 +43,7 @@
 <li><b>Actual vs expected:</b> the wins you got against the schedule you drew.</li>
 <li><b>Luck (+/-):</b> actual minus expected. <span class="pos">+2</span> means the schedule handed you about two extra wins. <span class="neg">-2</span> means it stole about two. Near 0 means your record was fair.</li>
 </ul>
-<p class="small"><b>Real example:</b> in {{ ex.year }}, {{ mname(ex.manager) }} went <b>{{ ex.w }}-{{ ex.l }}</b>, but his all-play record was {{ ex.apW }}-{{ ex.apL }} ({{ "%.3f"|format(ex.apPct) }}). That's worth {{ f(ex.expW) }} wins over {{ ex.gp }} games, so he was <span class="pos">{{ sgn(ex.luck) }}</span> lucky. The flip side: {{ mname(ux.manager) }} in {{ ux.year }} went {{ ux.w }}-{{ ux.l }} with a {{ "%.3f"|format(ux.apPct) }} all-play, <span class="neg">{{ sgn(ux.luck) }}</span>.</p>
+<p class="small"><b>Real example:</b> in {{ ex.year }}, {{ mname(ex.manager) }} went <b>{{ wlt(ex.w, ex.l, ex.t) }}</b>, but his all-play record was {{ wlt(ex.apW, ex.apL, ex.apT) }} ({{ "%.3f"|format(ex.apPct) }}). That's worth {{ f(ex.expW) }} wins over {{ ex.gp }} games, so he was <span class="pos">{{ sgn(ex.luck) }}</span> lucky. The flip side: {{ mname(ux.manager) }} in {{ ux.year }} went {{ wlt(ux.w, ux.l, ux.t) }} with a {{ "%.3f"|format(ux.apPct) }} all-play, <span class="neg">{{ sgn(ux.luck) }}</span>.</p>
 </details>
 {%- endmacro -%}
 
