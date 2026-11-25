@@ -1,0 +1,5124 @@
+{
+ "meta": {
+  "league": "The League of Extraordinary Gentlemen",
+  "league_id": "1387967526775824384",
+  "season": "2026",
+  "week": 12,
+  "completed_weeks": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ],
+  "generated": "2026-11-25 08:07",
+  "settings": {
+   "lineup": [
+    "QB",
+    "RB",
+    "RB",
+    "WR",
+    "WR",
+    "TE",
+    "FLEX",
+    "SUPER_FLEX",
+    "K",
+    "DEF"
+   ],
+   "superflex": true,
+   "ppr": 1.0,
+   "teams": 10,
+   "median_game": true,
+   "waivers": "traditional/rolling",
+   "rookie_draft_rounds": 3,
+   "playoff_teams": 6,
+   "reg_season_end_week": 14
+  },
+  "weights": {
+   "overall": {
+    "win_now": 0.5,
+    "dynasty": 0.5
+   },
+   "win_now": {
+    "actual": 0.5,
+    "projected": 0.5
+   },
+   "actual_parts": {
+    "win_pct": 0.3333333333333333,
+    "pf": 0.3333333333333333,
+    "allplay": 0.3333333333333333
+   },
+   "projected_parts": {
+    "ros": 0.75,
+    "next": 0.25
+   }
+  },
+  "sources": {
+   "values": "FantasyCalc (superflex, 10 teams, PPR=1) https://api.fantasycalc.com/values/current?isDynasty=true&numQbs=2&numTeams=10&ppr=1",
+   "values_crosscheck": null,
+   "projections": "Sleeper weekly projections weeks 12-14, re-scored with league scoring_settings",
+   "pick_values": "FantasyCalc generic '<year> <round>' pick values"
+  },
+  "gaps": [],
+  "retro": false,
+  "retro_note": null
+ },
+ "teams": [
+  {
+   "rank": 1,
+   "prev_rank": 1,
+   "roster_id": 5,
+   "owner": "Jacob Maddox",
+   "team": "TheBelt-Less",
+   "display_name": "NoBeltNeeded",
+   "record": "18-3-1",
+   "w": 18,
+   "l": 3,
+   "ti": 1,
+   "pf": 1857.4499999999998,
+   "pa": 1566.0,
+   "max_pf": 2094.55,
+   "weekly": [
+    143.45,
+    153.35,
+    171.95,
+    147.9,
+    218.2,
+    158.65,
+    162.85,
+    169.6,
+    154.65,
+    207.6,
+    169.25
+   ],
+   "ap_w": 77,
+   "ap_l": 21,
+   "win_pct": 0.8409090909090909,
+   "allplay_pct": 0.7828282828282829,
+   "proj_next": 168.07,
+   "proj_ros": 472.29999999999995,
+   "proj_ros_ppg": 157.4333333333333,
+   "proj_lineup": [
+    [
+     "QB",
+     "C.J. Stroud",
+     22.7
+    ],
+    [
+     "RB",
+     "Jahmyr Gibbs",
+     26.1
+    ],
+    [
+     "RB",
+     "Bucky Irving",
+     20.7
+    ],
+    [
+     "WR",
+     "Malik Nabers",
+     16.4
+    ],
+    [
+     "WR",
+     "Garrett Wilson",
+     15.8
+    ],
+    [
+     "TE",
+     "Colston Loveland",
+     12.5
+    ],
+    [
+     "K",
+     "Spencer Shrader",
+     7.0
+    ],
+    [
+     "DEF",
+     "MIN",
+     8.8
+    ],
+    [
+     "FLEX",
+     "Bhayshul Tuten",
+     17.1
+    ],
+    [
+     "SUPER_FLEX",
+     "Dak Prescott",
+     21.0
+    ]
+   ],
+   "player_value": 62866,
+   "pick_value": 10207,
+   "dynasty_value": 73073,
+   "ktc_value": null,
+   "ktc_rank": null,
+   "value_age": 25.0,
+   "top_assets": [
+    [
+     "Jahmyr Gibbs",
+     "RB",
+     10608,
+     24.7
+    ],
+    [
+     "Malik Nabers",
+     "WR",
+     6292,
+     23.3
+    ],
+    [
+     "Matthew Golden",
+     "WR",
+     5045,
+     23.3
+    ],
+    [
+     "C.J. Stroud",
+     "QB",
+     4759,
+     25.1
+    ],
+    [
+     "Dak Prescott",
+     "QB",
+     4689,
+     33.3
+    ]
+   ],
+   "injuries": [],
+   "picks": [
+    {
+     "season": "2027",
+     "round": 1,
+     "from": 5,
+     "from_owner": "Jacob Maddox",
+     "value": 2836
+    },
+    {
+     "season": "2027",
+     "round": 2,
+     "from": 5,
+     "from_owner": "Jacob Maddox",
+     "value": 1613
+    },
+    {
+     "season": "2027",
+     "round": 3,
+     "from": 5,
+     "from_owner": "Jacob Maddox",
+     "value": 1101
+    },
+    {
+     "season": "2028",
+     "round": 1,
+     "from": 5,
+     "from_owner": "Jacob Maddox",
+     "value": 2239
+    },
+    {
+     "season": "2028",
+     "round": 2,
+     "from": 5,
+     "from_owner": "Jacob Maddox",
+     "value": 1401
+    },
+    {
+     "season": "2028",
+     "round": 3,
+     "from": 5,
+     "from_owner": "Jacob Maddox",
+     "value": 1017
+    }
+   ],
+   "moves": [
+    {
+     "week": 1,
+     "type": "trade",
+     "with": [
+      "Mike Hemstreet"
+     ],
+     "got": [
+      "Malik Willis"
+     ],
+     "gave": [
+      "DK Metcalf"
+     ]
+    },
+    {
+     "week": 5,
+     "type": "free_agent",
+     "add": [
+      "Tre Tucker"
+     ],
+     "add_skill": [
+      "Tre Tucker"
+     ],
+     "drop": [
+      "Shedeur Sanders"
+     ]
+    },
+    {
+     "week": 5,
+     "type": "commissioner",
+     "add": [
+      "Shedeur Sanders"
+     ],
+     "add_skill": [
+      "Shedeur Sanders"
+     ],
+     "drop": []
+    },
+    {
+     "week": 5,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Shedeur Sanders"
+     ]
+    },
+    {
+     "week": 5,
+     "type": "commissioner",
+     "add": [
+      "Shedeur Sanders"
+     ],
+     "add_skill": [
+      "Shedeur Sanders"
+     ],
+     "drop": []
+    },
+    {
+     "week": 5,
+     "type": "commissioner",
+     "add": [
+      "Brian Lewerke"
+     ],
+     "add_skill": [
+      "Brian Lewerke"
+     ],
+     "drop": []
+    },
+    {
+     "week": 5,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Shedeur Sanders"
+     ]
+    },
+    {
+     "week": 5,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Brian Lewerke"
+     ]
+    },
+    {
+     "week": 5,
+     "type": "commissioner",
+     "add": [
+      "Shedeur Sanders"
+     ],
+     "add_skill": [
+      "Shedeur Sanders"
+     ],
+     "drop": []
+    },
+    {
+     "week": 5,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Shedeur Sanders"
+     ]
+    },
+    {
+     "week": 5,
+     "type": "commissioner",
+     "add": [
+      "Shedeur Sanders"
+     ],
+     "add_skill": [
+      "Shedeur Sanders"
+     ],
+     "drop": []
+    },
+    {
+     "week": 5,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Shedeur Sanders"
+     ]
+    },
+    {
+     "week": 6,
+     "type": "commissioner",
+     "add": [
+      "Shedeur Sanders"
+     ],
+     "add_skill": [
+      "Shedeur Sanders"
+     ],
+     "drop": []
+    },
+    {
+     "week": 6,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Shedeur Sanders"
+     ]
+    },
+    {
+     "week": 6,
+     "type": "free_agent",
+     "add": [
+      "NO"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Isaac TeSlaa"
+     ]
+    },
+    {
+     "week": 7,
+     "type": "free_agent",
+     "add": [
+      "Jaylin Noel"
+     ],
+     "add_skill": [
+      "Jaylin Noel"
+     ],
+     "drop": [
+      "NO"
+     ]
+    },
+    {
+     "week": 7,
+     "type": "commissioner",
+     "add": [
+      "Shedeur Sanders"
+     ],
+     "add_skill": [
+      "Shedeur Sanders"
+     ],
+     "drop": []
+    },
+    {
+     "week": 7,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Shedeur Sanders"
+     ]
+    },
+    {
+     "week": 8,
+     "type": "waiver",
+     "add": [
+      "Jake Bates"
+     ],
+     "add_skill": [],
+     "drop": []
+    },
+    {
+     "week": 9,
+     "type": "waiver",
+     "add": [
+      "Spencer Shrader"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Jake Bates"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "waiver",
+     "add": [
+      "PIT"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Tyler Loop"
+     ]
+    }
+   ],
+   "missing_value": [],
+   "actual_z": 1.999,
+   "proj_z": 1.559,
+   "winnow_z": 1.779,
+   "dynasty_z": 1.17,
+   "overall_z": 1.475,
+   "seed": 1,
+   "manager_id": "jacob-maddox",
+   "winnow_rank": 1,
+   "dynasty_rank": 2,
+   "pf_rank": 1,
+   "proj_rank": 1,
+   "status": "Contender",
+   "blurb": "Top of both halves of the formula: Win-Now #1 and Dynasty #2. The 18-3-1 record comes with the #1 points total and a 77-21 all-play mark; the rest-of-season projection ranks #1, the best in the league. Jahmyr Gibbs, Malik Nabers and Matthew Golden lead the roster value; it's one of the two youngest cores in the league by value.",
+   "blurb_source": "auto"
+  },
+  {
+   "rank": 2,
+   "prev_rank": 2,
+   "roster_id": 1,
+   "owner": "Ryan Nussdorfer",
+   "team": "THE Dictator",
+   "display_name": "Nussy96",
+   "record": "10-12",
+   "w": 10,
+   "l": 12,
+   "ti": 0,
+   "pf": 1698.7,
+   "pa": 1622.8,
+   "max_pf": 1929.85,
+   "weekly": [
+    124.95,
+    173.25,
+    202.3,
+    144.9,
+    152.8,
+    125.7,
+    137.35,
+    194.75,
+    185.25,
+    122.8,
+    134.65
+   ],
+   "ap_w": 55,
+   "ap_l": 44,
+   "win_pct": 0.45454545454545453,
+   "allplay_pct": 0.5555555555555556,
+   "proj_next": 141.19,
+   "proj_ros": 417.21,
+   "proj_ros_ppg": 139.07,
+   "proj_lineup": [
+    [
+     "QB",
+     "Jordan Love",
+     17.5
+    ],
+    [
+     "RB",
+     "Kyren Williams",
+     15.2
+    ],
+    [
+     "RB",
+     "Derrick Henry",
+     13.8
+    ],
+    [
+     "WR",
+     "Ja'Marr Chase",
+     20.3
+    ],
+    [
+     "WR",
+     "Chris Olave",
+     16.2
+    ],
+    [
+     "TE",
+     "Brock Bowers",
+     16.4
+    ],
+    [
+     "K",
+     "Tyler Bass",
+     6.2
+    ],
+    [
+     "DEF",
+     "SF",
+     6.7
+    ],
+    [
+     "FLEX",
+     "Blake Corum",
+     11.6
+    ],
+    [
+     "SUPER_FLEX",
+     "Tyler Shough",
+     17.3
+    ]
+   ],
+   "player_value": 62361,
+   "pick_value": 11820,
+   "dynasty_value": 74181,
+   "ktc_value": null,
+   "ktc_rank": null,
+   "value_age": 25.9,
+   "top_assets": [
+    [
+     "Ja'Marr Chase",
+     "WR",
+     9217,
+     26.7
+    ],
+    [
+     "Brock Bowers",
+     "TE",
+     7273,
+     24.0
+    ],
+    [
+     "Jordan Love",
+     "QB",
+     5249,
+     28.1
+    ],
+    [
+     "Jeremiyah Love",
+     "RB",
+     4761,
+     21.5
+    ],
+    [
+     "Chris Olave",
+     "WR",
+     4287,
+     26.4
+    ]
+   ],
+   "injuries": [
+    [
+     "Jeremiyah Love",
+     "IR"
+    ],
+    [
+     "Davante Adams",
+     "IR"
+    ]
+   ],
+   "picks": [
+    {
+     "season": "2027",
+     "round": 1,
+     "from": 1,
+     "from_owner": "Ryan Nussdorfer",
+     "value": 2836
+    },
+    {
+     "season": "2027",
+     "round": 2,
+     "from": 1,
+     "from_owner": "Ryan Nussdorfer",
+     "value": 1613
+    },
+    {
+     "season": "2027",
+     "round": 2,
+     "from": 7,
+     "from_owner": "Taylor Alvarado",
+     "value": 1613
+    },
+    {
+     "season": "2027",
+     "round": 3,
+     "from": 1,
+     "from_owner": "Ryan Nussdorfer",
+     "value": 1101
+    },
+    {
+     "season": "2028",
+     "round": 1,
+     "from": 1,
+     "from_owner": "Ryan Nussdorfer",
+     "value": 2239
+    },
+    {
+     "season": "2028",
+     "round": 2,
+     "from": 1,
+     "from_owner": "Ryan Nussdorfer",
+     "value": 1401
+    },
+    {
+     "season": "2028",
+     "round": 3,
+     "from": 1,
+     "from_owner": "Ryan Nussdorfer",
+     "value": 1017
+    }
+   ],
+   "moves": [
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [
+      "Rachaad White"
+     ],
+     "add_skill": [
+      "Rachaad White"
+     ],
+     "drop": [
+      "Carson Beck"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "trade",
+     "with": [
+      "Drew Hartman"
+     ],
+     "got": [
+      "Marvin Harrison Jr.",
+      "Dylan Sampson"
+     ],
+     "gave": [
+      "Nicholas Singleton",
+      "Denzel Boston"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [
+      "Keenan Allen"
+     ],
+     "add_skill": [
+      "Keenan Allen"
+     ],
+     "drop": [
+      "T.J. Hockenson"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [
+      "Stefon Diggs"
+     ],
+     "add_skill": [
+      "Stefon Diggs"
+     ],
+     "drop": [
+      "Keenan Allen"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [
+      "Michael Mayer"
+     ],
+     "add_skill": [
+      "Michael Mayer"
+     ],
+     "drop": [
+      "Dylan Sampson"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [
+      "Terrance Ferguson"
+     ],
+     "add_skill": [
+      "Terrance Ferguson"
+     ],
+     "drop": [
+      "Michael Mayer"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [
+      "Juwan Johnson"
+     ],
+     "add_skill": [
+      "Juwan Johnson"
+     ],
+     "drop": [
+      "Terrance Ferguson"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "waiver",
+     "add": [
+      "Deebo Samuel Sr."
+     ],
+     "add_skill": [
+      "Deebo Samuel Sr."
+     ],
+     "drop": [
+      "MarShawn Lloyd"
+     ]
+    },
+    {
+     "week": 2,
+     "type": "waiver",
+     "add": [
+      "Drew Lock"
+     ],
+     "add_skill": [
+      "Drew Lock"
+     ],
+     "drop": [
+      "Jayden Reed"
+     ]
+    },
+    {
+     "week": 3,
+     "type": "free_agent",
+     "add": [
+      "Emanuel Wilson"
+     ],
+     "add_skill": [
+      "Emanuel Wilson"
+     ],
+     "drop": [
+      "Rachaad White"
+     ]
+    },
+    {
+     "week": 3,
+     "type": "free_agent",
+     "add": [
+      "Terrance Ferguson"
+     ],
+     "add_skill": [
+      "Terrance Ferguson"
+     ],
+     "drop": [
+      "Juwan Johnson"
+     ]
+    },
+    {
+     "week": 3,
+     "type": "waiver",
+     "add": [
+      "PIT"
+     ],
+     "add_skill": [],
+     "drop": [
+      "PHI"
+     ]
+    },
+    {
+     "week": 3,
+     "type": "waiver",
+     "add": [
+      "Chase McLaughlin"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Jason Myers"
+     ]
+    },
+    {
+     "week": 4,
+     "type": "free_agent",
+     "add": [
+      "Braelon Allen"
+     ],
+     "add_skill": [
+      "Braelon Allen"
+     ],
+     "drop": [
+      "Drew Lock"
+     ]
+    },
+    {
+     "week": 4,
+     "type": "free_agent",
+     "add": [
+      "Mike Gesicki"
+     ],
+     "add_skill": [
+      "Mike Gesicki"
+     ],
+     "drop": []
+    },
+    {
+     "week": 4,
+     "type": "waiver",
+     "add": [
+      "Ryan Fitzgerald"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Chase McLaughlin"
+     ]
+    },
+    {
+     "week": 5,
+     "type": "free_agent",
+     "add": [
+      "Ka'imi Fairbairn"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Ryan Fitzgerald"
+     ]
+    },
+    {
+     "week": 5,
+     "type": "free_agent",
+     "add": [
+      "Cam Ward"
+     ],
+     "add_skill": [
+      "Cam Ward"
+     ],
+     "drop": [
+      "Mike Gesicki"
+     ]
+    },
+    {
+     "week": 5,
+     "type": "waiver",
+     "add": [
+      "LAR"
+     ],
+     "add_skill": [],
+     "drop": [
+      "PIT"
+     ]
+    },
+    {
+     "week": 6,
+     "type": "free_agent",
+     "add": [
+      "Pat Freiermuth"
+     ],
+     "add_skill": [
+      "Pat Freiermuth"
+     ],
+     "drop": [
+      "Deebo Samuel Sr."
+     ]
+    },
+    {
+     "week": 6,
+     "type": "free_agent",
+     "add": [
+      "Darius Cooper"
+     ],
+     "add_skill": [
+      "Darius Cooper"
+     ],
+     "drop": [
+      "Stefon Diggs"
+     ]
+    },
+    {
+     "week": 6,
+     "type": "waiver",
+     "add": [
+      "Stefon Diggs"
+     ],
+     "add_skill": [
+      "Stefon Diggs"
+     ],
+     "drop": [
+      "Darius Cooper"
+     ]
+    },
+    {
+     "week": 7,
+     "type": "free_agent",
+     "add": [
+      "Tank Dell"
+     ],
+     "add_skill": [
+      "Tank Dell"
+     ],
+     "drop": [
+      "Stefon Diggs"
+     ]
+    },
+    {
+     "week": 7,
+     "type": "free_agent",
+     "add": [
+      "DAL"
+     ],
+     "add_skill": [],
+     "drop": [
+      "LAR"
+     ]
+    },
+    {
+     "week": 7,
+     "type": "waiver",
+     "add": [
+      "J.J. McCarthy"
+     ],
+     "add_skill": [
+      "J.J. McCarthy"
+     ],
+     "drop": [
+      "Tank Dell"
+     ]
+    },
+    {
+     "week": 8,
+     "type": "free_agent",
+     "add": [
+      "Ryan Flournoy"
+     ],
+     "add_skill": [
+      "Ryan Flournoy"
+     ],
+     "drop": [
+      "J.J. McCarthy"
+     ]
+    },
+    {
+     "week": 8,
+     "type": "free_agent",
+     "add": [
+      "Tyler Bass"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Cam Ward"
+     ]
+    },
+    {
+     "week": 8,
+     "type": "free_agent",
+     "add": [
+      "WAS"
+     ],
+     "add_skill": [],
+     "drop": []
+    },
+    {
+     "week": 8,
+     "type": "waiver",
+     "add": [
+      "Spencer Shrader"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Ka'imi Fairbairn"
+     ]
+    },
+    {
+     "week": 8,
+     "type": "waiver",
+     "add": [
+      "Hunter Henry"
+     ],
+     "add_skill": [
+      "Hunter Henry"
+     ],
+     "drop": [
+      "Spencer Shrader"
+     ]
+    },
+    {
+     "week": 8,
+     "type": "waiver",
+     "add": [
+      "Adonai Mitchell"
+     ],
+     "add_skill": [
+      "Adonai Mitchell"
+     ],
+     "drop": [
+      "Ryan Flournoy"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "free_agent",
+     "add": [
+      "Cam Ward"
+     ],
+     "add_skill": [
+      "Cam Ward"
+     ],
+     "drop": [
+      "WAS"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "free_agent",
+     "add": [
+      "SF"
+     ],
+     "add_skill": [],
+     "drop": [
+      "DAL"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "trade",
+     "with": [
+      "Drew Hartman",
+      "Taylor Alvarado"
+     ],
+     "got": [
+      "Derrick Henry",
+      "2027 R2 (Taylor's)"
+     ],
+     "gave": [
+      "Adonai Mitchell"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "free_agent",
+     "add": [
+      "Brandon Aiyuk"
+     ],
+     "add_skill": [
+      "Brandon Aiyuk"
+     ],
+     "drop": [
+      "Pat Freiermuth"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "free_agent",
+     "add": [
+      "Drew Lock"
+     ],
+     "add_skill": [
+      "Drew Lock"
+     ],
+     "drop": [
+      "Cam Ward"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "free_agent",
+     "add": [
+      "Chris Rodriguez Jr."
+     ],
+     "add_skill": [
+      "Chris Rodriguez Jr."
+     ],
+     "drop": [
+      "Emanuel Wilson"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "waiver",
+     "add": [
+      "TreVeyon Henderson"
+     ],
+     "add_skill": [
+      "TreVeyon Henderson"
+     ],
+     "drop": [
+      "Brandon Aiyuk"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "free_agent",
+     "add": [
+      "Devin Singletary"
+     ],
+     "add_skill": [
+      "Devin Singletary"
+     ],
+     "drop": [
+      "Hunter Henry"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "waiver",
+     "add": [
+      "Ryan Flournoy"
+     ],
+     "add_skill": [
+      "Ryan Flournoy"
+     ],
+     "drop": [
+      "Drew Lock"
+     ]
+    },
+    {
+     "week": 11,
+     "type": "free_agent",
+     "add": [
+      "Chig Okonkwo"
+     ],
+     "add_skill": [
+      "Chig Okonkwo"
+     ],
+     "drop": [
+      "Devin Singletary"
+     ]
+    },
+    {
+     "week": 11,
+     "type": "free_agent",
+     "add": [
+      "Justice Hill"
+     ],
+     "add_skill": [
+      "Justice Hill"
+     ],
+     "drop": [
+      "Chig Okonkwo"
+     ]
+    },
+    {
+     "week": 11,
+     "type": "free_agent",
+     "add": [
+      "Evan Engram"
+     ],
+     "add_skill": [
+      "Evan Engram"
+     ],
+     "drop": [
+      "Chris Rodriguez Jr."
+     ]
+    }
+   ],
+   "missing_value": [],
+   "actual_z": 0.302,
+   "proj_z": -0.264,
+   "winnow_z": 0.019,
+   "dynasty_z": 1.308,
+   "overall_z": 0.663,
+   "seed": 7,
+   "manager_id": "ryan-nussdorfer",
+   "winnow_rank": 5,
+   "dynasty_rank": 1,
+   "pf_rank": 2,
+   "proj_rank": 6,
+   "status": "Middle",
+   "blurb": "The roster carries this ranking: Dynasty #1, built on Ja'Marr Chase, Brock Bowers and Jordan Love, outweighs a Win-Now rank of only #5. The 10-12 record comes with the #2 points total and a 55-44 all-play mark, so the record undersells the team; the rest-of-season projection ranks #6. Jeremiyah Love and Davante Adams are out or on IR, which drags the projection.",
+   "blurb_source": "auto"
+  },
+  {
+   "rank": 3,
+   "prev_rank": 4,
+   "roster_id": 10,
+   "owner": "Brian Mulvihill",
+   "team": "Wubba Lubba Dub Ws",
+   "display_name": "SukmyDitkasbro",
+   "record": "14-8",
+   "w": 14,
+   "l": 8,
+   "ti": 0,
+   "pf": 1535.6999999999998,
+   "pa": 1387.25,
+   "max_pf": 1806.9,
+   "weekly": [
+    147.7,
+    165.85,
+    154.4,
+    138.8,
+    137.75,
+    158.2,
+    145.55,
+    119.45,
+    143.85,
+    131.3,
+    92.85
+   ],
+   "ap_w": 43,
+   "ap_l": 56,
+   "win_pct": 0.6363636363636364,
+   "allplay_pct": 0.43434343434343436,
+   "proj_next": 149.54,
+   "proj_ros": 469.31000000000006,
+   "proj_ros_ppg": 156.4366666666667,
+   "proj_lineup": [
+    [
+     "QB",
+     "Caleb Williams",
+     21.6
+    ],
+    [
+     "RB",
+     "Kenneth Walker III",
+     17.3
+    ],
+    [
+     "RB",
+     "Jaylen Warren",
+     13.6
+    ],
+    [
+     "WR",
+     "Jaxon Smith-Njigba",
+     24.5
+    ],
+    [
+     "WR",
+     "Drake London",
+     14.7
+    ],
+    [
+     "TE",
+     "Sam LaPorta",
+     13.0
+    ],
+    [
+     "K",
+     "Cairo Santos",
+     6.7
+    ],
+    [
+     "DEF",
+     "DEN",
+     8.2
+    ],
+    [
+     "FLEX",
+     "Quinshon Judkins",
+     12.9
+    ],
+    [
+     "SUPER_FLEX",
+     "Deshaun Watson",
+     17.1
+    ]
+   ],
+   "player_value": 57701,
+   "pick_value": 11608,
+   "dynasty_value": 69309,
+   "ktc_value": null,
+   "ktc_rank": null,
+   "value_age": 25.6,
+   "top_assets": [
+    [
+     "Jaxon Smith-Njigba",
+     "WR",
+     10601,
+     24.8
+    ],
+    [
+     "Caleb Williams",
+     "QB",
+     7149,
+     25.0
+    ],
+    [
+     "Kenneth Walker III",
+     "RB",
+     6346,
+     26.1
+    ],
+    [
+     "Drake London",
+     "WR",
+     4862,
+     25.3
+    ],
+    [
+     "Bryce Young",
+     "QB",
+     3495,
+     25.3
+    ]
+   ],
+   "injuries": [],
+   "picks": [
+    {
+     "season": "2027",
+     "round": 1,
+     "from": 10,
+     "from_owner": "Brian Mulvihill",
+     "value": 2836
+    },
+    {
+     "season": "2027",
+     "round": 2,
+     "from": 10,
+     "from_owner": "Brian Mulvihill",
+     "value": 1613
+    },
+    {
+     "season": "2027",
+     "round": 3,
+     "from": 10,
+     "from_owner": "Brian Mulvihill",
+     "value": 1101
+    },
+    {
+     "season": "2028",
+     "round": 1,
+     "from": 10,
+     "from_owner": "Brian Mulvihill",
+     "value": 2239
+    },
+    {
+     "season": "2028",
+     "round": 2,
+     "from": 3,
+     "from_owner": "Drew Hartman",
+     "value": 1401
+    },
+    {
+     "season": "2028",
+     "round": 2,
+     "from": 10,
+     "from_owner": "Brian Mulvihill",
+     "value": 1401
+    },
+    {
+     "season": "2028",
+     "round": 3,
+     "from": 10,
+     "from_owner": "Brian Mulvihill",
+     "value": 1017
+    }
+   ],
+   "moves": [
+    {
+     "week": 1,
+     "type": "trade",
+     "with": [
+      "Drew Hartman"
+     ],
+     "got": [
+      "Zavion Thomas"
+     ],
+     "gave": [
+      "Tony Pollard",
+      "Rashid Shaheed"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "trade",
+     "with": [
+      "Drew Hartman"
+     ],
+     "got": [
+      "Terry McLaurin"
+     ],
+     "gave": [
+      "2027 R2 (Brian's)"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Cairo Santos"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [
+      "Spencer Shrader"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Tyrone Tracy Jr."
+     ]
+    },
+    {
+     "week": 1,
+     "type": "waiver",
+     "add": [
+      "Cairo Santos"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Spencer Shrader"
+     ]
+    },
+    {
+     "week": 3,
+     "type": "waiver",
+     "add": [
+      "Deshaun Watson"
+     ],
+     "add_skill": [
+      "Deshaun Watson"
+     ],
+     "drop": [
+      "Baker Mayfield"
+     ]
+    },
+    {
+     "week": 4,
+     "type": "waiver",
+     "add": [
+      "Brian Robinson Jr."
+     ],
+     "add_skill": [
+      "Brian Robinson Jr."
+     ],
+     "drop": []
+    },
+    {
+     "week": 6,
+     "type": "free_agent",
+     "add": [
+      "Rachaad White"
+     ],
+     "add_skill": [
+      "Rachaad White"
+     ],
+     "drop": []
+    },
+    {
+     "week": 6,
+     "type": "waiver",
+     "add": [
+      "Michael Mayer"
+     ],
+     "add_skill": [
+      "Michael Mayer"
+     ],
+     "drop": [
+      "Mark Andrews"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Tank Bigsby"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "waiver",
+     "add": [
+      "GB"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Michael Mayer"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "waiver",
+     "add": [
+      "Jake Bates"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Brian Robinson Jr."
+     ]
+    },
+    {
+     "week": 10,
+     "type": "free_agent",
+     "add": [
+      "Carson Beck"
+     ],
+     "add_skill": [
+      "Carson Beck"
+     ],
+     "drop": []
+    },
+    {
+     "week": 10,
+     "type": "free_agent",
+     "add": [
+      "Darren Waller"
+     ],
+     "add_skill": [
+      "Darren Waller"
+     ],
+     "drop": []
+    },
+    {
+     "week": 10,
+     "type": "waiver",
+     "add": [
+      "Deebo Samuel Sr."
+     ],
+     "add_skill": [
+      "Deebo Samuel Sr."
+     ],
+     "drop": [
+      "GB"
+     ]
+    },
+    {
+     "week": 10,
+     "type": "waiver",
+     "add": [
+      "Xavier Hutchinson"
+     ],
+     "add_skill": [
+      "Xavier Hutchinson"
+     ],
+     "drop": [
+      "Jake Bates"
+     ]
+    },
+    {
+     "week": 11,
+     "type": "trade",
+     "with": [
+      "Drew Hartman"
+     ],
+     "got": [
+      "Sam LaPorta",
+      "2027 R2 (Brian's)",
+      "2028 R2 (Drew's)"
+     ],
+     "gave": [
+      "Rome Odunze"
+     ]
+    },
+    {
+     "week": 11,
+     "type": "free_agent",
+     "add": [
+      "Kenny Gainwell"
+     ],
+     "add_skill": [
+      "Kenny Gainwell"
+     ],
+     "drop": [
+      "Darren Waller"
+     ]
+    },
+    {
+     "week": 11,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Rachaad White"
+     ]
+    }
+   ],
+   "missing_value": [],
+   "actual_z": -0.064,
+   "proj_z": 1.114,
+   "winnow_z": 0.525,
+   "dynasty_z": 0.703,
+   "overall_z": 0.614,
+   "seed": 2,
+   "manager_id": "brian-mulvihill",
+   "winnow_rank": 3,
+   "dynasty_rank": 4,
+   "pf_rank": 8,
+   "proj_rank": 2,
+   "status": "Contender",
+   "blurb": "Win-Now #3 and Dynasty #4 land this team right about here. The 14-8 record comes with the #8 points total and a 43-56 all-play mark, so the record flatters it; the rest-of-season projection ranks #2. Jaxon Smith-Njigba, Caleb Williams and Kenneth Walker III lead the roster value. The Week 11 trade for Sam LaPorta, 2027 R2 (Brian's) and 2028 R2 (Drew's) is already priced in.",
+   "blurb_source": "auto"
+  },
+  {
+   "rank": 4,
+   "prev_rank": 3,
+   "roster_id": 9,
+   "owner": "Bradley Kochheiser",
+   "team": "The Implication",
+   "display_name": "BJK96",
+   "record": "11-10-1",
+   "w": 11,
+   "l": 10,
+   "ti": 1,
+   "pf": 1682.25,
+   "pa": 1805.2,
+   "max_pf": 1842.85,
+   "weekly": [
+    153.1,
+    185.95,
+    117.9,
+    147.9,
+    147.5,
+    139.05,
+    127.35,
+    130.8,
+    140.9,
+    213.1,
+    178.7
+   ],
+   "ap_w": 58,
+   "ap_l": 40,
+   "win_pct": 0.5227272727272727,
+   "allplay_pct": 0.5909090909090909,
+   "proj_next": 137.93,
+   "proj_ros": 398.21000000000004,
+   "proj_ros_ppg": 132.73666666666668,
+   "proj_lineup": [
+    [
+     "QB",
+     "Josh Allen",
+     20.2
+    ],
+    [
+     "RB",
+     "Breece Hall",
+     12.3
+    ],
+    [
+     "RB",
+     "Dylan Sampson",
+     9.3
+    ],
+    [
+     "WR",
+     "CeeDee Lamb",
+     20.2
+    ],
+    [
+     "WR",
+     "Parker Washington",
+     16.7
+    ],
+    [
+     "TE",
+     "Trey McBride",
+     16.1
+    ],
+    [
+     "K",
+     "Will Reichard",
+     7.2
+    ],
+    [
+     "DEF",
+     "TB",
+     7.8
+    ],
+    [
+     "FLEX",
+     "Jaylen Waddle",
+     10.9
+    ],
+    [
+     "SUPER_FLEX",
+     "Patrick Mahomes",
+     17.2
+    ]
+   ],
+   "player_value": 59374,
+   "pick_value": 10207,
+   "dynasty_value": 69581,
+   "ktc_value": null,
+   "ktc_rank": null,
+   "value_age": 26.8,
+   "top_assets": [
+    [
+     "Josh Allen",
+     "QB",
+     10026,
+     30.5
+    ],
+    [
+     "CeeDee Lamb",
+     "WR",
+     6976,
+     27.6
+    ],
+    [
+     "Trey McBride",
+     "TE",
+     6263,
+     27.0
+    ],
+    [
+     "Patrick Mahomes",
+     "QB",
+     5821,
+     31.2
+    ],
+    [
+     "Parker Washington",
+     "WR",
+     4395,
+     24.7
+    ]
+   ],
+   "injuries": [],
+   "picks": [
+    {
+     "season": "2027",
+     "round": 1,
+     "from": 9,
+     "from_owner": "Bradley Kochheiser",
+     "value": 2836
+    },
+    {
+     "season": "2027",
+     "round": 2,
+     "from": 9,
+     "from_owner": "Bradley Kochheiser",
+     "value": 1613
+    },
+    {
+     "season": "2027",
+     "round": 3,
+     "from": 9,
+     "from_owner": "Bradley Kochheiser",
+     "value": 1101
+    },
+    {
+     "season": "2028",
+     "round": 1,
+     "from": 9,
+     "from_owner": "Bradley Kochheiser",
+     "value": 2239
+    },
+    {
+     "season": "2028",
+     "round": 2,
+     "from": 9,
+     "from_owner": "Bradley Kochheiser",
+     "value": 1401
+    },
+    {
+     "season": "2028",
+     "round": 3,
+     "from": 9,
+     "from_owner": "Bradley Kochheiser",
+     "value": 1017
+    }
+   ],
+   "moves": [
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [
+      "LAC"
+     ],
+     "add_skill": [],
+     "drop": []
+    },
+    {
+     "week": 2,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Elijah Sarratt"
+     ]
+    },
+    {
+     "week": 2,
+     "type": "waiver",
+     "add": [
+      "NO"
+     ],
+     "add_skill": [],
+     "drop": [
+      "LAC"
+     ]
+    },
+    {
+     "week": 2,
+     "type": "waiver",
+     "add": [
+      "Devaughn Vele"
+     ],
+     "add_skill": [
+      "Devaughn Vele"
+     ],
+     "drop": []
+    },
+    {
+     "week": 3,
+     "type": "waiver",
+     "add": [
+      "Alvin Kamara"
+     ],
+     "add_skill": [
+      "Alvin Kamara"
+     ],
+     "drop": [
+      "Khalil Shakir"
+     ]
+    },
+    {
+     "week": 4,
+     "type": "waiver",
+     "add": [
+      "Jacoby Brissett"
+     ],
+     "add_skill": [
+      "Jacoby Brissett"
+     ],
+     "drop": [
+      "Adam Randall"
+     ]
+    },
+    {
+     "week": 4,
+     "type": "waiver",
+     "add": [
+      "CIN"
+     ],
+     "add_skill": [],
+     "drop": [
+      "NO"
+     ]
+    },
+    {
+     "week": 4,
+     "type": "waiver",
+     "add": [
+      "Jake Bates"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Chris Boswell"
+     ]
+    },
+    {
+     "week": 5,
+     "type": "waiver",
+     "add": [
+      "Nick Folk"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Jake Bates"
+     ]
+    },
+    {
+     "week": 5,
+     "type": "waiver",
+     "add": [
+      "Dameon Pierce"
+     ],
+     "add_skill": [
+      "Dameon Pierce"
+     ],
+     "drop": [
+      "Jacoby Brissett"
+     ]
+    },
+    {
+     "week": 6,
+     "type": "free_agent",
+     "add": [
+      "KC"
+     ],
+     "add_skill": [],
+     "drop": [
+      "CIN"
+     ]
+    },
+    {
+     "week": 6,
+     "type": "waiver",
+     "add": [
+      "Will Reichard"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Nick Folk"
+     ]
+    },
+    {
+     "week": 8,
+     "type": "free_agent",
+     "add": [
+      "Dylan Sampson"
+     ],
+     "add_skill": [
+      "Dylan Sampson"
+     ],
+     "drop": [
+      "Dameon Pierce"
+     ]
+    },
+    {
+     "week": 8,
+     "type": "free_agent",
+     "add": [
+      "Samaje Perine"
+     ],
+     "add_skill": [
+      "Samaje Perine"
+     ],
+     "drop": []
+    },
+    {
+     "week": 9,
+     "type": "free_agent",
+     "add": [
+      "Kendre Miller"
+     ],
+     "add_skill": [
+      "Kendre Miller"
+     ],
+     "drop": [
+      "Samaje Perine"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "waiver",
+     "add": [
+      "Audric Estime"
+     ],
+     "add_skill": [
+      "Audric Estime"
+     ],
+     "drop": [
+      "Kendre Miller"
+     ]
+    },
+    {
+     "week": 10,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Alvin Kamara"
+     ]
+    },
+    {
+     "week": 11,
+     "type": "waiver",
+     "add": [
+      "TB"
+     ],
+     "add_skill": [],
+     "drop": [
+      "KC"
+     ]
+    },
+    {
+     "week": 11,
+     "type": "waiver",
+     "add": [
+      "Chris Rodriguez Jr."
+     ],
+     "add_skill": [
+      "Chris Rodriguez Jr."
+     ],
+     "drop": [
+      "Audric Estime"
+     ]
+    }
+   ],
+   "missing_value": [],
+   "actual_z": 0.474,
+   "proj_z": -0.77,
+   "winnow_z": -0.148,
+   "dynasty_z": 0.737,
+   "overall_z": 0.294,
+   "seed": 5,
+   "manager_id": "bradley-kochheiser",
+   "winnow_rank": 6,
+   "dynasty_rank": 3,
+   "pf_rank": 3,
+   "proj_rank": 9,
+   "status": "Middle",
+   "blurb": "The roster carries this ranking: Dynasty #3, built on Josh Allen, CeeDee Lamb and Trey McBride, outweighs a Win-Now rank of only #6. The 11-10-1 record comes with the #3 points total and a 58-40 all-play mark, so the record undersells the team; the rest-of-season projection ranks #9, near the bottom.",
+   "blurb_source": "auto"
+  },
+  {
+   "rank": 5,
+   "prev_rank": 6,
+   "roster_id": 2,
+   "owner": "Nicholas Kasik",
+   "team": "Bed, Bath, and Bijan",
+   "display_name": "BaldyBy22",
+   "record": "13-9",
+   "w": 13,
+   "l": 9,
+   "ti": 0,
+   "pf": 1646.7999999999997,
+   "pa": 1452.8999999999999,
+   "max_pf": 1833.95,
+   "weekly": [
+    177.65,
+    85.55,
+    145.9,
+    214.75,
+    141.75,
+    90.05,
+    159.15,
+    131.95,
+    186.6,
+    162.85,
+    150.6
+   ],
+   "ap_w": 54,
+   "ap_l": 45,
+   "win_pct": 0.5909090909090909,
+   "allplay_pct": 0.5454545454545454,
+   "proj_next": 163.73000000000002,
+   "proj_ros": 460.38,
+   "proj_ros_ppg": 153.46,
+   "proj_lineup": [
+    [
+     "QB",
+     "Joe Burrow",
+     25.0
+    ],
+    [
+     "RB",
+     "Javonte Williams",
+     18.2
+    ],
+    [
+     "RB",
+     "Bijan Robinson",
+     18.1
+    ],
+    [
+     "WR",
+     "Nico Collins",
+     17.8
+    ],
+    [
+     "WR",
+     "Zay Flowers",
+     16.7
+    ],
+    [
+     "TE",
+     "Tyler Warren",
+     10.4
+    ],
+    [
+     "K",
+     "Dominic Zvada",
+     7.5
+    ],
+    [
+     "DEF",
+     "NYJ",
+     10.0
+    ],
+    [
+     "FLEX",
+     "Christian Watson",
+     16.1
+    ],
+    [
+     "SUPER_FLEX",
+     "Trevor Lawrence",
+     24.0
+    ]
+   ],
+   "player_value": 54708,
+   "pick_value": 4031,
+   "dynasty_value": 58739,
+   "ktc_value": null,
+   "ktc_rank": null,
+   "value_age": 27.1,
+   "top_assets": [
+    [
+     "Bijan Robinson",
+     "RB",
+     9104,
+     24.8
+    ],
+    [
+     "Joe Burrow",
+     "QB",
+     7986,
+     30.0
+    ],
+    [
+     "Trevor Lawrence",
+     "QB",
+     5922,
+     27.1
+    ],
+    [
+     "Christian Watson",
+     "WR",
+     4308,
+     27.5
+    ],
+    [
+     "Zay Flowers",
+     "WR",
+     4232,
+     26.2
+    ]
+   ],
+   "injuries": [
+    [
+     "Michael Pittman Jr.",
+     "IR"
+    ]
+   ],
+   "picks": [
+    {
+     "season": "2027",
+     "round": 2,
+     "from": 2,
+     "from_owner": "Nicholas Kasik",
+     "value": 1613
+    },
+    {
+     "season": "2028",
+     "round": 2,
+     "from": 2,
+     "from_owner": "Nicholas Kasik",
+     "value": 1401
+    },
+    {
+     "season": "2028",
+     "round": 3,
+     "from": 2,
+     "from_owner": "Nicholas Kasik",
+     "value": 1017
+    }
+   ],
+   "moves": [
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Jalen Nailor"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Alec Pierce"
+     ]
+    },
+    {
+     "week": 2,
+     "type": "waiver",
+     "add": [
+      "Aaron Jones Sr."
+     ],
+     "add_skill": [
+      "Aaron Jones Sr."
+     ],
+     "drop": [
+      "Kenny Gainwell"
+     ]
+    },
+    {
+     "week": 3,
+     "type": "waiver",
+     "add": [
+      "Matt Gay"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Jake Bates"
+     ]
+    },
+    {
+     "week": 4,
+     "type": "waiver",
+     "add": [
+      "JAX"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Quentin Johnston"
+     ]
+    },
+    {
+     "week": 5,
+     "type": "waiver",
+     "add": [
+      "MarShawn Lloyd"
+     ],
+     "add_skill": [
+      "MarShawn Lloyd"
+     ],
+     "drop": [
+      "AJ Barner"
+     ]
+    },
+    {
+     "week": 6,
+     "type": "waiver",
+     "add": [
+      "Tanner McKee"
+     ],
+     "add_skill": [
+      "Tanner McKee"
+     ],
+     "drop": []
+    },
+    {
+     "week": 7,
+     "type": "free_agent",
+     "add": [
+      "NYJ"
+     ],
+     "add_skill": [],
+     "drop": [
+      "JAX"
+     ]
+    },
+    {
+     "week": 6,
+     "type": "trade",
+     "with": [
+      "Nick Cardillo"
+     ],
+     "got": [
+      "Trevor Lawrence"
+     ],
+     "gave": [
+      "Justin Herbert",
+      "2027 R1 (Nicholas's)",
+      "2028 R1 (Nicholas's)"
+     ]
+    },
+    {
+     "week": 7,
+     "type": "waiver",
+     "add": [
+      "Mark Andrews"
+     ],
+     "add_skill": [
+      "Mark Andrews"
+     ],
+     "drop": [
+      "Jake Ferguson"
+     ]
+    },
+    {
+     "week": 7,
+     "type": "trade",
+     "with": [
+      "Taylor Alvarado"
+     ],
+     "got": [
+      "Christian Watson"
+     ],
+     "gave": [
+      "Jameson Williams",
+      "2027 R3 (Nicholas's)"
+     ]
+    },
+    {
+     "week": 8,
+     "type": "free_agent",
+     "add": [
+      "LAR"
+     ],
+     "add_skill": [],
+     "drop": [
+      "NYJ"
+     ]
+    },
+    {
+     "week": 8,
+     "type": "free_agent",
+     "add": [
+      "Jacoby Brissett"
+     ],
+     "add_skill": [
+      "Jacoby Brissett"
+     ],
+     "drop": [
+      "Daniel Jones"
+     ]
+    },
+    {
+     "week": 8,
+     "type": "free_agent",
+     "add": [
+      "Chris Godwin Jr."
+     ],
+     "add_skill": [
+      "Chris Godwin Jr."
+     ],
+     "drop": [
+      "Tanner McKee"
+     ]
+    },
+    {
+     "week": 8,
+     "type": "waiver",
+     "add": [
+      "J.J. McCarthy"
+     ],
+     "add_skill": [
+      "J.J. McCarthy"
+     ],
+     "drop": [
+      "Jacoby Brissett"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "waiver",
+     "add": [
+      "Mike Gesicki"
+     ],
+     "add_skill": [
+      "Mike Gesicki"
+     ],
+     "drop": [
+      "Mark Andrews"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "waiver",
+     "add": [
+      "Eddy Pineiro"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Matt Gay"
+     ]
+    },
+    {
+     "week": 10,
+     "type": "waiver",
+     "add": [
+      "CHI"
+     ],
+     "add_skill": [],
+     "drop": [
+      "LAR"
+     ]
+    },
+    {
+     "week": 10,
+     "type": "waiver",
+     "add": [
+      "Tyjae Spears"
+     ],
+     "add_skill": [
+      "Tyjae Spears"
+     ],
+     "drop": [
+      "MarShawn Lloyd"
+     ]
+    },
+    {
+     "week": 11,
+     "type": "waiver",
+     "add": [
+      "Dominic Zvada"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Eddy Pineiro"
+     ]
+    },
+    {
+     "week": 11,
+     "type": "waiver",
+     "add": [
+      "NYG"
+     ],
+     "add_skill": [],
+     "drop": [
+      "CHI"
+     ]
+    },
+    {
+     "week": 12,
+     "type": "free_agent",
+     "add": [
+      "NYJ"
+     ],
+     "add_skill": [],
+     "drop": []
+    },
+    {
+     "week": 12,
+     "type": "free_agent",
+     "add": [
+      "Samaje Perine"
+     ],
+     "add_skill": [
+      "Samaje Perine"
+     ],
+     "drop": [
+      "NYG"
+     ]
+    }
+   ],
+   "missing_value": [],
+   "actual_z": 0.404,
+   "proj_z": 1.194,
+   "winnow_z": 0.799,
+   "dynasty_z": -0.608,
+   "overall_z": 0.096,
+   "seed": 3,
+   "manager_id": "nicholas-kasik",
+   "winnow_rank": 2,
+   "dynasty_rank": 8,
+   "pf_rank": 4,
+   "proj_rank": 3,
+   "status": "Contender",
+   "blurb": "This is a win-now ranking: Win-Now #2 is propping up a Dynasty value that ranks only #8. The 13-9 record comes with the #4 points total and a 54-45 all-play mark; the rest-of-season projection ranks #3. Bijan Robinson, Joe Burrow and Trevor Lawrence lead the roster value; only 3 future picks left after trading some away holds down the dynasty side. Michael Pittman Jr. is out or on IR, which drags the projection.",
+   "blurb_source": "auto"
+  },
+  {
+   "rank": 6,
+   "prev_rank": 5,
+   "roster_id": 4,
+   "owner": "Kyle Llano",
+   "team": "Gronk Nation",
+   "display_name": "GronkNation4Life",
+   "record": "10-12",
+   "w": 10,
+   "l": 12,
+   "ti": 0,
+   "pf": 1573.55,
+   "pa": 1633.0,
+   "max_pf": 1868.65,
+   "weekly": [
+    128.4,
+    182.1,
+    146.7,
+    147.95,
+    129.6,
+    135.3,
+    166.45,
+    153.45,
+    109.8,
+    138.85,
+    134.95
+   ],
+   "ap_w": 51,
+   "ap_l": 48,
+   "win_pct": 0.45454545454545453,
+   "allplay_pct": 0.5151515151515151,
+   "proj_next": 146.78,
+   "proj_ros": 438.0400000000001,
+   "proj_ros_ppg": 146.01333333333335,
+   "proj_lineup": [
+    [
+     "QB",
+     "Jared Goff",
+     20.9
+    ],
+    [
+     "RB",
+     "Jonathan Taylor",
+     15.4
+    ],
+    [
+     "RB",
+     "D'Andre Swift",
+     15.0
+    ],
+    [
+     "WR",
+     "Amon-Ra St. Brown",
+     21.2
+    ],
+    [
+     "WR",
+     "Tee Higgins",
+     17.4
+    ],
+    [
+     "TE",
+     "George Kittle",
+     12.3
+    ],
+    [
+     "K",
+     "Evan McPherson",
+     7.0
+    ],
+    [
+     "DEF",
+     "CLE",
+     8.3
+    ],
+    [
+     "FLEX",
+     "Rhamondre Stevenson",
+     14.2
+    ],
+    [
+     "SUPER_FLEX",
+     "Sam Darnold",
+     15.1
+    ]
+   ],
+   "player_value": 49994,
+   "pick_value": 10207,
+   "dynasty_value": 60201,
+   "ktc_value": null,
+   "ktc_rank": null,
+   "value_age": 27.9,
+   "top_assets": [
+    [
+     "Amon-Ra St. Brown",
+     "WR",
+     7243,
+     27.1
+    ],
+    [
+     "Tee Higgins",
+     "WR",
+     4302,
+     27.9
+    ],
+    [
+     "De'Von Achane",
+     "RB",
+     3951,
+     25.1
+    ],
+    [
+     "Jonathan Taylor",
+     "RB",
+     3947,
+     27.8
+    ],
+    [
+     "Jared Goff",
+     "QB",
+     3664,
+     32.1
+    ]
+   ],
+   "injuries": [
+    [
+     "De'Von Achane",
+     "IR"
+    ]
+   ],
+   "picks": [
+    {
+     "season": "2027",
+     "round": 1,
+     "from": 4,
+     "from_owner": "Kyle Llano",
+     "value": 2836
+    },
+    {
+     "season": "2027",
+     "round": 2,
+     "from": 4,
+     "from_owner": "Kyle Llano",
+     "value": 1613
+    },
+    {
+     "season": "2027",
+     "round": 3,
+     "from": 4,
+     "from_owner": "Kyle Llano",
+     "value": 1101
+    },
+    {
+     "season": "2028",
+     "round": 1,
+     "from": 4,
+     "from_owner": "Kyle Llano",
+     "value": 2239
+    },
+    {
+     "season": "2028",
+     "round": 2,
+     "from": 4,
+     "from_owner": "Kyle Llano",
+     "value": 1401
+    },
+    {
+     "season": "2028",
+     "round": 3,
+     "from": 4,
+     "from_owner": "Kyle Llano",
+     "value": 1017
+    }
+   ],
+   "moves": [
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "J.J. McCarthy"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [
+      "KC"
+     ],
+     "add_skill": [],
+     "drop": []
+    },
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [
+      "Juwan Johnson"
+     ],
+     "add_skill": [
+      "Juwan Johnson"
+     ],
+     "drop": []
+    },
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Juwan Johnson"
+     ]
+    },
+    {
+     "week": 3,
+     "type": "waiver",
+     "add": [
+      "Juwan Johnson"
+     ],
+     "add_skill": [
+      "Juwan Johnson"
+     ],
+     "drop": []
+    },
+    {
+     "week": 4,
+     "type": "waiver",
+     "add": [
+      "NE"
+     ],
+     "add_skill": [],
+     "drop": [
+      "KC"
+     ]
+    },
+    {
+     "week": 6,
+     "type": "free_agent",
+     "add": [
+      "Khalil Shakir"
+     ],
+     "add_skill": [
+      "Khalil Shakir"
+     ],
+     "drop": [
+      "BAL"
+     ]
+    },
+    {
+     "week": 6,
+     "type": "waiver",
+     "add": [
+      "CLE"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Courtland Sutton"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "waiver",
+     "add": [
+      "Corey Kiner"
+     ],
+     "add_skill": [
+      "Corey Kiner"
+     ],
+     "drop": [
+      "NE"
+     ]
+    },
+    {
+     "week": 10,
+     "type": "waiver",
+     "add": [
+      "CAR"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Juwan Johnson"
+     ]
+    },
+    {
+     "week": 10,
+     "type": "waiver",
+     "add": [
+      "Cam Ward"
+     ],
+     "add_skill": [
+      "Cam Ward"
+     ],
+     "drop": [
+      "Corey Kiner"
+     ]
+    }
+   ],
+   "missing_value": [],
+   "actual_z": -0.12,
+   "proj_z": 0.333,
+   "winnow_z": 0.106,
+   "dynasty_z": -0.427,
+   "overall_z": -0.16,
+   "seed": 8,
+   "manager_id": "kyle-llano",
+   "winnow_rank": 4,
+   "dynasty_rank": 7,
+   "pf_rank": 7,
+   "proj_rank": 4,
+   "status": "Contender",
+   "blurb": "This is a win-now ranking: Win-Now #4 is propping up a Dynasty value that ranks only #7. The 10-12 record comes with the #7 points total and a 51-48 all-play mark; the rest-of-season projection ranks #4. Amon-Ra St. Brown, Tee Higgins and De'Von Achane lead the roster value; it's one of the two oldest cores in the league by value. De'Von Achane is out or on IR, which drags the projection.",
+   "blurb_source": "auto"
+  },
+  {
+   "rank": 7,
+   "prev_rank": 8,
+   "roster_id": 6,
+   "owner": "Nick Cardillo",
+   "team": "Coastal Elites",
+   "display_name": "nickyc1110",
+   "record": "6-16",
+   "w": 6,
+   "l": 16,
+   "ti": 0,
+   "pf": 1400.2999999999997,
+   "pa": 1621.6499999999999,
+   "max_pf": 1502.7,
+   "weekly": [
+    101.1,
+    100.05,
+    121.35,
+    162.8,
+    145.45,
+    133.6,
+    146.9,
+    134.6,
+    114.5,
+    120.35,
+    119.6
+   ],
+   "ap_w": 30,
+   "ap_l": 69,
+   "win_pct": 0.2727272727272727,
+   "allplay_pct": 0.30303030303030304,
+   "proj_next": 125.83,
+   "proj_ros": 366.29,
+   "proj_ros_ppg": 122.09666666666668,
+   "proj_lineup": [
+    [
+     "QB",
+     "Baker Mayfield",
+     15.3
+    ],
+    [
+     "RB",
+     "Travis Etienne Jr.",
+     12.4
+    ],
+    [
+     "RB",
+     "Zach Charbonnet",
+     9.8
+    ],
+    [
+     "WR",
+     "Luther Burden III",
+     16.9
+    ],
+    [
+     "WR",
+     "George Pickens",
+     14.8
+    ],
+    [
+     "TE",
+     "Harold Fannin Jr.",
+     11.8
+    ],
+    [
+     "K",
+     "Brandon Aubrey",
+     7.0
+    ],
+    [
+     "DEF",
+     "JAX",
+     11.3
+    ],
+    [
+     "FLEX",
+     "Tetairoa McMillan",
+     14.4
+    ],
+    [
+     "SUPER_FLEX",
+     "Carnell Tate",
+     12.2
+    ]
+   ],
+   "player_value": 46264,
+   "pick_value": 21040,
+   "dynasty_value": 67304,
+   "ktc_value": null,
+   "ktc_rank": null,
+   "value_age": 24.8,
+   "top_assets": [
+    [
+     "Drake Maye",
+     "QB",
+     6167,
+     24.2
+    ],
+    [
+     "Luther Burden III",
+     "WR",
+     4497,
+     23.0
+    ],
+    [
+     "George Pickens",
+     "WR",
+     4362,
+     25.7
+    ],
+    [
+     "Tetairoa McMillan",
+     "WR",
+     4135,
+     23.6
+    ],
+    [
+     "Carnell Tate",
+     "WR",
+     3490,
+     21.8
+    ]
+   ],
+   "injuries": [
+    [
+     "Drake Maye",
+     "Out"
+    ],
+    [
+     "De'Zhaun Stribling",
+     "IR"
+    ]
+   ],
+   "picks": [
+    {
+     "season": "2027",
+     "round": 1,
+     "from": 2,
+     "from_owner": "Nicholas Kasik",
+     "value": 2836
+    },
+    {
+     "season": "2027",
+     "round": 1,
+     "from": 6,
+     "from_owner": "Nick Cardillo",
+     "value": 2836
+    },
+    {
+     "season": "2027",
+     "round": 2,
+     "from": 6,
+     "from_owner": "Nick Cardillo",
+     "value": 1613
+    },
+    {
+     "season": "2027",
+     "round": 3,
+     "from": 6,
+     "from_owner": "Nick Cardillo",
+     "value": 1101
+    },
+    {
+     "season": "2027",
+     "round": 3,
+     "from": 8,
+     "from_owner": "Mike Hemstreet",
+     "value": 1101
+    },
+    {
+     "season": "2028",
+     "round": 1,
+     "from": 2,
+     "from_owner": "Nicholas Kasik",
+     "value": 2239
+    },
+    {
+     "season": "2028",
+     "round": 1,
+     "from": 6,
+     "from_owner": "Nick Cardillo",
+     "value": 2239
+    },
+    {
+     "season": "2028",
+     "round": 1,
+     "from": 8,
+     "from_owner": "Mike Hemstreet",
+     "value": 2239
+    },
+    {
+     "season": "2028",
+     "round": 2,
+     "from": 6,
+     "from_owner": "Nick Cardillo",
+     "value": 1401
+    },
+    {
+     "season": "2028",
+     "round": 2,
+     "from": 8,
+     "from_owner": "Mike Hemstreet",
+     "value": 1401
+    },
+    {
+     "season": "2028",
+     "round": 3,
+     "from": 6,
+     "from_owner": "Nick Cardillo",
+     "value": 1017
+    },
+    {
+     "season": "2028",
+     "round": 3,
+     "from": 8,
+     "from_owner": "Mike Hemstreet",
+     "value": 1017
+    }
+   ],
+   "moves": [
+    {
+     "week": 1,
+     "type": "waiver",
+     "add": [
+      "Alec Pierce"
+     ],
+     "add_skill": [
+      "Alec Pierce"
+     ],
+     "drop": [
+      "Jalen McMillan"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "waiver",
+     "add": [
+      "Dontayvion Wicks"
+     ],
+     "add_skill": [
+      "Dontayvion Wicks"
+     ],
+     "drop": [
+      "Kimani Vidal"
+     ]
+    },
+    {
+     "week": 3,
+     "type": "free_agent",
+     "add": [
+      "AJ Dillon"
+     ],
+     "add_skill": [
+      "AJ Dillon"
+     ],
+     "drop": []
+    },
+    {
+     "week": 3,
+     "type": "waiver",
+     "add": [
+      "Jaylen Wright"
+     ],
+     "add_skill": [
+      "Jaylen Wright"
+     ],
+     "drop": [
+      "AJ Dillon"
+     ]
+    },
+    {
+     "week": 5,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Dontayvion Wicks"
+     ]
+    },
+    {
+     "week": 5,
+     "type": "free_agent",
+     "add": [
+      "Roschon Johnson"
+     ],
+     "add_skill": [
+      "Roschon Johnson"
+     ],
+     "drop": [
+      "Oronde Gadsden"
+     ]
+    },
+    {
+     "week": 5,
+     "type": "waiver",
+     "add": [
+      "Kimani Vidal"
+     ],
+     "add_skill": [
+      "Kimani Vidal"
+     ],
+     "drop": [
+      "Jaylen Wright"
+     ]
+    },
+    {
+     "week": 6,
+     "type": "free_agent",
+     "add": [
+      "CAR"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Tre' Harris"
+     ]
+    },
+    {
+     "week": 6,
+     "type": "trade",
+     "with": [
+      "Nicholas Kasik"
+     ],
+     "got": [
+      "Justin Herbert",
+      "2027 R1 (Nicholas's)",
+      "2028 R1 (Nicholas's)"
+     ],
+     "gave": [
+      "Trevor Lawrence"
+     ]
+    },
+    {
+     "week": 7,
+     "type": "free_agent",
+     "add": [
+      "Rico Dowdle"
+     ],
+     "add_skill": [
+      "Rico Dowdle"
+     ],
+     "drop": [
+      "CAR"
+     ]
+    },
+    {
+     "week": 7,
+     "type": "waiver",
+     "add": [
+      "JAX"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Roschon Johnson"
+     ]
+    },
+    {
+     "week": 8,
+     "type": "trade",
+     "with": [
+      "Mike Hemstreet"
+     ],
+     "got": [
+      "Baker Mayfield",
+      "2027 R3 (Mike's)",
+      "2028 R1 (Mike's)",
+      "2028 R2 (Mike's)",
+      "2028 R3 (Mike's)",
+      "2029 R2 (Mike's)"
+     ],
+     "gave": [
+      "Justin Herbert"
+     ]
+    },
+    {
+     "week": 11,
+     "type": "free_agent",
+     "add": [
+      "Michael Mayer"
+     ],
+     "add_skill": [
+      "Michael Mayer"
+     ],
+     "drop": [
+      "Kimani Vidal"
+     ]
+    }
+   ],
+   "missing_value": [],
+   "actual_z": -1.427,
+   "proj_z": -1.756,
+   "winnow_z": -1.591,
+   "dynasty_z": 0.454,
+   "overall_z": -0.568,
+   "seed": 9,
+   "manager_id": "nick-cardillo",
+   "winnow_rank": 10,
+   "dynasty_rank": 5,
+   "pf_rank": 10,
+   "proj_rank": 10,
+   "status": "Rebuild",
+   "blurb": "The roster carries this ranking: Dynasty #5, built on Drake Maye, Luther Burden III and George Pickens, outweighs a Win-Now rank of only #10. The 6-16 record comes with the #10 points total and a 30-69 all-play mark, so the record is earned; the rest-of-season projection ranks #10, near the bottom. It's one of the two youngest cores in the league by value; a stockpile of 12 future picks adds dynasty value. Drake Maye and De'Zhaun Stribling are out or on IR, which drags the projection.",
+   "blurb_source": "auto"
+  },
+  {
+   "rank": 8,
+   "prev_rank": 7,
+   "roster_id": 3,
+   "owner": "Drew Hartman",
+   "team": "Jordan Belfort's Nuts",
+   "display_name": "DatUnc",
+   "record": "11-11",
+   "w": 11,
+   "l": 11,
+   "ti": 0,
+   "pf": 1588.35,
+   "pa": 1613.7,
+   "max_pf": 1876.9,
+   "weekly": [
+    123.4,
+    131.15,
+    98.25,
+    174.25,
+    212.55,
+    147.65,
+    123.8,
+    151.05,
+    115.3,
+    163.75,
+    147.2
+   ],
+   "ap_w": 49,
+   "ap_l": 50,
+   "win_pct": 0.5,
+   "allplay_pct": 0.494949494949495,
+   "proj_next": 138.18,
+   "proj_ros": 419.35,
+   "proj_ros_ppg": 139.78333333333333,
+   "proj_lineup": [
+    [
+     "QB",
+     "Jayden Daniels",
+     22.8
+    ],
+    [
+     "RB",
+     "Chuba Hubbard",
+     15.6
+    ],
+    [
+     "RB",
+     "Chase Brown",
+     14.5
+    ],
+    [
+     "WR",
+     "Jameson Williams",
+     13.7
+    ],
+    [
+     "WR",
+     "Mike Evans",
+     13.7
+    ],
+    [
+     "TE",
+     "Isaiah Likely",
+     14.7
+    ],
+    [
+     "K",
+     "Cam Little",
+     7.0
+    ],
+    [
+     "DEF",
+     "BUF",
+     4.9
+    ],
+    [
+     "FLEX",
+     "Ollie Gordon II",
+     13.4
+    ],
+    [
+     "SUPER_FLEX",
+     "Kirk Cousins",
+     18.0
+    ]
+   ],
+   "player_value": 44541,
+   "pick_value": 10419,
+   "dynasty_value": 54960,
+   "ktc_value": null,
+   "ktc_rank": null,
+   "value_age": 26.2,
+   "top_assets": [
+    [
+     "Jayden Daniels",
+     "QB",
+     5506,
+     25.9
+    ],
+    [
+     "Fernando Mendoza",
+     "QB",
+     4134,
+     23.2
+    ],
+    [
+     "Isaiah Likely",
+     "TE",
+     3722,
+     26.6
+    ],
+    [
+     "Chuba Hubbard",
+     "RB",
+     3490,
+     27.5
+    ],
+    [
+     "Chase Brown",
+     "RB",
+     3032,
+     26.7
+    ]
+   ],
+   "injuries": [],
+   "picks": [
+    {
+     "season": "2027",
+     "round": 1,
+     "from": 3,
+     "from_owner": "Drew Hartman",
+     "value": 2836
+    },
+    {
+     "season": "2027",
+     "round": 2,
+     "from": 3,
+     "from_owner": "Drew Hartman",
+     "value": 1613
+    },
+    {
+     "season": "2027",
+     "round": 2,
+     "from": 8,
+     "from_owner": "Mike Hemstreet",
+     "value": 1613
+    },
+    {
+     "season": "2027",
+     "round": 3,
+     "from": 3,
+     "from_owner": "Drew Hartman",
+     "value": 1101
+    },
+    {
+     "season": "2028",
+     "round": 1,
+     "from": 3,
+     "from_owner": "Drew Hartman",
+     "value": 2239
+    },
+    {
+     "season": "2028",
+     "round": 3,
+     "from": 3,
+     "from_owner": "Drew Hartman",
+     "value": 1017
+    }
+   ],
+   "moves": [
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [
+      "BUF"
+     ],
+     "add_skill": [],
+     "drop": [
+      "WAS"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "trade",
+     "with": [
+      "Ryan Nussdorfer"
+     ],
+     "got": [
+      "Nicholas Singleton",
+      "Denzel Boston"
+     ],
+     "gave": [
+      "Marvin Harrison Jr.",
+      "Dylan Sampson"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "trade",
+     "with": [
+      "Taylor Alvarado"
+     ],
+     "got": [
+      "Fernando Mendoza",
+      "2027 R2 (Taylor's)"
+     ],
+     "gave": [
+      "Jaxson Dart"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Cole Payton"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [
+      "Jalen Nailor"
+     ],
+     "add_skill": [
+      "Jalen Nailor"
+     ],
+     "drop": []
+    },
+    {
+     "week": 1,
+     "type": "trade",
+     "with": [
+      "Brian Mulvihill"
+     ],
+     "got": [
+      "Tony Pollard",
+      "Rashid Shaheed"
+     ],
+     "gave": [
+      "Zavion Thomas"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "trade",
+     "with": [
+      "Brian Mulvihill"
+     ],
+     "got": [
+      "2027 R2 (Brian's)"
+     ],
+     "gave": [
+      "Terry McLaurin"
+     ]
+    },
+    {
+     "week": 2,
+     "type": "free_agent",
+     "add": [
+      "SF"
+     ],
+     "add_skill": [],
+     "drop": [
+      "BUF"
+     ]
+    },
+    {
+     "week": 2,
+     "type": "free_agent",
+     "add": [
+      "Darnell Mooney"
+     ],
+     "add_skill": [
+      "Darnell Mooney"
+     ],
+     "drop": [
+      "Jalen Nailor"
+     ]
+    },
+    {
+     "week": 2,
+     "type": "waiver",
+     "add": [
+      "Adonai Mitchell"
+     ],
+     "add_skill": [
+      "Adonai Mitchell"
+     ],
+     "drop": [
+      "Darnell Mooney"
+     ]
+    },
+    {
+     "week": 2,
+     "type": "waiver",
+     "add": [
+      "Kirk Cousins"
+     ],
+     "add_skill": [
+      "Kirk Cousins"
+     ],
+     "drop": [
+      "Rashid Shaheed"
+     ]
+    },
+    {
+     "week": 4,
+     "type": "free_agent",
+     "add": [
+      "Geno Smith"
+     ],
+     "add_skill": [
+      "Geno Smith"
+     ],
+     "drop": [
+      "Cam Ward"
+     ]
+    },
+    {
+     "week": 4,
+     "type": "free_agent",
+     "add": [
+      "GB"
+     ],
+     "add_skill": [],
+     "drop": [
+      "SF"
+     ]
+    },
+    {
+     "week": 6,
+     "type": "trade",
+     "with": [
+      "Mike Hemstreet"
+     ],
+     "got": [
+      "Derrick Henry",
+      "DJ Moore",
+      "2027 R2 (Mike's)"
+     ],
+     "gave": [
+      "Chuba Hubbard",
+      "James Cook III"
+     ]
+    },
+    {
+     "week": 6,
+     "type": "trade",
+     "with": [
+      "Mike Hemstreet"
+     ],
+     "got": [
+      "Ollie Gordon II"
+     ],
+     "gave": [
+      "TreVeyon Henderson"
+     ]
+    },
+    {
+     "week": 6,
+     "type": "free_agent",
+     "add": [
+      "Keenan Allen"
+     ],
+     "add_skill": [
+      "Keenan Allen"
+     ],
+     "drop": [
+      "Adonai Mitchell"
+     ]
+    },
+    {
+     "week": 6,
+     "type": "waiver",
+     "add": [
+      "Chase McLaughlin"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Keenan Allen"
+     ]
+    },
+    {
+     "week": 7,
+     "type": "waiver",
+     "add": [
+      "SF"
+     ],
+     "add_skill": [],
+     "drop": [
+      "GB"
+     ]
+    },
+    {
+     "week": 7,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "SF"
+     ]
+    },
+    {
+     "week": 7,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Chase McLaughlin"
+     ]
+    },
+    {
+     "week": 7,
+     "type": "trade",
+     "with": [
+      "Mike Hemstreet"
+     ],
+     "got": [
+      "Mike Evans",
+      "Chuba Hubbard",
+      "Chase Brown",
+      "2027 R1 (Mike's)",
+      "2029 R1 (Mike's)"
+     ],
+     "gave": [
+      "Tony Pollard",
+      "Puka Nacua"
+     ]
+    },
+    {
+     "week": 8,
+     "type": "free_agent",
+     "add": [
+      "BUF"
+     ],
+     "add_skill": [],
+     "drop": []
+    },
+    {
+     "week": 9,
+     "type": "trade",
+     "with": [
+      "Ryan Nussdorfer",
+      "Taylor Alvarado"
+     ],
+     "got": [
+      "Jameson Williams"
+     ],
+     "gave": [
+      "Derrick Henry",
+      "2027 R2 (Taylor's)",
+      "2027 R1 (Mike's)"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Geno Smith"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "waiver",
+     "add": [
+      "DeMario Douglas"
+     ],
+     "add_skill": [
+      "DeMario Douglas"
+     ],
+     "drop": []
+    },
+    {
+     "week": 10,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "DeMario Douglas"
+     ]
+    },
+    {
+     "week": 11,
+     "type": "trade",
+     "with": [
+      "Brian Mulvihill"
+     ],
+     "got": [
+      "Rome Odunze"
+     ],
+     "gave": [
+      "Sam LaPorta",
+      "2027 R2 (Brian's)",
+      "2028 R2 (Drew's)"
+     ]
+    }
+   ],
+   "missing_value": [],
+   "actual_z": -0.043,
+   "proj_z": -0.275,
+   "winnow_z": -0.159,
+   "dynasty_z": -1.077,
+   "overall_z": -0.618,
+   "seed": 6,
+   "manager_id": "drew-hartman",
+   "winnow_rank": 7,
+   "dynasty_rank": 9,
+   "pf_rank": 6,
+   "proj_rank": 5,
+   "status": "Middle",
+   "blurb": "Win-Now #7 and Dynasty #9 land this team right about here. The 11-11 record comes with the #6 points total and a 49-50 all-play mark; the rest-of-season projection ranks #5. Jayden Daniels, Fernando Mendoza and Isaiah Likely lead the roster value. The Week 11 trade for Rome Odunze is already priced in.",
+   "blurb_source": "auto"
+  },
+  {
+   "rank": 9,
+   "prev_rank": 9,
+   "roster_id": 7,
+   "owner": "Taylor Alvarado",
+   "team": "EastLansingNatureBoy",
+   "display_name": "EastLansingNatureBoy",
+   "record": "4-18",
+   "w": 4,
+   "l": 18,
+   "ti": 0,
+   "pf": 1413.3999999999999,
+   "pa": 1766.5499999999997,
+   "max_pf": 1727.2,
+   "weekly": [
+    232.5,
+    88.2,
+    137.7,
+    111.7,
+    158.55,
+    101.05,
+    102.3,
+    114.05,
+    107.85,
+    128.5,
+    131.0
+   ],
+   "ap_w": 26,
+   "ap_l": 73,
+   "win_pct": 0.18181818181818182,
+   "allplay_pct": 0.26262626262626265,
+   "proj_next": 137.76999999999998,
+   "proj_ros": 406.0799999999999,
+   "proj_ros_ppg": 135.35999999999999,
+   "proj_lineup": [
+    [
+     "QB",
+     "Brock Purdy",
+     16.3
+    ],
+    [
+     "RB",
+     "Cam Skattebo",
+     19.7
+    ],
+    [
+     "RB",
+     "Jonah Coleman",
+     16.9
+    ],
+    [
+     "WR",
+     "Justin Jefferson",
+     18.5
+    ],
+    [
+     "WR",
+     "Ladd McConkey",
+     11.4
+    ],
+    [
+     "TE",
+     "Dallas Goedert",
+     10.8
+    ],
+    [
+     "K",
+     "Chase McLaughlin",
+     6.9
+    ],
+    [
+     "DEF",
+     "WAS",
+     8.3
+    ],
+    [
+     "FLEX",
+     "Saquon Barkley",
+     15.4
+    ],
+    [
+     "SUPER_FLEX",
+     "Ashton Jeanty",
+     13.5
+    ]
+   ],
+   "player_value": 48768,
+   "pick_value": 12531,
+   "dynasty_value": 61299,
+   "ktc_value": null,
+   "ktc_rank": null,
+   "value_age": 26.3,
+   "top_assets": [
+    [
+     "Brock Purdy",
+     "QB",
+     6436,
+     26.9
+    ],
+    [
+     "Justin Jefferson",
+     "WR",
+     6268,
+     27.4
+    ],
+    [
+     "Ashton Jeanty",
+     "RB",
+     4710,
+     23.0
+    ],
+    [
+     "Jaxson Dart",
+     "QB",
+     3933,
+     23.5
+    ],
+    [
+     "Jonah Coleman",
+     "RB",
+     3739,
+     23.3
+    ]
+   ],
+   "injuries": [
+    [
+     "Jaxson Dart",
+     "IR"
+    ],
+    [
+     "Michael Wilson",
+     "IR"
+    ]
+   ],
+   "picks": [
+    {
+     "season": "2027",
+     "round": 1,
+     "from": 7,
+     "from_owner": "Taylor Alvarado",
+     "value": 2836
+    },
+    {
+     "season": "2027",
+     "round": 1,
+     "from": 8,
+     "from_owner": "Mike Hemstreet",
+     "value": 2836
+    },
+    {
+     "season": "2027",
+     "round": 3,
+     "from": 2,
+     "from_owner": "Nicholas Kasik",
+     "value": 1101
+    },
+    {
+     "season": "2027",
+     "round": 3,
+     "from": 7,
+     "from_owner": "Taylor Alvarado",
+     "value": 1101
+    },
+    {
+     "season": "2028",
+     "round": 1,
+     "from": 7,
+     "from_owner": "Taylor Alvarado",
+     "value": 2239
+    },
+    {
+     "season": "2028",
+     "round": 2,
+     "from": 7,
+     "from_owner": "Taylor Alvarado",
+     "value": 1401
+    },
+    {
+     "season": "2028",
+     "round": 3,
+     "from": 7,
+     "from_owner": "Taylor Alvarado",
+     "value": 1017
+    }
+   ],
+   "moves": [
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [
+      "JAX"
+     ],
+     "add_skill": [],
+     "drop": [
+      "NE"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "trade",
+     "with": [
+      "Drew Hartman"
+     ],
+     "got": [
+      "Jaxson Dart"
+     ],
+     "gave": [
+      "Fernando Mendoza",
+      "2027 R2 (Taylor's)"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "waiver",
+     "add": [
+      "TB"
+     ],
+     "add_skill": [],
+     "drop": [
+      "JAX"
+     ]
+    },
+    {
+     "week": 2,
+     "type": "waiver",
+     "add": [
+      "Marcus Mariota"
+     ],
+     "add_skill": [
+      "Marcus Mariota"
+     ],
+     "drop": [
+      "Aaron Rodgers"
+     ]
+    },
+    {
+     "week": 2,
+     "type": "waiver",
+     "add": [
+      "NYG"
+     ],
+     "add_skill": [],
+     "drop": [
+      "TB"
+     ]
+    },
+    {
+     "week": 3,
+     "type": "free_agent",
+     "add": [
+      "Spencer Shrader"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Ka'imi Fairbairn"
+     ]
+    },
+    {
+     "week": 3,
+     "type": "free_agent",
+     "add": [
+      "Johnny Mundt"
+     ],
+     "add_skill": [
+      "Johnny Mundt"
+     ],
+     "drop": []
+    },
+    {
+     "week": 4,
+     "type": "free_agent",
+     "add": [
+      "Darren Waller"
+     ],
+     "add_skill": [
+      "Darren Waller"
+     ],
+     "drop": []
+    },
+    {
+     "week": 4,
+     "type": "free_agent",
+     "add": [
+      "CLE"
+     ],
+     "add_skill": [],
+     "drop": [
+      "NYG"
+     ]
+    },
+    {
+     "week": 4,
+     "type": "free_agent",
+     "add": [
+      "CHI"
+     ],
+     "add_skill": [],
+     "drop": [
+      "CLE"
+     ]
+    },
+    {
+     "week": 4,
+     "type": "free_agent",
+     "add": [
+      "Tyler Higbee"
+     ],
+     "add_skill": [
+      "Tyler Higbee"
+     ],
+     "drop": [
+      "Johnny Mundt"
+     ]
+    },
+    {
+     "week": 4,
+     "type": "waiver",
+     "add": [
+      "Aaron Rodgers"
+     ],
+     "add_skill": [
+      "Aaron Rodgers"
+     ],
+     "drop": [
+      "Marcus Mariota"
+     ]
+    },
+    {
+     "week": 5,
+     "type": "free_agent",
+     "add": [
+      "WAS"
+     ],
+     "add_skill": [],
+     "drop": [
+      "CHI"
+     ]
+    },
+    {
+     "week": 5,
+     "type": "free_agent",
+     "add": [
+      "Keon Coleman"
+     ],
+     "add_skill": [
+      "Keon Coleman"
+     ],
+     "drop": [
+      "Ted Hurst III"
+     ]
+    },
+    {
+     "week": 6,
+     "type": "free_agent",
+     "add": [
+      "IND"
+     ],
+     "add_skill": [],
+     "drop": [
+      "WAS"
+     ]
+    },
+    {
+     "week": 7,
+     "type": "free_agent",
+     "add": [
+      "TEN"
+     ],
+     "add_skill": [],
+     "drop": [
+      "IND"
+     ]
+    },
+    {
+     "week": 7,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Darren Waller"
+     ]
+    },
+    {
+     "week": 7,
+     "type": "trade",
+     "with": [
+      "Nicholas Kasik"
+     ],
+     "got": [
+      "Jameson Williams",
+      "2027 R3 (Nicholas's)"
+     ],
+     "gave": [
+      "Christian Watson"
+     ]
+    },
+    {
+     "week": 7,
+     "type": "waiver",
+     "add": [
+      "CIN"
+     ],
+     "add_skill": [],
+     "drop": [
+      "TEN"
+     ]
+    },
+    {
+     "week": 7,
+     "type": "waiver",
+     "add": [
+      "Chase McLaughlin"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Spencer Shrader"
+     ]
+    },
+    {
+     "week": 8,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Tyler Higbee"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "free_agent",
+     "add": [
+      "DET"
+     ],
+     "add_skill": [],
+     "drop": [
+      "CIN"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "free_agent",
+     "add": [
+      "Gardner Minshew II"
+     ],
+     "add_skill": [
+      "Gardner Minshew II"
+     ],
+     "drop": [
+      "Keon Coleman"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "trade",
+     "with": [
+      "Ryan Nussdorfer",
+      "Drew Hartman"
+     ],
+     "got": [
+      "Adonai Mitchell",
+      "2027 R1 (Mike's)"
+     ],
+     "gave": [
+      "Jameson Williams"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "waiver",
+     "add": [
+      "Tank Dell"
+     ],
+     "add_skill": [
+      "Tank Dell"
+     ],
+     "drop": [
+      "Gardner Minshew II"
+     ]
+    },
+    {
+     "week": 10,
+     "type": "free_agent",
+     "add": [
+      "Chris Boswell"
+     ],
+     "add_skill": [],
+     "drop": []
+    },
+    {
+     "week": 10,
+     "type": "free_agent",
+     "add": [
+      "BAL"
+     ],
+     "add_skill": [],
+     "drop": [
+      "DET"
+     ]
+    },
+    {
+     "week": 10,
+     "type": "waiver",
+     "add": [
+      "Mark Andrews"
+     ],
+     "add_skill": [
+      "Mark Andrews"
+     ],
+     "drop": [
+      "Chris Boswell"
+     ]
+    },
+    {
+     "week": 11,
+     "type": "free_agent",
+     "add": [
+      "TB"
+     ],
+     "add_skill": [],
+     "drop": [
+      "BAL"
+     ]
+    },
+    {
+     "week": 11,
+     "type": "waiver",
+     "add": [
+      "BAL"
+     ],
+     "add_skill": [],
+     "drop": [
+      "TB"
+     ]
+    },
+    {
+     "week": 11,
+     "type": "waiver",
+     "add": [
+      "WAS"
+     ],
+     "add_skill": [],
+     "drop": [
+      "BAL"
+     ]
+    }
+   ],
+   "missing_value": [],
+   "actual_z": -1.664,
+   "proj_z": -0.591,
+   "winnow_z": -1.128,
+   "dynasty_z": -0.291,
+   "overall_z": -0.709,
+   "seed": 10,
+   "manager_id": "taylor-alvarado",
+   "winnow_rank": 9,
+   "dynasty_rank": 6,
+   "pf_rank": 9,
+   "proj_rank": 8,
+   "status": "Rebuild",
+   "blurb": "Dynasty #6, built on Brock Purdy, Justin Jefferson and Ashton Jeanty, is the only thing keeping this team out of the basement; Win-Now ranks #9. The 4-18 record comes with the #9 points total and a 26-73 all-play mark, so the record is earned; the rest-of-season projection ranks #8. 12 different defenses this season is the league high, and none of that is one of the inputs; Jaxson Dart and Michael Wilson are out or on IR, which drags the projection.",
+   "blurb_source": "auto"
+  },
+  {
+   "rank": 10,
+   "prev_rank": 10,
+   "roster_id": 8,
+   "owner": "Mike Hemstreet",
+   "team": "MagicSkolBussss",
+   "display_name": "MagicSkolBussss",
+   "record": "12-10",
+   "w": 12,
+   "l": 10,
+   "ti": 0,
+   "pf": 1606.4,
+   "pa": 1533.85,
+   "max_pf": 1846.95,
+   "weekly": [
+    157.05,
+    147.9,
+    151.55,
+    140.1,
+    145.75,
+    144.65,
+    112.4,
+    173.0,
+    131.35,
+    173.0,
+    129.65
+   ],
+   "ap_w": 51,
+   "ap_l": 48,
+   "win_pct": 0.5454545454545454,
+   "allplay_pct": 0.5151515151515151,
+   "proj_next": 135.65,
+   "proj_ros": 409.9599999999999,
+   "proj_ros_ppg": 136.6533333333333,
+   "proj_lineup": [
+    [
+     "QB",
+     "Geno Smith",
+     18.2
+    ],
+    [
+     "RB",
+     "Christian McCaffrey",
+     18.6
+    ],
+    [
+     "RB",
+     "James Cook III",
+     16.9
+    ],
+    [
+     "WR",
+     "DeVonta Smith",
+     14.1
+    ],
+    [
+     "WR",
+     "Stefon Diggs",
+     13.3
+    ],
+    [
+     "TE",
+     "T.J. Hockenson",
+     11.0
+    ],
+    [
+     "K",
+     "Ka'imi Fairbairn",
+     7.5
+    ],
+    [
+     "DEF",
+     "LAR",
+     7.5
+    ],
+    [
+     "FLEX",
+     "Tony Pollard",
+     14.3
+    ],
+    [
+     "SUPER_FLEX",
+     "Justin Herbert",
+     14.4
+    ]
+   ],
+   "player_value": 47761,
+   "pick_value": 0,
+   "dynasty_value": 47761,
+   "ktc_value": null,
+   "ktc_rank": null,
+   "value_age": 29.2,
+   "top_assets": [
+    [
+     "Puka Nacua",
+     "WR",
+     6504,
+     25.5
+    ],
+    [
+     "James Cook III",
+     "RB",
+     5442,
+     27.2
+    ],
+    [
+     "Lamar Jackson",
+     "QB",
+     4872,
+     29.9
+    ],
+    [
+     "Christian McCaffrey",
+     "RB",
+     4796,
+     30.5
+    ],
+    [
+     "Justin Herbert",
+     "QB",
+     3328,
+     28.7
+    ]
+   ],
+   "injuries": [
+    [
+     "Puka Nacua",
+     "IR"
+    ],
+    [
+     "Lamar Jackson",
+     "IR"
+    ],
+    [
+     "Jalen Hurts",
+     "IR"
+    ],
+    [
+     "A.J. Brown",
+     "Doubtful"
+    ]
+   ],
+   "picks": [],
+   "moves": [
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "PIT"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Chig Okonkwo"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Stefon Diggs"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "waiver",
+     "add": [
+      "Alec Pierce"
+     ],
+     "add_skill": [
+      "Alec Pierce"
+     ],
+     "drop": [
+      "Chris Godwin Jr."
+     ]
+    },
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [
+      "Chig Okonkwo"
+     ],
+     "add_skill": [
+      "Chig Okonkwo"
+     ],
+     "drop": []
+    },
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Chig Okonkwo"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "waiver",
+     "add": [
+      "T.J. Hockenson"
+     ],
+     "add_skill": [
+      "T.J. Hockenson"
+     ],
+     "drop": [
+      "Alec Pierce"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "T.J. Hockenson"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [
+      "Tank Dell"
+     ],
+     "add_skill": [
+      "Tank Dell"
+     ],
+     "drop": []
+    },
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [
+      "Trey Smack"
+     ],
+     "add_skill": [],
+     "drop": []
+    },
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [
+      "Drew Stevens"
+     ],
+     "add_skill": [],
+     "drop": []
+    },
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [
+      "Eli Raridon"
+     ],
+     "add_skill": [
+      "Eli Raridon"
+     ],
+     "drop": []
+    },
+    {
+     "week": 1,
+     "type": "waiver",
+     "add": [
+      "T.J. Hockenson"
+     ],
+     "add_skill": [
+      "T.J. Hockenson"
+     ],
+     "drop": []
+    },
+    {
+     "week": 1,
+     "type": "trade",
+     "with": [
+      "Jacob Maddox"
+     ],
+     "got": [
+      "DK Metcalf"
+     ],
+     "gave": [
+      "Malik Willis"
+     ]
+    },
+    {
+     "week": 1,
+     "type": "free_agent",
+     "add": [
+      "Michael Mayer"
+     ],
+     "add_skill": [
+      "Michael Mayer"
+     ],
+     "drop": [
+      "T.J. Hockenson"
+     ]
+    },
+    {
+     "week": 2,
+     "type": "free_agent",
+     "add": [
+      "T.J. Hockenson"
+     ],
+     "add_skill": [
+      "T.J. Hockenson"
+     ],
+     "drop": [
+      "Michael Mayer"
+     ]
+    },
+    {
+     "week": 3,
+     "type": "free_agent",
+     "add": [
+      "Tre Tucker"
+     ],
+     "add_skill": [
+      "Tre Tucker"
+     ],
+     "drop": []
+    },
+    {
+     "week": 3,
+     "type": "free_agent",
+     "add": [
+      "Chris Godwin Jr."
+     ],
+     "add_skill": [
+      "Chris Godwin Jr."
+     ],
+     "drop": [
+      "Tre Tucker"
+     ]
+    },
+    {
+     "week": 3,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Chris Godwin Jr."
+     ]
+    },
+    {
+     "week": 3,
+     "type": "free_agent",
+     "add": [
+      "Tre Tucker"
+     ],
+     "add_skill": [
+      "Tre Tucker"
+     ],
+     "drop": []
+    },
+    {
+     "week": 3,
+     "type": "waiver",
+     "add": [
+      "Ollie Gordon II"
+     ],
+     "add_skill": [
+      "Ollie Gordon II"
+     ],
+     "drop": [
+      "Tre Tucker"
+     ]
+    },
+    {
+     "week": 4,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Trey Smack"
+     ]
+    },
+    {
+     "week": 4,
+     "type": "waiver",
+     "add": [
+      "Tyler Huntley"
+     ],
+     "add_skill": [
+      "Tyler Huntley"
+     ],
+     "drop": [
+      "Rico Dowdle"
+     ]
+    },
+    {
+     "week": 5,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Tyler Huntley"
+     ]
+    },
+    {
+     "week": 5,
+     "type": "free_agent",
+     "add": [
+      "Roman Wilson"
+     ],
+     "add_skill": [
+      "Roman Wilson"
+     ],
+     "drop": []
+    },
+    {
+     "week": 5,
+     "type": "free_agent",
+     "add": [
+      "Jameis Winston"
+     ],
+     "add_skill": [
+      "Jameis Winston"
+     ],
+     "drop": [
+      "Roman Wilson"
+     ]
+    },
+    {
+     "week": 5,
+     "type": "free_agent",
+     "add": [
+      "Tyreek Hill"
+     ],
+     "add_skill": [
+      "Tyreek Hill"
+     ],
+     "drop": [
+      "Jameis Winston"
+     ]
+    },
+    {
+     "week": 5,
+     "type": "free_agent",
+     "add": [
+      "CLE"
+     ],
+     "add_skill": [],
+     "drop": [
+      "LAR"
+     ]
+    },
+    {
+     "week": 5,
+     "type": "waiver",
+     "add": [
+      "Jason Myers"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Will Reichard"
+     ]
+    },
+    {
+     "week": 5,
+     "type": "waiver",
+     "add": [
+      "SF"
+     ],
+     "add_skill": [],
+     "drop": [
+      "CLE"
+     ]
+    },
+    {
+     "week": 5,
+     "type": "waiver",
+     "add": [
+      "Jameis Winston"
+     ],
+     "add_skill": [
+      "Jameis Winston"
+     ],
+     "drop": [
+      "Tyreek Hill"
+     ]
+    },
+    {
+     "week": 6,
+     "type": "trade",
+     "with": [
+      "Drew Hartman"
+     ],
+     "got": [
+      "Chuba Hubbard",
+      "James Cook III"
+     ],
+     "gave": [
+      "Derrick Henry",
+      "DJ Moore",
+      "2027 R2 (Mike's)"
+     ]
+    },
+    {
+     "week": 6,
+     "type": "trade",
+     "with": [
+      "Drew Hartman"
+     ],
+     "got": [
+      "TreVeyon Henderson"
+     ],
+     "gave": [
+      "Ollie Gordon II"
+     ]
+    },
+    {
+     "week": 6,
+     "type": "free_agent",
+     "add": [
+      "Jalon Daniels"
+     ],
+     "add_skill": [
+      "Jalon Daniels"
+     ],
+     "drop": [
+      "Tank Dell"
+     ]
+    },
+    {
+     "week": 6,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Jalon Daniels"
+     ]
+    },
+    {
+     "week": 6,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Drew Stevens"
+     ]
+    },
+    {
+     "week": 6,
+     "type": "free_agent",
+     "add": [
+      "Jalon Daniels"
+     ],
+     "add_skill": [
+      "Jalon Daniels"
+     ],
+     "drop": [
+      "Eli Raridon"
+     ]
+    },
+    {
+     "week": 6,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Jalon Daniels"
+     ]
+    },
+    {
+     "week": 6,
+     "type": "free_agent",
+     "add": [
+      "Tyler Huntley"
+     ],
+     "add_skill": [
+      "Tyler Huntley"
+     ],
+     "drop": []
+    },
+    {
+     "week": 6,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "Jameis Winston"
+     ]
+    },
+    {
+     "week": 7,
+     "type": "free_agent",
+     "add": [
+      "PIT"
+     ],
+     "add_skill": [],
+     "drop": [
+      "SF"
+     ]
+    },
+    {
+     "week": 7,
+     "type": "free_agent",
+     "add": [
+      "J.J. McCarthy"
+     ],
+     "add_skill": [
+      "J.J. McCarthy"
+     ],
+     "drop": [
+      "Tyler Huntley"
+     ]
+    },
+    {
+     "week": 7,
+     "type": "free_agent",
+     "add": [
+      "Baker Mayfield"
+     ],
+     "add_skill": [
+      "Baker Mayfield"
+     ],
+     "drop": []
+    },
+    {
+     "week": 7,
+     "type": "free_agent",
+     "add": [],
+     "add_skill": [],
+     "drop": [
+      "J.J. McCarthy"
+     ]
+    },
+    {
+     "week": 7,
+     "type": "trade",
+     "with": [
+      "Drew Hartman"
+     ],
+     "got": [
+      "Tony Pollard",
+      "Puka Nacua"
+     ],
+     "gave": [
+      "Mike Evans",
+      "Chuba Hubbard",
+      "Chase Brown",
+      "2027 R1 (Mike's)",
+      "2029 R1 (Mike's)"
+     ]
+    },
+    {
+     "week": 7,
+     "type": "waiver",
+     "add": [
+      "Stefon Diggs"
+     ],
+     "add_skill": [
+      "Stefon Diggs"
+     ],
+     "drop": []
+    },
+    {
+     "week": 9,
+     "type": "free_agent",
+     "add": [
+      "CHI"
+     ],
+     "add_skill": [],
+     "drop": [
+      "PIT"
+     ]
+    },
+    {
+     "week": 8,
+     "type": "trade",
+     "with": [
+      "Nick Cardillo"
+     ],
+     "got": [
+      "Justin Herbert"
+     ],
+     "gave": [
+      "Baker Mayfield",
+      "2027 R3 (Mike's)",
+      "2028 R1 (Mike's)",
+      "2028 R2 (Mike's)",
+      "2028 R3 (Mike's)",
+      "2029 R2 (Mike's)"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "free_agent",
+     "add": [
+      "Carson Wentz"
+     ],
+     "add_skill": [
+      "Carson Wentz"
+     ],
+     "drop": [
+      "TreVeyon Henderson"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "free_agent",
+     "add": [
+      "Joe Milton"
+     ],
+     "add_skill": [
+      "Joe Milton"
+     ],
+     "drop": []
+    },
+    {
+     "week": 9,
+     "type": "free_agent",
+     "add": [
+      "Ka'imi Fairbairn"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Jason Myers"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "free_agent",
+     "add": [
+      "Daniel Jones"
+     ],
+     "add_skill": [
+      "Daniel Jones"
+     ],
+     "drop": [
+      "Joe Milton"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "waiver",
+     "add": [
+      "IND"
+     ],
+     "add_skill": [],
+     "drop": [
+      "CHI"
+     ]
+    },
+    {
+     "week": 9,
+     "type": "waiver",
+     "add": [
+      "Deebo Samuel Sr."
+     ],
+     "add_skill": [
+      "Deebo Samuel Sr."
+     ],
+     "drop": [
+      "Kyler Murray"
+     ]
+    },
+    {
+     "week": 10,
+     "type": "free_agent",
+     "add": [
+      "Jacoby Brissett"
+     ],
+     "add_skill": [
+      "Jacoby Brissett"
+     ],
+     "drop": [
+      "Carson Wentz"
+     ]
+    },
+    {
+     "week": 10,
+     "type": "waiver",
+     "add": [
+      "Geno Smith"
+     ],
+     "add_skill": [
+      "Geno Smith"
+     ],
+     "drop": [
+      "Daniel Jones"
+     ]
+    },
+    {
+     "week": 10,
+     "type": "waiver",
+     "add": [
+      "Drew Lock"
+     ],
+     "add_skill": [
+      "Drew Lock"
+     ],
+     "drop": [
+      "Deebo Samuel Sr."
+     ]
+    },
+    {
+     "week": 11,
+     "type": "free_agent",
+     "add": [
+      "DET"
+     ],
+     "add_skill": [],
+     "drop": [
+      "IND"
+     ]
+    },
+    {
+     "week": 11,
+     "type": "waiver",
+     "add": [
+      "LAR"
+     ],
+     "add_skill": [],
+     "drop": [
+      "Drew Lock"
+     ]
+    }
+   ],
+   "missing_value": [],
+   "actual_z": 0.139,
+   "proj_z": -0.544,
+   "winnow_z": -0.202,
+   "dynasty_z": -1.97,
+   "overall_z": -1.086,
+   "seed": 4,
+   "manager_id": "mike-hemstreet",
+   "winnow_rank": 8,
+   "dynasty_rank": 10,
+   "pf_rank": 5,
+   "proj_rank": 7,
+   "status": "Middle",
+   "blurb": "Nothing in the formula props this team up: Win-Now #8, Dynasty #10. The 12-10 record comes with the #5 points total and a 51-48 all-play mark; the rest-of-season projection ranks #7. Puka Nacua, James Cook III and Lamar Jackson lead the roster value; it's one of the two oldest cores in the league by value; only 0 future picks left after trading some away holds down the dynasty side. Injuries are the story: Puka Nacua, Lamar Jackson and Jalen Hurts are all out or on IR, which drags the projection.",
+   "blurb_source": "auto"
+  }
+ ]
+}
